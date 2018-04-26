@@ -88,14 +88,16 @@ export default create({
 
   methods: {
     correctValue(value) {
+      const { min, step, max } = this;
+
       if (Number.isNaN(value)) {
-        value = this.min;
+        value = min;
       } else {
-        value = Math.max(this.min, value);
-        value = Math.min(this.max, value);
+        value = Math.max(min, value);
+        value = Math.min(max, value);
       }
 
-      return value;
+      return Math.round(value / step) * step;
     },
 
     onInput(event) {
