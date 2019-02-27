@@ -1,18 +1,13 @@
 /* eslint-disable */
-const version = require('../../package.json').version;
-
 module.exports = {
   'zh-CN': {
     header: {
       logo: {
         image: 'https://img.yzcdn.cn/public_files/2017/12/18/fd78cf6bb5d12e2a119d0576bedfd230.png',
         title: 'Vant',
-        version,
-        href: '#/'
+        href: 'http://www.youzanyun.com/zanui'
       },
       nav: {
-        'Vue 组件': 'https://youzan.github.io/vant/',
-        '小程序组件': 'https://youzan.github.io/vant-weapp/',
         lang: {
           text: 'En',
           from: 'zh-CN',
@@ -29,39 +24,38 @@ module.exports = {
             list: [
               {
                 path: '/intro',
-                title: '介绍'
+                title: '介绍',
+                noExample: true
               },
               {
                 path: '/quickstart',
-                title: '快速上手'
+                title: '快速上手',
+                noExample: true
               },
               {
                 path: '/changelog',
-                title: '更新日志'
+                title: '更新日志',
+                noExample: true
               },
               {
-                path: '/style',
+                path: '/built-in-style',
                 title: '内置样式'
               },
               {
                 path: '/theme',
-                title: '定制主题'
-              },
-              {
-                path: '/contribution',
-                title: '开发指南'
-              },
-              {
-                path: '/style-guide',
-                title: '风格指南'
+                title: '定制主题',
+                noExample: true
               },
               {
                 path: '/demo',
-                title: '示例页面'
+                title: '示例页面',
+                noDocument: true,
+                noExample: true
               },
               {
-                path: '/locale',
-                title: '国际化'
+                path: '/i18n',
+                title: '国际化',
+                noExample: true
               }
             ]
           }
@@ -75,196 +69,187 @@ module.exports = {
             groupName: '基础组件',
             list: [
               {
+                path: '/layout',
+                title: 'Layout - 布局'
+              },
+              {
+                path: '/badge',
+                title: 'Badge - 徽章'
+              },
+              {
                 path: '/button',
-                title: 'Button 按钮'
+                title: 'Button - 按钮'
               },
               {
                 path: '/cell',
-                title: 'Cell 单元格'
+                title: 'Cell - 单元格'
               },
-              {
-                path: '/icon',
-                title: 'Icon 图标'
-              },
-              {
-                path: '/col',
-                title: 'Layout 布局'
-              },
-              {
-                path: '/popup',
-                title: 'Popup 弹出层'
-              }
-            ]
-          },
-          {
-            groupName: '表单组件',
-            list: [
-              {
-                path: '/checkbox',
-                title: 'Checkbox 复选框'
-              },
-              {
-                path: '/datetime-picker',
-                title: 'DatetimePicker 时间选择'
-              },
-              {
-                path: '/field',
-                title: 'Field 输入框'
-              },
-              {
-                path: '/number-keyboard',
-                title: 'NumberKeyboard 数字键盘'
-              },
-              {
-                path: '/password-input',
-                title: 'PasswordInput 密码输入框'
-              },
-              {
-                path: '/picker',
-                title: 'Picker 选择器'
-              },
-              {
-                path: '/radio',
-                title: 'Radio 单选框'
-              },
-              {
-                path: '/rate',
-                title: 'Rate 评分'
-              },
-              {
-                path: '/search',
-                title: 'Search 搜索'
-              },
-              {
-                path: '/slider',
-                title: 'Slider 滑块'
-              },
-              {
-                path: '/stepper',
-                title: 'Stepper 步进器'
-              },
-              {
-                path: '/switch',
-                title: 'Switch 开关'
-              },
-              {
-                path: '/switch-cell',
-                title: 'SwitchCell 开关单元格'
-              },
-              {
-                path: '/uploader',
-                title: 'Uploader 图片上传'
-              }
-            ]
-          },
-          {
-            groupName: '反馈组件',
-            list: [
-              {
-                path: '/actionsheet',
-                title: 'Actionsheet 上拉菜单'
-              },
-              {
-                path: '/dialog',
-                title: 'Dialog 弹出框'
-              },
-              {
-                path: '/loading',
-                title: 'Loading 加载'
-              },
-              {
-                path: '/notify',
-                title: 'Notify 消息通知'
-              },
-              {
-                path: '/pull-refresh',
-                title: 'PullRefresh 下拉刷新'
-              },
-              {
-                path: '/swipe-cell',
-                title: 'SwipeCell 滑动单元格'
-              },
-              {
-                path: '/toast',
-                title: 'Toast 轻提示'
-              }
-            ]
-          },
-          {
-            groupName: '展示组件',
-            list: [
               {
                 path: '/circle',
-                title: 'Circle 环形进度条'
+                title: 'Circle - 环形进度条'
               },
               {
                 path: '/collapse',
-                title: 'Collapse 折叠面板'
+                title: 'Collapse - 折叠面板'
+              },
+              {
+                path: '/icon',
+                title: 'Icon - 图标'
               },
               {
                 path: '/image-preview',
-                title: 'ImagePreview 图片预览'
+                title: 'ImagePreview - 图片预览'
               },
               {
                 path: '/lazyload',
-                title: 'Lazyload 图片懒加载'
+                title: 'Lazyload - 图片懒加载'
               },
               {
                 path: '/list',
-                title: 'List 列表'
+                title: 'List - 列表'
+              },
+              {
+                path: '/loading',
+                title: 'Loading - 加载'
+              },
+              {
+                path: '/nav-bar',
+                title: 'NavBar - 导航栏'
               },
               {
                 path: '/notice-bar',
-                title: 'NoticeBar 通告栏'
+                title: 'NoticeBar - 通告栏'
+              },
+              {
+                path: '/pagination',
+                title: 'Pagination - 分页'
               },
               {
                 path: '/panel',
-                title: 'Panel 面板'
+                title: 'Panel - 面板'
+              },
+              {
+                path: '/popup',
+                title: 'Popup - 弹出层'
               },
               {
                 path: '/progress',
-                title: 'Progress 进度条'
+                title: 'Progress - 进度条'
+              },
+              {
+                path: '/slider',
+                title: 'Slider -   滑块'
+              },
+              {
+                path: '/stepper',
+                title: 'Stepper - 步进器'
               },
               {
                 path: '/steps',
-                title: 'Steps 步骤条'
+                title: 'Steps - 步骤条'
               },
               {
                 path: '/swipe',
-                title: 'Swipe 轮播'
+                title: 'Swipe - 轮播'
+              },
+              {
+                path: '/tab',
+                title: 'Tab - 标签页'
+              },
+              {
+                path: '/tabbar',
+                title: 'Tabbar - 标签栏'
               },
               {
                 path: '/tag',
-                title: 'Tag 标记'
+                title: 'Tag - 标记'
+              },
+              {
+                path: '/waterfall',
+                title: 'Waterfall - 瀑布流'
               }
             ]
           },
           {
-            groupName: '导航组件',
+            groupName: '表单',
             list: [
               {
-                path: '/badge',
-                title: 'Badge 徽章'
+                path: '/checkbox',
+                title: 'Checkbox - 复选框'
               },
               {
-                path: '/nav-bar',
-                title: 'NavBar 导航栏'
+                path: '/field',
+                title: 'Field - 输入框'
               },
               {
-                path: '/pagination',
-                title: 'Pagination 分页'
+                path: '/number-keyboard',
+                title: 'NumberKeyboard - 数字键盘'
               },
               {
-                path: '/tab',
-                title: 'Tab 标签页'
+                path: '/password-input',
+                title: 'PasswordInput - 密码输入框'
               },
               {
-                path: '/tabbar',
-                title: 'Tabbar 标签栏'
+                path: '/radio',
+                title: 'Radio - 单选框'
+              },
+              {
+                path: '/search',
+                title: 'Search - 搜索'
+              },
+              {
+                path: '/switch',
+                title: 'Switch - 开关'
+              },
+              {
+                path: '/uploader',
+                title: 'Uploader - 图片上传'
+              }
+            ]
+          },
+          {
+            groupName: '操作反馈',
+            list: [
+              {
+                path: '/actionsheet',
+                title: 'Actionsheet - 行动按钮'
+              },
+              {
+                path: '/datetime-picker',
+                title: 'DatetimePicker - 时间选择'
+              },
+              {
+                path: '/dialog',
+                title: 'Dialog - 弹出框'
+              },
+              {
+                path: '/picker',
+                title: 'Picker - 选择器'
+              },
+              {
+                path: '/pull-refresh',
+                title: 'PullRefresh - 下拉刷新'
+              },
+              {
+                path: '/toast',
+                title: 'Toast - 轻提示'
+              }
+            ]
+          },
+          {
+            groupName: '高阶组件',
+            list: [
+              {
+                path: '/cell-swipe',
+                title: 'CellSwipe - 滑动单元格'
+              },
+              {
+                path: '/switch-cell',
+                title: 'SwitchCell - 开关单元格'
               },
               {
                 path: '/tree-select',
-                title: 'TreeSelect 分类选择'
+                title: 'TreeSelect - 分类选择'
               }
             ]
           },
@@ -273,39 +258,39 @@ module.exports = {
             list: [
               {
                 path: '/address-edit',
-                title: 'AddressEdit 地址编辑'
+                title: 'AddressEdit - 地址编辑'
               },
               {
                 path: '/address-list',
-                title: 'AddressList 地址列表'
+                title: 'AddressList - 地址列表'
               },
               {
                 path: '/area',
-                title: 'Area 省市区选择'
+                title: 'Area - 省市区选择'
               },
               {
                 path: '/card',
-                title: 'Card 商品卡片'
+                title: 'Card - 卡片'
               },
               {
-                path: '/contact-card',
-                title: 'Contact 联系人'
+                path: '/contact',
+                title: 'Contact - 联系人'
               },
               {
-                path: '/coupon-list',
-                title: 'Coupon 优惠券'
+                path: '/coupon',
+                title: 'Coupon - 优惠券选择器'
               },
               {
                 path: '/goods-action',
-                title: 'GoodsAction 商品导航'
+                title: 'GoodsAction - 商品页行动点'
               },
               {
                 path: '/submit-bar',
-                title: 'SubmitBar 提交订单栏'
+                title: 'SubmitBar - 提交订单栏'
               },
               {
                 path: '/sku',
-                title: 'Sku 商品规格'
+                title: 'Sku - 商品规格弹层'
               }
             ]
           }
@@ -318,8 +303,7 @@ module.exports = {
       logo: {
         image: 'https://img.yzcdn.cn/public_files/2017/12/18/fd78cf6bb5d12e2a119d0576bedfd230.png',
         title: 'Vant',
-        version,
-        href: '#/'
+        href: 'http://www.youzanyun.com/zanui'
       },
       nav: {
         lang: {
@@ -338,31 +322,38 @@ module.exports = {
             list: [
               {
                 path: '/intro',
-                title: 'Introduction'
+                title: 'Introduction',
+                noExample: true
               },
               {
                 path: '/quickstart',
-                title: 'Quickstart'
+                title: 'Quickstart',
+                noExample: true
               },
               {
                 path: '/changelog',
-                title: 'Changelog'
+                title: 'Changelog',
+                noExample: true
               },
               {
-                path: '/style',
+                path: '/built-in-style',
                 title: 'Built-in style'
               },
               {
                 path: '/theme',
-                title: 'Custom Theme'
+                title: 'Custom Theme',
+                noExample: true
               },
               {
                 path: '/demo',
-                title: 'Demo pages'
+                title: 'Demo pages',
+                noDocument: true,
+                noExample: true
               },
               {
-                path: '/locale',
-                title: 'Internationalization'
+                path: '/i18n',
+                title: 'Internationalization',
+                noExample: true
               }
             ]
           }
@@ -376,6 +367,14 @@ module.exports = {
             groupName: 'Basic Components',
             list: [
               {
+                path: '/layout',
+                title: 'Layout'
+              },
+              {
+                path: '/badge',
+                title: 'Badge'
+              },
+              {
                 path: '/button',
                 title: 'Button'
               },
@@ -384,16 +383,88 @@ module.exports = {
                 title: 'Cell'
               },
               {
+                path: '/circle',
+                title: 'Circle'
+              },
+              {
+                path: '/collapse',
+                title: 'Collapse'
+              },
+              {
                 path: '/icon',
                 title: 'Icon'
               },
               {
-                path: '/col',
-                title: 'Layout'
+                path: '/image-preview',
+                title: 'ImagePreview'
+              },
+              {
+                path: '/lazyload',
+                title: 'Lazyload'
+              },
+              {
+                path: '/list',
+                title: 'List'
+              },
+              {
+                path: '/loading',
+                title: 'Loading'
+              },
+              {
+                path: '/nav-bar',
+                title: 'NavBar'
+              },
+              {
+                path: '/notice-bar',
+                title: 'NoticeBar'
+              },
+              {
+                path: '/pagination',
+                title: 'Pagination'
+              },
+              {
+                path: '/panel',
+                title: 'Panel'
               },
               {
                 path: '/popup',
                 title: 'Popup'
+              },
+              {
+                path: '/progress',
+                title: 'Progress'
+              },
+              {
+                path: '/slider',
+                title: 'Slider'
+              },
+              {
+                path: '/stepper',
+                title: 'Stepper'
+              },
+              {
+                path: '/steps',
+                title: 'Steps'
+              },
+              {
+                path: '/swipe',
+                title: 'Swipe'
+              },
+              {
+                path: '/tab',
+                title: 'Tab'
+              },
+              {
+                path: '/tabbar',
+                title: 'Tabbar'
+              },
+              {
+                path: '/tag',
+                title: 'Tag'
+              },
+              {
+                path: '/waterfall',
+                title: 'Waterfall'
               }
             ]
           },
@@ -403,10 +474,6 @@ module.exports = {
               {
                 path: '/checkbox',
                 title: 'Checkbox'
-              },
-              {
-                path: '/datetime-picker',
-                title: 'DatetimePicker'
               },
               {
                 path: '/field',
@@ -421,36 +488,16 @@ module.exports = {
                 title: 'PasswordInput'
               },
               {
-                path: '/picker',
-                title: 'Picker'
-              },
-              {
                 path: '/radio',
                 title: 'Radio'
-              },
-              {
-                path: '/rate',
-                title: 'Rate'
               },
               {
                 path: '/search',
                 title: 'Search'
               },
               {
-                path: '/slider',
-                title: 'Slider'
-              },
-              {
-                path: '/stepper',
-                title: 'Stepper'
-              },
-              {
                 path: '/switch',
                 title: 'Switch'
-              },
-              {
-                path: '/switch-cell',
-                title: 'SwitchCell'
               },
               {
                 path: '/uploader',
@@ -466,24 +513,20 @@ module.exports = {
                 title: 'Actionsheet'
               },
               {
+                path: '/datetime-picker',
+                title: 'DatetimePicker'
+              },
+              {
                 path: '/dialog',
                 title: 'Dialog'
               },
               {
-                path: '/loading',
-                title: 'Loading'
-              },
-              {
-                path: '/notify',
-                title: 'Notify'
+                path: '/picker',
+                title: 'Picker'
               },
               {
                 path: '/pull-refresh',
                 title: 'PullRefresh'
-              },
-              {
-                path: '/swipe-cell',
-                title: 'SwipeCell'
               },
               {
                 path: '/toast',
@@ -492,76 +535,15 @@ module.exports = {
             ]
           },
           {
-            groupName: 'Display Components',
+            groupName: 'Advanced Components',
             list: [
               {
-                path: '/circle',
-                title: 'Circle'
+                path: '/cell-swipe',
+                title: 'CellSwipe'
               },
               {
-                path: '/collapse',
-                title: 'Collapse'
-              },
-              {
-                path: '/image-preview',
-                title: 'ImagePreview'
-              },
-              {
-                path: '/lazyload',
-                title: 'Lazyload'
-              },
-              {
-                path: '/list',
-                title: 'List'
-              },
-              {
-                path: '/notice-bar',
-                title: 'NoticeBar'
-              },
-              {
-                path: '/panel',
-                title: 'Panel'
-              },
-              {
-                path: '/progress',
-                title: 'Progress'
-              },
-              {
-                path: '/steps',
-                title: 'Steps'
-              },
-              {
-                path: '/swipe',
-                title: 'Swipe'
-              },
-              {
-                path: '/tag',
-                title: 'Tag'
-              }
-            ]
-          },
-          {
-            groupName: 'Navigation Components',
-            list: [
-              {
-                path: '/badge',
-                title: 'Badge'
-              },
-              {
-                path: '/nav-bar',
-                title: 'NavBar'
-              },
-              {
-                path: '/pagination',
-                title: 'Pagination'
-              },
-              {
-                path: '/tab',
-                title: 'Tab'
-              },
-              {
-                path: '/tabbar',
-                title: 'Tabbar'
+                path: '/switch-cell',
+                title: 'SwitchCell'
               },
               {
                 path: '/tree-select',
@@ -589,11 +571,11 @@ module.exports = {
                 title: 'Card'
               },
               {
-                path: '/contact-card',
+                path: '/contact',
                 title: 'Contact'
               },
               {
-                path: '/coupon-list',
+                path: '/coupon',
                 title: 'Coupon'
               },
               {
