@@ -1,58 +1,91 @@
-## NoticeBar
+# NoticeBar
 
 ### Install
+
 ``` javascript
 import { NoticeBar } from 'vant';
 
 Vue.use(NoticeBar);
 ```
 
-### Usage
+## Usage
 
-#### Basic Usage
+### Basic Usage
 
 ```html
 <van-notice-bar
-  text="Only those who have the patience to do simple things perfectly ever acquire the skill to do difficult things easily."
+  text="Notice Content"
   left-icon="volume-o"
 />
 ```
 
-#### Disable scroll
+### Disable scroll
 
 ```html
 <van-notice-bar :scrollable="false">
-  Only those who have the patience to do simple things perfectly ever acquire the skill to do difficult things easily.
+  Notice Content
 </van-notice-bar>
 ```
 
-#### Mode
+### Wrapable
+
+```html
+<van-notice-bar wrapable :scrollable="false">
+  Notice Content
+</van-notice-bar>
+```
+
+### Mode
 
 ```html
 <van-notice-bar mode="closeable">
-  Only those who have the patience to do simple things perfectly ever acquire the skill to do difficult things easily.
+  Notice Content
 </van-notice-bar>
 
 <van-notice-bar mode="link">
-  Only those who have the patience to do simple things perfectly ever acquire the skill to do difficult things easily.
+  Notice Content
 </van-notice-bar>
 ```
 
-### API
+### Custom Style
+
+```html
+<van-notice-bar
+  color="#1989fa"
+  background="#ecf9ff"
+  left-icon="info-o"
+>
+  Notice Content
+</van-notice-bar>
+```
+
+## API
+
+### Props
 
 | Attribute | Description | Type | Default |
 |------|------|------|------|
 | mode | Mode, can be set to `closeable` `link` | `String` | `''` |
+| text | Notice text content | `String` | `''` | - |
 | delay | Animation delay (s) | `Number` | `1` |
 | speed | Scroll speed (px/s) | `Number` | `50` |
 | scrollable | Whether to scroll content | `Boolean` | `true` |
+| wrapable | Whether to enable text wrap | `Boolean` | `false` | - |
 | left-icon | Left Icon | `String` | - |
 | color | Text color | `String` | `#f60` |
 | background | Background color | `String` | `#fff7cc` |
 
-### Event
+### Events
 
 | Event | Description | Arguments |
 |------|------|------|
 | click | Triggered when click NoticeBar | - |
-| click | Triggered when closed | - |
+| close | Triggered when closed | - |
+
+### Slots
+
+| Name | Description |
+|------|------|
+| default | Notice text content |
+| left-icon | Custom left icon |
+| right-icon | Custom right icon |

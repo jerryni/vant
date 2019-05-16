@@ -1,28 +1,26 @@
 <template>
   <div class="side-nav">
-    <h1 class="zanui-title">
-      <img src="https://img.yzcdn.cn/public_files/2017/12/18/fd78cf6bb5d12e2a119d0576bedfd230.png" >
-      <span>Vant</span>
-    </h1>
     <div class="mobile-switch-lang">
-      <span
-        :class="{ active: $vantLang === 'en-US' }"
-        @click="switchLang('en-US')"
-      >
-        EN
-      </span>
       <span
         :class="{ active: $vantLang === 'zh-CN' }"
         @click="switchLang('zh-CN')"
       >
         中文
       </span>
+      <span
+        :class="{ active: $vantLang === 'en-US' }"
+        @click="switchLang('en-US')"
+      >
+        EN
+      </span>
     </div>
-    <h2 class="zanui-desc">{{ description }}</h2>
-    <template
-      v-for="item in navList"
-      v-if="item.showInMobile"
-    >
+
+    <h1 class="vant-title">
+      <img src="https://img.yzcdn.cn/public_files/2017/12/18/fd78cf6bb5d12e2a119d0576bedfd230.png" >
+      <span>Vant</span>
+    </h1>
+    <h2 class="vant-desc">{{ description }}</h2>
+    <template v-for="item in navList">
       <mobile-nav
         v-for="(group, index) in item.groups"
         :group="group"
@@ -51,11 +49,11 @@ export default {
 
   computed: {
     navList() {
-      return this.docConfig[this.$vantLang].nav || [];
+      return (this.docConfig[this.$vantLang].nav || []).filter(item => item.showInMobile);
     },
 
     description() {
-      return this.$vantLang === 'zh-CN' ? '轻量、可靠的移动端 Vue 组件库' : 'Lightweight Mobile UI Components built on Vue';
+      return this.$vantLang === 'zh-CN' ? '轻量、可靠的移动端 Vue 组件库' : 'Mobile UI Components built on Vue';
     }
   },
 
@@ -73,18 +71,18 @@ export default {
 @import '../../../packages/style/var';
 
 .side-nav {
-  width: 100%;
   box-sizing: border-box;
-  padding: 60px 15px 20px;
+  width: 100%;
+  padding: 64px 20px 20px;
 
-  .zanui-title,
-  .zanui-desc {
-    text-align: center;
+  .vant-title,
+  .vant-desc {
+    padding-left: 15px;
     font-weight: normal;
     user-select: none;
   }
 
-  .zanui-title {
+  .vant-title {
     margin: 0 0 15px;
 
     img,
@@ -98,38 +96,51 @@ export default {
     }
 
     span {
-      font-size: 40px;
       margin-left: 15px;
-      font-family: "Dosis", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+      font-weight: 500;
+      font-size: 36px;
     }
   }
 
-  .zanui-desc {
+  .vant-desc {
+    margin: 0 0 40px;
+    color: #7d7e80;
     font-size: 14px;
-    color: #455a64;
-    margin: 0 0 60px;
   }
 }
 
 .mobile-switch-lang {
   position: absolute;
-  top: 15px;
-  right: 15px;
-  font-size: 11px;
-  border: 1px solid @blue;
-  border-radius: 3px;
+  top: 24px;
+  right: 24px;
+  overflow: hidden;
   color: @blue;
+  font-size: 12px;
   cursor: pointer;
 
   span {
-    width: 32px;
+    display: inline-block;
+    width: 48px;
+    color: @gray-dark;
     line-height: 22px;
     text-align: center;
-    display: inline-block;
+    background-color: #f7f8fa;
+    border: 1px solid #dcdee0;
+
+    &:first-child {
+      border-right: none;
+      border-radius: 3px 0 0 3px;
+    }
+
+    &:last-child {
+      border-left: none;
+      border-radius: 0 3px 3px 0;
+    }
 
     &.active {
       color: @white;
       background-color: @blue;
+      border-color: @blue;
     }
   }
 }

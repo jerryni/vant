@@ -1,9 +1,11 @@
 export type SharedCellProps = {
   icon?: string;
+  size?: string;
   border: boolean;
   center?: boolean;
   isLink?: boolean;
   required?: boolean;
+  titleStyle?: any;
   titleClass?: any;
   valueClass?: any;
   labelClass?: any;
@@ -14,9 +16,11 @@ export type SharedCellProps = {
 
 export const cellProps = {
   icon: String,
+  size: String,
   center: Boolean,
   isLink: Boolean,
   required: Boolean,
+  titleStyle: null as any,
   titleClass: null as any,
   valueClass: null as any,
   labelClass: null as any,

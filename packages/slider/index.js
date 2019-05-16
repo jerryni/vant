@@ -1,5 +1,6 @@
 import { use } from '../utils';
 import { TouchMixin } from '../mixins/touch';
+import { preventDefault } from '../utils/event';
 
 const [sfc, bem] = use('slider');
 
@@ -10,6 +11,7 @@ export default sfc({
     min: Number,
     value: Number,
     disabled: Boolean,
+    vertical: Boolean,
     activeColor: String,
     inactiveColor: String,
     max: {
@@ -35,20 +37,24 @@ export default sfc({
     },
 
     onTouchMove(event) {
-      event.preventDefault();
-      event.stopPropagation();
+      preventDefault(event, true);
 
       if (this.disabled) return;
 
       this.touchMove(event);
+
       const rect = this.$el.getBoundingClientRect();
-      const diff = (this.deltaX / rect.width) * 100;
-      this.updateValue(this.startValue + diff);
+      const delta = this.vertical ? this.deltaY : this.deltaX;
+      const total = this.vertical ? rect.height : rect.width;
+      const diff = (delta / total) * 100;
+
+      this.newValue = this.startValue + diff;
+      this.updateValue(this.newValue);
     },
 
     onTouchEnd() {
       if (this.disabled) return;
-      this.updateValue(this.value, true);
+      this.updateValue(this.newValue, true);
     },
 
     onClick(event) {
@@ -57,7 +63,10 @@ export default sfc({
       if (this.disabled) return;
 
       const rect = this.$el.getBoundingClientRect();
-      const value = ((event.clientX - rect.left) / rect.width) * 100;
+      const delta = this.vertical ? event.clientY - rect.top : event.clientX - rect.left;
+      const total = this.vertical ? rect.height : rect.width;
+      const value = (delta / total) * 100;
+
       this.updateValue(value, true);
     },
 
@@ -71,23 +80,33 @@ export default sfc({
     },
 
     format(value) {
-      return Math.round(Math.max(this.min, Math.min(value, this.max)) / this.step) * this.step;
+      return (
+        Math.round(Math.max(this.min, Math.min(value, this.max)) / this.step) * this.step
+      );
     }
   },
 
   render(h) {
+    const { vertical } = this;
     const style = {
       background: this.inactiveColor
     };
 
+    const mainAxis = vertical ? 'height' : 'width';
+    const crossAxis = vertical ? 'width' : 'height';
+
     const barStyle = {
-      width: `${this.format(this.value)}%`,
-      height: this.barHeight,
+      [mainAxis]: `${this.format(this.value)}%`,
+      [crossAxis]: this.barHeight,
       background: this.activeColor
     };
 
     return (
-      <div style={style} class={bem({ disabled: this.disabled })} onClick={this.onClick}>
+      <div
+        style={style}
+        class={bem({ disabled: this.disabled, vertical })}
+        onClick={this.onClick}
+      >
         <div class={bem('bar')} style={barStyle}>
           <div
             class={bem('button-wrapper')}

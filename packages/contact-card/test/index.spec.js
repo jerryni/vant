@@ -20,7 +20,7 @@ describe('ContactCard', () => {
     });
 
     wrapper.trigger('click');
-    expect(click.mock.calls.length).toEqual(1);
+    expect(click).toHaveBeenCalledTimes(1);
   });
 
   test('not editable', () => {
@@ -37,14 +37,36 @@ describe('ContactCard', () => {
     });
 
     wrapper.trigger('click');
-    expect(click.mock.calls.length).toEqual(0);
+    expect(click).toHaveBeenCalledTimes(0);
   });
 });
 
 describe('ContactList', () => {
   test('render', () => {
-    const wrapper = mount(ContactList);
+    const wrapper = mount(ContactList, {
+      propsData: {
+        list: [contactInfo]
+      }
+    });
     expect(wrapper).toMatchSnapshot();
+  });
+
+  test('select event', () => {
+    const onSelect = jest.fn();
+    const wrapper = mount(ContactList, {
+      propsData: {
+        list: [contactInfo]
+      },
+      context: {
+        on: {
+          select: onSelect
+        }
+      }
+    });
+
+    wrapper.find('.van-radio__icon').trigger('click');
+
+    expect(onSelect).toHaveBeenCalled();
   });
 });
 

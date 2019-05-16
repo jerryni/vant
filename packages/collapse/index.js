@@ -1,17 +1,18 @@
 import { use } from '../utils';
+import { ParentMixin } from '../mixins/relation';
 
 const [sfc, bem] = use('collapse');
 
 export default sfc({
+  mixins: [ParentMixin('vanCollapse')],
+
   props: {
     accordion: Boolean,
-    value: [String, Number, Array]
-  },
-
-  data() {
-    return {
-      items: []
-    };
+    value: [String, Number, Array],
+    border: {
+      type: Boolean,
+      default: true
+    }
   },
 
   methods: {
@@ -27,6 +28,10 @@ export default sfc({
   },
 
   render(h) {
-    return <div class={[bem(), 'van-hairline--top-bottom']}>{this.slots()}</div>;
+    return (
+      <div class={[bem(), { 'van-hairline--top-bottom': this.border }]}>
+        {this.slots()}
+      </div>
+    );
   }
 });

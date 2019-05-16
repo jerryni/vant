@@ -1,17 +1,20 @@
-## Field 输入框
+# Field 输入框
 
-`input`或`textarea`的输入框。
+### 介绍
 
-### 使用指南
+表单中的输入框组件，支持`input`和`textarea`两种类型
+
+### 引入
 ``` javascript
 import { Field } from 'vant';
 
 Vue.use(Field);
 ```
 
-### 代码演示
+## 代码演示
 
-#### 基础用法
+### 基础用法
+
 通过 v-model 绑定输入框的值
 
 ```html
@@ -20,7 +23,8 @@ Vue.use(Field);
 </van-cell-group>
 ```
 
-#### 自定义类型
+### 自定义类型
+
 根据`type`属性定义不同类型的输入框
 
 ```html
@@ -45,7 +49,7 @@ Vue.use(Field);
 </van-cell-group>
 ```
 
-#### 禁用输入框
+### 禁用输入框
 
 ```html
 <van-cell-group>
@@ -58,7 +62,8 @@ Vue.use(Field);
 </van-cell-group>
 ```
 
-#### 错误提示
+### 错误提示
+
 通过`error`或者`error-message`属性增加对应的错误提示
 
 ```html
@@ -78,7 +83,8 @@ Vue.use(Field);
 </van-cell-group>
 ```
 
-#### 高度自适应
+### 高度自适应
+
 对于 textarea，可以通过`autosize`属性设置高度自适应
 
 ```html
@@ -94,8 +100,9 @@ Vue.use(Field);
 </van-cell-group>
 ```
 
-#### 插入按钮
-通过 button slot 可以在输入框尾部插入按钮
+### 插入按钮
+
+通过 button 插槽可以在输入框尾部插入按钮
 
 ```html
 <van-cell-group>
@@ -111,7 +118,9 @@ Vue.use(Field);
 </van-cell-group>
 ```
 
-### API
+## API
+
+### Props
 
 Field 默认支持 Input 标签所有的原生属性，比如 `maxlength`、`placeholder`、`autofocus` 等
 
@@ -120,6 +129,7 @@ Field 默认支持 Input 标签所有的原生属性，比如 `maxlength`、`pla
 | label | 输入框左侧文本 | `String` | - | - |
 | value | 当前输入的值 | `String | Number` | - | - |
 | type | 可设置为原生类型, 如 `number` `tel` `textarea` | `String` | `text` | - |
+| size | 大小，可选值为 `large` | `String` | - | 1.6.9 |
 | border | 是否显示内边框 | `Boolean` | `true` | - |
 | disabled | 是否禁用输入框 | `Boolean` | `false` | - |
 | readonly | 是否只读 | `Boolean` | `false` | - |
@@ -127,14 +137,17 @@ Field 默认支持 Input 标签所有的原生属性，比如 `maxlength`、`pla
 | required | 是否显示表单必填星号 | `Boolean` | `false` | - |
 | is-link | 是否展示右侧箭头并开启点击反馈 | `Boolean` | `false` | 1.1.10 |
 | error | 是否将输入内容标红 | `Boolean` | `false` | - |
-| error-message | 底部错误提示文案，为空时不展示 | `String` | `''` | - |
-| label-align | 文本对齐方式，可选值为 `center` `right` | `String` | `left` | 1.1.10 |
+| error-message | 底部错误提示文案，为空时不展示 | `String` | `''` | - 
+| label-class | 左侧文本额外类名 | `any` | - | 2.0.0 |
+| label-width | 左侧文本宽度，可指定单位，默认为 px | `String | Number` | `90px` | 1.6.17 |
+| label-align | 左侧文本对齐方式，可选值为 `center` `right` | `String` | `left` | 1.1.10 |
 | input-align | 输入框内容对齐方式，可选值为 `center` `right` | `String` | `left` | 1.1.10 |
+| error-message-align | 错误提示文案对齐方式，可选值为 `center` `right` | `String` | `left` | 1.6.11 |
 | autosize | 自适应内容高度，只对 textarea 有效，可传入对象,<br>如 { maxHeight: 100, minHeight: 50 }，单位为 px | `Boolean | Object` | `false` | 1.0.0 |
 | left-icon | 输入框左侧图标名称或图片链接，可选值见 Icon 组件 | `String` | - | 1.5.7 |
 | right-icon | 输入框尾部图标名称或图片链接，可选值见 Icon 组件 | `String` | - | 1.5.7 |
 
-### Event
+### Events
 
 Field 默认支持 Input 标签所有的原生事件，如 `focus`、`blur`、`keypress` 等
 
@@ -154,7 +167,7 @@ Field 默认支持 Input 标签所有的原生事件，如 `focus`、`blur`、`k
 | focus | - | - | 获取输入框焦点 |
 | blur | - | - | 取消输入框焦点 |
 
-### Slot
+### Slots
 
 | 名称 | 说明 |
 |------|------|

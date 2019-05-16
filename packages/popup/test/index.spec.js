@@ -117,12 +117,47 @@ test('render overlay', () => {
   expect(div.querySelector('.van-overlay')).toBeTruthy();
 });
 
-test('close on click modal', () => {
+test('watch overlay prop', () => {
   const div = document.createElement('div');
   wrapper = mount({
     template: `
       <div>
-        <popup v-model="value" :get-container="getContainer" />
+        <popup :value="show" :overlay="overlay" :get-container="getContainer" />
+      </div>
+    `,
+    components: {
+      Popup
+    },
+    data() {
+      return {
+        show: false,
+        overlay: false,
+        getContainer: () => div
+      };
+    }
+  });
+
+  expect(div.querySelector('.van-overlay')).toBeFalsy();
+
+  wrapper.setData({ overlay: true });
+  expect(div.querySelector('.van-overlay')).toBeFalsy();
+
+  wrapper.setData({ show: true });
+  expect(div.querySelector('.van-overlay')).toBeTruthy();
+});
+
+test('close on click overlay', () => {
+  const div = document.createElement('div');
+  const onClickOverlay = jest.fn();
+
+  wrapper = mount({
+    template: `
+      <div>
+        <popup
+          v-model="value"
+          :get-container="getContainer"
+          @click-overlay="onClickOverlay"
+        />
       </div>
     `,
     components: {
@@ -133,19 +168,46 @@ test('close on click modal', () => {
         value: true,
         getContainer: () => div
       };
+    },
+    methods: {
+      onClickOverlay
     }
   });
 
   const modal = div.querySelector('.van-overlay');
   triggerDrag(modal, 0, -30);
   modal.click();
+
   expect(wrapper.vm.value).toBeFalsy();
+  expect(onClickOverlay).toHaveBeenCalledTimes(1);
 });
 
-test('oepn & close event', () => {
-  wrapper = mount(Popup);
+test('open & close event', () => {
+  const wrapper = mount(Popup);
   wrapper.vm.value = true;
   expect(wrapper.emitted('open')).toBeTruthy();
   wrapper.vm.value = false;
   expect(wrapper.emitted('close')).toBeTruthy();
+});
+
+test('click event', () => {
+  const wrapper = mount(Popup, {
+    propsData: {
+      value: true
+    }
+  });
+
+  wrapper.trigger('click');
+  expect(wrapper.emitted('click')).toBeTruthy();
+});
+
+test('duration prop', () => {
+  const wrapper = mount(Popup, {
+    propsData: {
+      value: true,
+      duration: 0.5
+    }
+  });
+
+  expect(wrapper).toMatchSnapshot();
 });

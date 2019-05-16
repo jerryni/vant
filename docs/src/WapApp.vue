@@ -1,10 +1,10 @@
 <template>
   <div>
     <van-nav-bar
-      v-show="title && showNav"
+      v-show="title"
       class="van-doc-nav-bar"
       :title="title"
-      left-arrow
+      :left-arrow="showNav"
       @click-left="onBack"
     >
       <a
@@ -16,7 +16,7 @@
       </a>
     </van-nav-bar>
     <keep-alive>
-      <router-view />
+      <router-view :weapp="weapp" />
     </keep-alive>
   </div>
 </template>
@@ -48,6 +48,10 @@ export default {
 
     showNav() {
       return getQueryString('hide_nav') !== '1';
+    },
+
+    weapp() {
+      return getQueryString('weapp') === '1';
     }
   },
 
@@ -63,35 +67,36 @@ export default {
 @import '../../packages/style/var';
 
 body {
-  line-height: 1;
   color: @text-color;
-  background-color: #fafafa;
   font-family: 'PingFang SC', Helvetica, 'STHeiti STXihei', 'Microsoft YaHei', Tohoma, Arial, sans-serif;
+  line-height: 1;
+  background-color: #f8f8f8;
   -webkit-font-smoothing: antialiased;
 }
 
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
 .van-doc-nav-bar {
+  height: 56px;
+  line-height: 56px;
+
   .van-nav-bar__title {
-    font-size: 15px;
+    font-size: 17px;
     text-transform: capitalize;
   }
 
-  .van-nav-bar__left,
-  .van-nav-bar__right {
+  .van-icon {
+    color: @gray-dark;
+    font-size: 24px;
     cursor: pointer;
-  }
-
-  .van-nav-bar__right {
-    font-size: 16px;
-
-    .van-icon {
-      vertical-align: -3px;
-    }
   }
 }
 
 .van-doc-demo-section {
-  margin-top: -46px;
-  padding-top: 46px;
+  margin-top: -56px;
+  padding-top: 56px;
 }
 </style>

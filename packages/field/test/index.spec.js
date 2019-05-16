@@ -11,22 +11,18 @@ test('input event', () => {
 });
 
 test('click icon event', () => {
-  const onIconClick = jest.fn();
   const wrapper = mount(Field, {
     propsData: {
       value: 'a',
       leftIcon: 'contact',
-      rightIcon: 'search',
-      onIconClick
+      rightIcon: 'search'
     }
   });
 
   wrapper.find('.van-field__left-icon').trigger('click');
   wrapper.find('.van-field__right-icon').trigger('click');
-  expect(wrapper.emitted('click-icon')).toBeTruthy();
   expect(wrapper.emitted('click-left-icon')).toBeTruthy();
   expect(wrapper.emitted('click-right-icon')).toBeTruthy();
-  expect(onIconClick.mock.calls.length).toBe(1);
 });
 
 test('keypress event', () => {
@@ -111,7 +107,7 @@ test('blur method', () => {
   wrapper.find('input').element.focus();
   wrapper.vm.blur();
 
-  expect(fn.mock.calls.length).toEqual(1);
+  expect(fn).toHaveBeenCalledTimes(1);
 });
 
 test('focus method', () => {
@@ -121,7 +117,7 @@ test('focus method', () => {
   wrapper.vm.$on('focus', fn);
   wrapper.vm.focus();
 
-  expect(fn.mock.calls.length).toEqual(1);
+  expect(fn).toHaveBeenCalledTimes(1);
 });
 
 test('maxlength', async () => {
@@ -162,4 +158,58 @@ test('clearable', () => {
   wrapper.find('.van-field__clear').trigger('touchstart');
   expect(wrapper.emitted('input')[0][0]).toEqual('');
   expect(wrapper.emitted('clear')).toBeTruthy();
+});
+
+test('render label slot', () => {
+  const wrapper = mount({
+    template: `
+      <field label="Default Label">
+        <template v-slot:label>Custom Label</template>
+      </field>
+    `,
+    components: {
+      Field
+    }
+  });
+
+  expect(wrapper).toMatchSnapshot();
+});
+
+test('size prop', () => {
+  const wrapper = mount(Field, {
+    propsData: {
+      size: 'large'
+    }
+  });
+  expect(wrapper).toMatchSnapshot();
+});
+
+test('label-width prop with unit', () => {
+  const wrapper = mount(Field, {
+    propsData: {
+      label: 'Label',
+      labelWidth: '10rem'
+    }
+  });
+  expect(wrapper).toMatchSnapshot();
+});
+
+test('label-width prop without unit', () => {
+  const wrapper = mount(Field, {
+    propsData: {
+      label: 'Label',
+      labelWidth: 100
+    }
+  });
+  expect(wrapper).toMatchSnapshot();
+});
+
+test('label-class prop', () => {
+  const wrapper = mount(Field, {
+    propsData: {
+      label: 'Label',
+      labelClass: 'custom-label-class'
+    }
+  });
+  expect(wrapper).toMatchSnapshot();
 });

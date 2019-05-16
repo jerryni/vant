@@ -1,15 +1,16 @@
-## Stepper
+# Stepper
 
 ### Install
+
 ``` javascript
 import { Stepper } from 'vant';
 
 Vue.use(Stepper);
 ```
 
-### Usage
+## Usage
 
-#### Basic Usage
+### Basic Usage
 
 ```html
 <van-stepper v-model="value" />
@@ -25,13 +26,13 @@ export default {
 }
 ```
 
-#### Disabled
+### Disabled
 
 ```html
 <van-stepper v-model="value" disabled />
 ```
 
-#### Async Change
+### Async Change
 
 ```html
 <van-stepper
@@ -51,15 +52,21 @@ export default {
 
   methods: {
     onChange(value) {
+      if (this.changing) {
+        return;
+      }
+
+      this.changing = true;
       setTimeout(() => {
         this.value = value;
+        this.changing = false;
       }, 500);
     }
   }
 }
 ```
 
-#### Advanced Usage
+### Advanced Usage
 
 ```html
 <van-stepper
@@ -72,7 +79,9 @@ export default {
 />
 ```
 
-### API
+## API
+
+### Props
 
 | Attribute | Description | Type | Default |
 |------|------|------|------|
@@ -84,8 +93,9 @@ export default {
 | disabled | Disable value change | `Boolean` | `false` |
 | disable-input | Disable input | `Boolean` | `false` |
 | async-change | Whether to enable async change | `Boolean` | `false` | - |
+| input-width | Input width | `String` | `30px` |
 
-### Event
+### Events
 
 | Event | Description | Arguments |
 |------|------|------|

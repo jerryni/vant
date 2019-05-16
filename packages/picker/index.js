@@ -1,17 +1,21 @@
 import { use } from '../utils';
-import { prevent } from '../utils/event';
+import { preventDefault } from '../utils/event';
 import { deepClone } from '../utils/deep-clone';
-import { PickerMixin } from '../mixins/picker';
+import { pickerProps } from './shared';
+import { BLUE } from '../utils/color';
 import Loading from '../loading';
 import PickerColumn from './PickerColumn';
 
 const [sfc, bem, t] = use('picker');
 
 export default sfc({
-  mixins: [PickerMixin],
-
   props: {
+    ...pickerProps,
     columns: Array,
+    defaultIndex: {
+      type: Number,
+      default: 0
+    },
     valueKey: {
       type: String,
       default: 'text'
@@ -54,12 +58,7 @@ export default sfc({
 
     onChange(columnIndex) {
       if (this.simple) {
-        this.$emit(
-          'change',
-          this,
-          this.getColumnValue(0),
-          this.getColumnIndex(0)
-        );
+        this.$emit('change', this, this.getColumnValue(0), this.getColumnIndex(0));
       } else {
         this.$emit('change', this, this.getValues(), columnIndex);
       }
@@ -101,10 +100,7 @@ export default sfc({
     // set options of column by index
     setColumnValues(index, options) {
       const column = this.children[index];
-      if (
-        column &&
-        JSON.stringify(column.options) !== JSON.stringify(options)
-      ) {
+      if (column && JSON.stringify(column.options) !== JSON.stringify(options)) {
         column.options = options;
         column.setIndex(0);
       }
@@ -175,18 +171,14 @@ export default sfc({
     return (
       <div class={bem()}>
         {Toolbar}
-        {this.loading && (
-          <div class={bem('loading')}>
-            <Loading />
-          </div>
-        )}
-        <div class={bem('columns')} style={columnsStyle} onTouchmove={prevent}>
+        {this.loading ? <Loading class={bem('loading')} color={BLUE} /> : h()}
+        <div class={bem('columns')} style={columnsStyle} onTouchmove={preventDefault}>
           {columns.map((item, index) => (
             <PickerColumn
               valueKey={this.valueKey}
               className={item.className}
               itemHeight={this.itemHeight}
-              defaultIndex={item.defaultIndex}
+              defaultIndex={item.defaultIndex || this.defaultIndex}
               visibleItemCount={this.visibleItemCount}
               initialOptions={this.simple ? item : item.values}
               onChange={() => {
@@ -194,10 +186,7 @@ export default sfc({
               }}
             />
           ))}
-          <div
-            class={['van-hairline--top-bottom', bem('frame')]}
-            style={frameStyle}
-          />
+          <div class={['van-hairline--top-bottom', bem('frame')]} style={frameStyle} />
         </div>
       </div>
     );

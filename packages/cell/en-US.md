@@ -1,4 +1,4 @@
-## Cell
+# Cell
 
 ### Install
 ``` javascript
@@ -7,9 +7,9 @@ import { Cell, CellGroup } from 'vant';
 Vue.use(Cell).use(CellGroup);
 ```
 
-### Usage
+## Usage
 
-#### Basic Usage
+### Basic Usage
 
 ```html
 <van-cell-group>
@@ -18,7 +18,7 @@ Vue.use(Cell).use(CellGroup);
 </van-cell-group>
 ```
 
-#### Size
+### Size
 
 ```html
 <van-cell-group>
@@ -27,7 +27,7 @@ Vue.use(Cell).use(CellGroup);
 </van-cell-group>
 ```
 
-#### Left Icon
+### Left Icon
 
 ```html
 <van-cell-group>
@@ -35,7 +35,7 @@ Vue.use(Cell).use(CellGroup);
 </van-cell-group>
 ```
 
-#### Value only
+### Value only
 
 ```html
 <van-cell-group>
@@ -43,7 +43,7 @@ Vue.use(Cell).use(CellGroup);
 </van-cell-group>
 ```
 
-#### Link
+### Link
 
 ```html
 <van-cell-group>
@@ -53,7 +53,7 @@ Vue.use(Cell).use(CellGroup);
 </van-cell-group>
 ```
 
-#### Router
+### Router
 
 ```html
 <van-cell-group>
@@ -62,7 +62,18 @@ Vue.use(Cell).use(CellGroup);
 </van-cell-group>
 ```
 
-#### Advanced Usage
+### Group Title
+
+```html
+<van-cell-group title="Group 1">
+  <van-cell title="Cell title" value="Content" />
+</van-cell-group>
+<van-cell-group title="Group 2">
+  <van-cell title="Cell title" value="Content" />
+</van-cell-group>
+```
+
+### Advanced Usage
 
 ```html
 <van-cell-group>
@@ -79,13 +90,16 @@ Vue.use(Cell).use(CellGroup);
 </van-cell-group>
 ```
 
-### CellGroup API
+## API
+
+### CellGroup Props
 
 | Attribute | Description | Type | Default |
 |------|------|------|------|
+| title | Group title | `String` | - |
 | border | Whether to show outer border | `Boolean` | `true` |
 
-### Cell API
+### Cell Props
 
 | Attribute | Description | Type | Default |
 |------|------|------|------|
@@ -98,26 +112,28 @@ Vue.use(Cell).use(CellGroup);
 | center | Whether to center content vertically | `Boolean` | `true` |
 | url | Link URL | `String` | - |
 | to | Target route of the link, same as to of `vue-router` | `String | Object` | - |
-| replace | If true, the navigation will not leave a history record | `String` | `false` |
+| replace | If true, the navigation will not leave a history record | `Boolean` | `false` |
 | clickable | Whether to show click feedback when clicked | `Boolean` | `false` |
 | is-link | Whether to show link icon | `Boolean` | `false` |
 | required | Whether to show required mark | `Boolean` | `false` |
 | arrow-direction | Can be set to `left` `up` `down` | `String` | - |
+| title-style | Title style | `any` | - |
 | title-class | Title className | `any` | - |
 | value-class | Value className | `any` | - |
 | label-class | Label className | `any` | - |
 
-### Cell Event
+### Cell Events
 
 | Event | Description | Arguments |
 |------|------|------|
 | click | Triggered when click cell | - |
 
-### Cell Slot
+### Cell Slots
 
-| name | Description |
+| Name | Description |
 |------|------|
-| - | Default slot |
+| default | Default slot |
 | icon | Custom icon |
 | title | Custom title |
+| label | Custom label |
 | right-icon | Custom right icon |

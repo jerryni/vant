@@ -1,13 +1,12 @@
 import { use } from '../utils';
 import Picker from '../picker';
-import { PickerMixin } from '../mixins/picker';
+import { pickerProps } from '../picker/shared';
 
 const [sfc, bem] = use('area');
 
 export default sfc({
-  mixins: [PickerMixin],
-
   props: {
+    ...pickerProps,
     value: String,
     areaList: {
       type: Object,
@@ -111,7 +110,7 @@ export default sfc({
     onChange(picker, values, index) {
       this.code = values[index].code;
       this.setValues();
-      this.$emit('change', picker, values, index);
+      this.$emit('change', picker, picker.getValues(), index);
     },
 
     setValues() {

@@ -1,22 +1,23 @@
-## Tabbar 标签栏
+# Tabbar 标签栏
 
-### 使用指南
+### 引入
+
 ``` javascript
 import { Tabbar, TabbarItem } from 'vant';
 
 Vue.use(Tabbar).use(TabbarItem);
 ```
 
-### 代码演示
+## 代码演示
 
-#### 基础用法
+### 基础用法
 
 ```html
 <van-tabbar v-model="active">
   <van-tabbar-item icon="home-o">标签</van-tabbar-item>
-  <van-tabbar-item icon="search" dot>标签</van-tabbar-item>
-  <van-tabbar-item icon="friends-o" info="5">标签</van-tabbar-item>
-  <van-tabbar-item icon="setting-o" info="20">标签</van-tabbar-item>
+  <van-tabbar-item icon="search">标签</van-tabbar-item>
+  <van-tabbar-item icon="friends-o">标签</van-tabbar-item>
+  <van-tabbar-item icon="setting-o">标签</van-tabbar-item>
 </van-tabbar>
 ```
 
@@ -30,8 +31,18 @@ export default {
 }
 ```
 
+### 显示徽标
 
-#### 自定义图标
+```html
+<van-tabbar v-model="active">
+  <van-tabbar-item icon="home-o">标签</van-tabbar-item>
+  <van-tabbar-item icon="search" dot>标签</van-tabbar-item>
+  <van-tabbar-item icon="friends-o" info="5">标签</van-tabbar-item>
+  <van-tabbar-item icon="setting-o" info="20">标签</van-tabbar-item>
+</van-tabbar>
+```
+
+### 自定义图标
 
 通过 icon 插槽自定义图标，可以通过 `slot-scope` 判断标签是否选中
 
@@ -64,12 +75,13 @@ export default {
 }
 ```
 
-#### 自定义颜色
+### 自定义颜色
 
 ```html
 <van-tabbar
   v-model="active"
   active-color="#07c160"
+  inactive-color="#000"
 >
   <van-tabbar-item icon="home-o">标签</van-tabbar-item>
   <van-tabbar-item icon="search">标签</van-tabbar-item>
@@ -78,7 +90,34 @@ export default {
 </van-tabbar>
 ```
 
-### Tabbar API
+### 路由模式
+
+标签栏支持路由模式，用于搭配`vue-router`使用。路由模式下会匹配页面路径和标签的`to`属性，并自动选中对应的标签
+
+```html
+<router-view />
+
+<van-tabbar route>
+  <van-tabbar-item
+    replace
+    to="/home"
+    icon="home-o"
+  >
+    标签
+  </van-tabbar-item>
+  <van-tabbar-item
+    replace
+    to="/search"
+    icon="search"
+  >
+    标签
+  </van-tabbar-item>
+</van-tabbar>
+```
+
+## API
+
+### Tabbar Props
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 |------|------|------|------|------|
@@ -86,14 +125,17 @@ export default {
 | fixed | 是否固定在底部 | `Boolean` | `true` | - |
 | z-index | 元素 z-index | `Number` | `1` | 1.1.9 |
 | active-color | 选中标签的颜色 | `String` | `#1989fa` | 1.5.1 |
+| inactive-color | 未选中标签的颜色 | `String` | `#7d7e80` | 2.0.0 |
+| route | 是否开启路由模式 | `Boolean` | `false` | 2.0.0 |
+| safe-area-inset-bottom | 是否开启 iPhone X 底部安全区适配，需要在 `viewport` meta 标签中设置 `viewport-fit=cover` | `Boolean` | `false` | 1.6.15 |
 
-### Tabbar Event
+### Tabbar Events
 
-| 事件名 | 说明 | 参数 |
+| 事件名 | 说明 | 回调参数 |
 |------|------|------|
 | change | 切换标签时触发 | active: 当前选中标签 |
 
-### TabbarItem API
+### TabbarItem Props
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 |------|------|------|------|------|
@@ -102,9 +144,9 @@ export default {
 | info | 图标右上角提示信息 | `String | Number` | - | - |
 | url | 跳转链接 | `String` | - | - |
 | to | 路由跳转对象，同 `vue-router` 的 to | `String | Object` | - | - |
-| replace | 跳转时是否替换当前页面历史 | `String` | `false` | - |
+| replace | 跳转时是否替换当前页面历史 | `Boolean` | `false` | - |
 
-### TabbarItem Slot
+### TabbarItem Slots
 
 | 名称 | 说明 | slot-scope |
 |------|------|------|

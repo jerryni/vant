@@ -53,7 +53,7 @@ test('raf', async () => {
   raf(spy);
 
   await later(50);
-  expect(spy.mock.calls.length).toBe(1);
+  expect(spy).toHaveBeenCalledTimes(1);
   cancel(1);
 });
 
@@ -86,4 +86,7 @@ test('is-src', () => {
   expect(isSrc('img.cdn.com')).toBeFalsy();
   expect(isSrc('name')).toBeFalsy();
   expect(isSrc('')).toBeFalsy();
+  expect(isSrc('blob:http://img.cdn.com')).toBeTruthy();
+  expect(isSrc('blob:https://img.cdn.com')).toBeTruthy();
+  expect(isSrc('xdata:image/jpeg;base64,/9j/4AAQSkZ')).toBeFalsy();
 });

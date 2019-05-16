@@ -2,14 +2,16 @@
  * Common part of Checkbox & Radio
  */
 import Icon from '../icon';
-import { FindParentMixin } from './find-parent';
+import { ChildrenMixin } from './relation';
+import { suffixPx } from '../utils';
 
 export const CheckboxMixin = (parent, bem) => ({
-  mixins: [FindParentMixin],
+  mixins: [ChildrenMixin(parent)],
 
   props: {
     name: null,
     value: null,
+    iconSize: [String, Number],
     disabled: Boolean,
     checkedColor: String,
     labelPosition: String,
@@ -18,10 +20,6 @@ export const CheckboxMixin = (parent, bem) => ({
       type: String,
       default: 'round'
     }
-  },
-
-  created() {
-    this.findParent(parent);
   },
 
   computed: {
@@ -59,16 +57,14 @@ export const CheckboxMixin = (parent, bem) => ({
     return (
       <div
         class={bem()}
-        onClick={() => {
-          this.$emit('click');
+        onClick={event => {
+          this.$emit('click', event);
         }}
       >
         <div
           class={bem('icon', [this.shape, { disabled: this.isDisabled, checked }])}
-          onClick={event => {
-            event.stopPropagation();
-            this.onClickIcon();
-          }}
+          style={{ fontSize: suffixPx(this.iconSize) }}
+          onClick={this.onClickIcon}
         >
           {CheckIcon}
         </div>

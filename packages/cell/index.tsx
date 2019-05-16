@@ -6,12 +6,11 @@ import Icon from '../icon';
 
 // Types
 import { CreateElement, RenderContext } from 'vue/types';
-import { ScopedSlot, DefaultSlots } from '../utils/use/sfc';
+import { ScopedSlot, DefaultSlots } from '../utils/types';
 import { Mods } from '../utils/use/bem';
 
 export type CellProps = RouteProps &
   SharedCellProps & {
-    size?: string;
     clickable?: boolean;
     arrowDirection?: string;
   };
@@ -19,6 +18,7 @@ export type CellProps = RouteProps &
 export type CellSlots = DefaultSlots & {
   icon?: ScopedSlot;
   title?: ScopedSlot;
+  label?: ScopedSlot;
   extra?: ScopedSlot;
   'right-icon'?: ScopedSlot;
 };
@@ -39,21 +39,23 @@ function Cell(
 
   const showTitle = slots.title || isDef(title);
   const showValue = slots.default || isDef(value);
+  const showLabel = slots.label || isDef(label);
+
+  const Label = showLabel && (
+    <div class={[bem('label'), props.labelClass]}>
+      {slots.label ? slots.label() : label}
+    </div>
+  );
 
   const Title = showTitle && (
-    <div class={[bem('title'), props.titleClass]}>
+    <div class={[bem('title'), props.titleClass]} style={props.titleStyle}>
       {slots.title ? slots.title() : <span>{title}</span>}
-      {label && <div class={[bem('label'), props.labelClass]}>{label}</div>}
+      {Label}
     </div>
   );
 
   const Value = showValue && (
-    <div
-      class={[
-        bem('value', { alone: !slots.title && !title }),
-        props.valueClass
-      ]}
-    >
+    <div class={[bem('value', { alone: !slots.title && !title }), props.valueClass]}>
       {slots.default ? slots.default() : <span>{value}</span>}
     </div>
   );
@@ -72,10 +74,10 @@ function Cell(
         />
     );
 
-  const onClick = (event: Event) => {
+  function onClick(event: Event) {
     emit(ctx, 'click', event);
     functionalRoute(ctx);
-  };
+  }
 
   const classes: Mods = {
     center: props.center,
@@ -102,7 +104,6 @@ function Cell(
 Cell.props = {
   ...cellProps,
   ...routeProps,
-  size: String,
   clickable: Boolean,
   arrowDirection: String
 };

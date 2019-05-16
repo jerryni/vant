@@ -1,6 +1,8 @@
-## Custom Theme
+# Custom Theme
 
-`Vant` provides a set of default themes, if you want to custom the theme color or other styles, you can use the following methods:
+### Intro
+
+Vant provides a set of default themes, if you want to custom the theme color or other styles, you can use the following methods:
 
 ### Less variables
 
@@ -26,7 +28,7 @@ There are some basic variables below, all available variables could be found in 
 // default colors
 @text-color: #323233;
 @border-color: #ebedf0;
-@active-color: #e8e8e8;
+@active-color: #f2f3f5;
 @background-color: #f8f8f8;
 @background-color-light: #fafafa;
 ```

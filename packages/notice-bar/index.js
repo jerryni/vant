@@ -9,6 +9,7 @@ export default sfc({
     mode: String,
     color: String,
     leftIcon: String,
+    wrapable: Boolean,
     background: String,
     delay: {
       type: [String, Number],
@@ -76,9 +77,7 @@ export default sfc({
   },
 
   render(h) {
-    const { mode } = this;
-
-    const iconName = mode === 'closeable' ? 'cross' : mode === 'link' ? 'arrow' : '';
+    const { slots, mode, leftIcon, onClickIcon } = this;
 
     const barStyle = {
       color: this.color,
@@ -91,20 +90,49 @@ export default sfc({
       animationDuration: this.duration + 's'
     };
 
+    function LeftIcon() {
+      const slot = slots('left-icon');
+
+      if (slot) {
+        return slot;
+      }
+
+      if (leftIcon) {
+        return <Icon class={bem('left-icon')} name={leftIcon} />;
+      }
+    }
+
+    function RightIcon() {
+      const slot = slots('right-icon');
+
+      if (slot) {
+        return slot;
+      }
+
+      const iconName = mode === 'closeable' ? 'cross' : mode === 'link' ? 'arrow' : '';
+      if (iconName) {
+        return <Icon class={bem('right-icon')} name={iconName} onClick={onClickIcon} />;
+      }
+    }
+
     return (
       <div
         vShow={this.showNoticeBar}
-        class={bem({ withicon: mode })}
+        class={bem({ wrapable: this.wrapable })}
         style={barStyle}
         onClick={() => {
           this.$emit('click');
         }}
       >
-        {this.leftIcon && <Icon class={bem('left-icon')} name={this.leftIcon} />}
+        {LeftIcon()}
         <div ref="wrap" class={bem('wrap')}>
           <div
             ref="content"
-            class={[bem('content'), this.animationClass, { 'van-ellipsis': !this.scrollable }]}
+            class={[
+              bem('content'),
+              this.animationClass,
+              { 'van-ellipsis': !this.scrollable && !this.wrapable }
+            ]}
             style={contentStyle}
             onAnimationend={this.onAnimationEnd}
             onWebkitAnimationEnd={this.onAnimationEnd}
@@ -112,7 +140,7 @@ export default sfc({
             {this.slots() || this.text}
           </div>
         </div>
-        {iconName && <Icon class={bem('right-icon')} name={iconName} onClick={this.onClickIcon} />}
+        {RightIcon()}
       </div>
     );
   }

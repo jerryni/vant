@@ -1,14 +1,16 @@
-## Slider
+# Slider
 
 ### Install
+
 ``` javascript
 import { Slider } from 'vant';
 
 Vue.use(Slider);
 ```
 
-### Usage
-#### Basic Usage
+## Usage
+
+### Basic Usage
 
 ```html
 <van-slider v-model="value" @change="onChange" />
@@ -30,25 +32,25 @@ export default {
 };
 ```
 
-#### Range
+### Range
 
 ```html
 <van-slider v-model="value" :min="10" :max="90" />
 ```
 
-#### Disabled
+### Disabled
 
 ```html
 <van-slider v-model="value" disabled />
 ```
 
-#### Step size
+### Step size
 
 ```html
 <van-slider v-model="value" :step="10" />
 ```
 
-#### Custom style
+### Custom style
 
 ```html
 <van-slider
@@ -58,7 +60,7 @@ export default {
 />
 ```
 
-#### Custom button
+### Custom button
 
 ```html
 <van-slider
@@ -74,7 +76,17 @@ export default {
 </van-slider>
 ```
 
-### API
+### Vertical
+
+```html
+<div :style="{ height: '100px' }">
+  <van-slider v-model="value" vertical />
+</div>
+```
+
+## API
+
+### Props
 
 | Attribute | Description | Type | Default |
 |------|------|------|------|------|
@@ -86,14 +98,15 @@ export default {
 | bar-height | Height of bar | `String` | `2px` |
 | active-color | Active color of bar | `String` | `#1989fa` |
 | inactive-color | Inactive color of bar | `String` | `#e5e5e5` |
+| vertical | Whether to display vertical | `Boolean` | `false` |
 
-### Event
+### Events
 
 | Event | Description | Arguments |
 |------|------|------|
 | change | Triggered after value change | value: current rate |
 
-### Slot
+### Slots
 
 | Name | Description |
 |------|------|

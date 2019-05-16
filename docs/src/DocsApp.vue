@@ -48,31 +48,17 @@ export default {
 
 <style lang="less">
 .van-doc-intro {
-  padding-top: 40px;
-  text-align: center;
+  padding-top: 20px;
   font-family: "Dosis", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
-
-  &__youzan {
-    width: 32px;
-    height: 32px;
-    display: block;
-    margin: 25px 0 0;
-  }
+  text-align: center;
 
   &__logo {
     width: 120px;
     height: 120px;
   }
 
-  h2 {
-    font-size: 36px;
-    line-height: 60px;
-    font-weight: normal;
-  }
-
   p {
-    font-size: 15px;
-    color: #455a64;
+    margin-bottom: 20px;
   }
 }
 </style>

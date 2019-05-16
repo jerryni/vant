@@ -1,6 +1,8 @@
-## 定制主题
+# 定制主题
 
-`Vant`提供了一套默认主题，CSS 命名采用 BEM 的风格，方便使用者覆盖样式。如果你想完全替换主题色或者其他样式，可以使用下面的方法：
+### 介绍
+
+Vant 提供了一套默认主题，CSS 命名采用 BEM 的风格，方便使用者覆盖样式。如果你想完全替换主题色或者其他样式，可以使用下面提供的方法
 
 ### 示例工程
 
@@ -30,7 +32,7 @@ Vant 使用了 [Less](http://lesscss.org/) 对样式进行预处理，并内置�
 // default colors
 @text-color: #323233;
 @border-color: #ebedf0;
-@active-color: #e8e8e8;
+@active-color: #f2f3f5;
 @background-color: #f8f8f8;
 @background-color-light: #fafafa;
 ```

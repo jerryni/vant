@@ -11,11 +11,24 @@
       <van-button @click="nextStep">{{ $t('nextStep') }}</van-button>
     </demo-block>
 
+    <demo-block :title="$t('customStyle')">
+      <van-steps
+        :active="active"
+        active-icon="success"
+        inactive-icon="arrow"
+        active-color="#38f"
+      >
+        <van-step>{{ $t('step1') }}</van-step>
+        <van-step>{{ $t('step2') }}</van-step>
+        <van-step>{{ $t('step3') }}</van-step>
+        <van-step>{{ $t('step4') }}</van-step>
+      </van-steps>
+    </demo-block>
+
     <demo-block :title="$t('title3')">
       <van-steps
         :active="0"
         direction="vertical"
-        active-color="#f44"
       >
         <van-step>
           <h3>{{ $t('status1') }}</h3>
@@ -47,7 +60,8 @@ export default {
       title3: '竖向步骤条',
       status1: '【城市】物流状态1',
       status2: '【城市】物流状态',
-      status3: '快件已发货'
+      status3: '快件已发货',
+      customStyle: '自定义样式'
     },
     'en-US': {
       nextStep: 'Next Step',
@@ -59,7 +73,8 @@ export default {
       title3: 'Vertical Steps',
       status1: '【City】Status1',
       status2: '【City】Status2',
-      status3: '【City】Status3'
+      status3: '【City】Status3',
+      customStyle: 'Custom Style'
     }
   },
 
@@ -97,8 +112,8 @@ export default {
   p,
   h3 {
     margin: 0;
-    font-size: inherit;
     font-weight: normal;
+    font-size: inherit;
   }
 }
 </style>

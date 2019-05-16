@@ -23,6 +23,21 @@
       />
     </demo-block>
 
+    <demo-block :title="$t('hairline')">
+      <van-button
+        plain
+        hairline
+        type="primary"
+        :text="$t('hairlineButton')"
+      />
+      <van-button
+        plain
+        hairline
+        type="danger"
+        :text="$t('hairlineButton')"
+      />
+    </demo-block>
+
     <demo-block :title="$t('disabled')">
       <van-button
         disabled
@@ -43,6 +58,7 @@
       />
       <van-button
         loading
+        loading-type="spinner"
         :loading-text="$t('loadingText')"
         type="danger"
       />
@@ -62,10 +78,30 @@
     </demo-block>
 
     <demo-block :title="$t('size')">
-      <van-button size="large">{{ $t('large') }}</van-button>
-      <van-button size="normal">{{ $t('normal') }}</van-button>
-      <van-button size="small">{{ $t('small') }}</van-button>
-      <van-button size="mini">{{ $t('mini') }}</van-button>
+      <van-button
+        type="primary"
+        size="large"
+      >
+        {{ $t('large') }}
+      </van-button>
+      <van-button
+        type="primary"
+        size="normal"
+      >
+        {{ $t('normal') }}
+      </van-button>
+      <van-button
+        type="primary"
+        size="small"
+      >
+        {{ $t('small') }}
+      </van-button>
+      <van-button
+        type="primary"
+        size="mini"
+      >
+        {{ $t('mini') }}
+      </van-button>
     </demo-block>
   </demo-section>
 </template>
@@ -90,6 +126,8 @@ export default {
       plain: '朴素按钮',
       square: '方形按钮',
       round: '圆形按钮',
+      hairline: '细边框',
+      hairlineButton: '细边框按钮',
       loadingText: '加载中...'
     },
     'en-US': {
@@ -109,6 +147,8 @@ export default {
       plain: 'Plain',
       square: 'Square',
       round: 'Round',
+      hairline: 'Hairline',
+      hairlineButton: 'Hairline',
       loadingText: 'Loading...'
     }
   }
