@@ -15,7 +15,7 @@ vue create hello-world
 vue ui
 ```
 
-<img width="100%" style="border-radius: 3px; box-shadow: 0 1px 1px rgba(0, 0, 0, .1);" src="https://img.yzcdn.cn/vant/vue-cli-demo-201809032000.png" >
+![](https://img.yzcdn.cn/vant/vue-cli-demo-201809032000.png)
 
 在图形化界面中，点击`依赖` -> `安装依赖`，然后将 `vant` 添加到依赖中即可。
 
@@ -25,28 +25,18 @@ vue ui
 
 - 基于 vant 搭建单页面应用，配置按需引入
 - 配置 rem 适配方案
+- 配置 viewport 适配方案
 - 配置 TypeScript 工程
 - 配置自定义主题色方案
 
 ### 安装
 
 ```bash
-# npm
+# 通过 npm 安装
 npm i vant -S
 
-# yarn
+# 通过 yarn 安装
 yarn add vant
-```
-
-### 通过 CDN 引入
-
-```html
-<!-- 引入样式 -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@1.6/lib/index.css">
-
-<!-- 引入组件 -->
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vant@1.6/lib/vant.min.js"></script>
 ```
 
 ## 引入组件
@@ -88,7 +78,7 @@ module.exports = {
 ```js
 // 接着你可以在代码中直接引入 Vant 组件
 // 插件会自动将代码转化为方式二中的按需引入形式
-import { Button, Cell } from 'vant';
+import { Button } from 'vant';
 ```
 
 > 如果你在使用 TypeScript，可以使用 [ts-import-plugin](https://github.com/Brooooooklyn/ts-import-plugin) 实现按需引入
@@ -114,7 +104,29 @@ import 'vant/lib/index.css';
 Vue.use(Vant);
 ```
 
-> 注意：配置 babel-plugin-import 插件后将不允许导入所有组件
+> 注意：配置 babel-plugin-import 插件后，将不允许以这种方式导入组件
+
+### 方式四. 通过 CDN 引入
+
+```html
+<!-- 引入样式 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vant@2.0/lib/index.css">
+
+<!-- 引入组件 -->
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vant@2.0/lib/vant.min.js"></script>
+
+<script>
+var Vue = window.Vue;
+var vant = window.vant;
+
+// 注册 Lazyload 组件
+Vue.use(vant.Lazyload);
+
+// 调用函数式组件
+vant.Toast('提示');
+</script>
+```
 
 ## 其他
 
@@ -141,4 +153,18 @@ module.exports = {
 }
 ```
 
-> 注意：在配置 postcss-loader 时，应避免 ignore node_modules 目录，这会导致 Vant 的样式无法被编译
+> 注意：在配置 postcss-loader 时，应避免 ignore node_modules 目录，这会导致 Vant 的样式无法被编译
+
+### 在桌面端使用
+
+Vant 组件默认只适配了移动端设备，如果你需要在桌面端使用 vant，可以引入我们提供的 [@vant/touch-emulator](https://github.com/chenjiahan/vant-touch-emulator).
+
+```bash
+# 安装模块
+npm i @vant/touch-emulator -S
+```
+
+```js
+// 引入模块后自动生效
+import '@vant/touch-emulator';
+```
