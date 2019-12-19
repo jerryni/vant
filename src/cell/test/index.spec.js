@@ -1,5 +1,6 @@
 import Cell from '..';
-import { mount } from '../../../test/utils';
+import CellGroup from '../../cell-group';
+import { mount } from '../../../test';
 
 test('click event', () => {
   const click = jest.fn();
@@ -51,6 +52,16 @@ test('title-style prop', () => {
       titleStyle: {
         color: 'red'
       }
+    }
+  });
+
+  expect(wrapper).toMatchSnapshot();
+});
+
+test('CellGroup title slot', () => {
+  const wrapper = mount(CellGroup, {
+    scopedSlots: {
+      title: () => 'CustomTitle'
     }
   });
 

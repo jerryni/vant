@@ -68,6 +68,10 @@ export default createComponent({
     postalValidator: {
       type: Function,
       default: isPostal
+    },
+    areaColumnsPlaceholder: {
+      type: Array,
+      default: () => []
     }
   },
 
@@ -135,6 +139,13 @@ export default createComponent({
     },
 
     onAreaConfirm(values) {
+      values = values.filter(value => !!value);
+
+      if (values.some(value => !value.code)) {
+        Toast(t('areaEmpty'));
+        return;
+      }
+
       this.showAreaPopup = false;
       this.assignAreaValues();
       this.$emit('change-area', values);
@@ -142,6 +153,7 @@ export default createComponent({
 
     assignAreaValues() {
       const { area } = this.$refs;
+
       if (area) {
         const detail = area.getArea();
         detail.areaCode = detail.code;
@@ -238,68 +250,74 @@ export default createComponent({
     const onFocus = name => () => this.onFocus(name);
 
     // hide bottom field when use search && detail get focused
-    const hideBottomFields = searchResult && searchResult.length && this.detailFocused;
+    const hideBottomFields =
+      searchResult && searchResult.length && this.detailFocused;
 
     return (
       <div class={bem()}>
-        <Field
-          vModel={data.name}
-          clearable
-          label={t('name')}
-          placeholder={t('namePlaceholder')}
-          error={errorInfo.name}
-          onFocus={onFocus('name')}
-        />
-        <Field
-          vModel={data.tel}
-          clearable
-          type="tel"
-          label={t('tel')}
-          placeholder={t('telPlaceholder')}
-          error={errorInfo.tel}
-          onFocus={onFocus('tel')}
-        />
-        <Field
-          vShow={this.showArea}
-          readonly
-          label={t('area')}
-          placeholder={t('areaPlaceholder')}
-          value={this.areaText}
-          onClick={() => {
-            this.showAreaPopup = true;
-          }}
-        />
-        <Detail
-          vShow={this.showDetail}
-          focused={this.detailFocused}
-          value={data.addressDetail}
-          error={errorInfo.addressDetail}
-          detailRows={this.detailRows}
-          detailMaxlength={this.detailMaxlength}
-          searchResult={this.searchResult}
-          showSearchResult={this.showSearchResult}
-          onFocus={onFocus('addressDetail')}
-          onBlur={this.onDetailBlur}
-          onInput={this.onChangeDetail}
-          onSelect-search={event => {
-            this.$emit('select-search', event);
-          }}
-        />
-        {this.showPostal && (
+        <div class={bem('fields')}>
           <Field
-            vShow={!hideBottomFields}
-            vModel={data.postalCode}
-            type="tel"
-            maxlength="6"
-            label={t('postal')}
-            placeholder={t('postal')}
-            error={errorInfo.postalCode}
-            onFocus={onFocus('postalCode')}
+            vModel={data.name}
+            clearable
+            label={t('name')}
+            placeholder={t('namePlaceholder')}
+            error={errorInfo.name}
+            onFocus={onFocus('name')}
           />
-        )}
-        {this.slots()}
+          <Field
+            vModel={data.tel}
+            clearable
+            type="tel"
+            label={t('tel')}
+            placeholder={t('telPlaceholder')}
+            error={errorInfo.tel}
+            onFocus={onFocus('tel')}
+          />
+          <Field
+            vShow={this.showArea}
+            readonly
+            clickable
+            label={t('area')}
+            placeholder={t('areaPlaceholder')}
+            rightIcon="arrow"
+            value={this.areaText}
+            onClick={() => {
+              this.showAreaPopup = true;
+            }}
+          />
+          <Detail
+            vShow={this.showDetail}
+            focused={this.detailFocused}
+            value={data.addressDetail}
+            error={errorInfo.addressDetail}
+            detailRows={this.detailRows}
+            detailMaxlength={this.detailMaxlength}
+            searchResult={this.searchResult}
+            showSearchResult={this.showSearchResult}
+            onFocus={onFocus('addressDetail')}
+            onBlur={this.onDetailBlur}
+            onInput={this.onChangeDetail}
+            onSelect-search={event => {
+              this.$emit('select-search', event);
+            }}
+          />
+          {this.showPostal && (
+            <Field
+              vShow={!hideBottomFields}
+              vModel={data.postalCode}
+              type="tel"
+              maxlength="6"
+              label={t('postal')}
+              placeholder={t('postal')}
+              error={errorInfo.postalCode}
+              onFocus={onFocus('postalCode')}
+            />
+          )}
+          {this.slots()}
+        </div>
         {this.showSetDefault && (
           <SwitchCell
+            class={bem('default')}
             vModel={data.isDefault}
             vShow={!hideBottomFields}
             title={t('defaultAddress')}
@@ -311,6 +329,7 @@ export default createComponent({
         <div vShow={!hideBottomFields} class={bem('buttons')}>
           <Button
             block
+            round
             loading={this.isSaving}
             type="danger"
             text={this.saveButtonText || t('save')}
@@ -319,6 +338,7 @@ export default createComponent({
           {this.showDelete && (
             <Button
               block
+              round
               loading={this.isDeleting}
               text={this.deleteButtonText || t('delete')}
               onClick={this.onDelete}
@@ -336,6 +356,7 @@ export default createComponent({
             loading={!this.areaListLoaded}
             value={data.areaCode}
             areaList={this.areaList}
+            columnsPlaceholder={this.areaColumnsPlaceholder}
             onConfirm={this.onAreaConfirm}
             onCancel={() => {
               this.showAreaPopup = false;

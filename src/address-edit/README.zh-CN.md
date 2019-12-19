@@ -21,6 +21,7 @@ Vue.use(AddressEdit);
   show-set-default
   show-search-result
   :search-result="searchResult"
+  :area-columns-placeholder="['请选择', '请选择', '请选择']"
   @save="onSave"
   @delete="onDelete"
   @change-detail="onChangeDetail"
@@ -63,22 +64,23 @@ export default {
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 |------|------|------|------|------|
-| area-list | 地区列表 | `object` | - | - |
-| address-info | 收货人信息初始值 | `AddressInfo` | `{}` | - |
-| search-result | 详细地址搜索结果 | `SearchResult[]` | `[]` | - |
-| show-postal | 是否显示邮政编码 | `boolean` | `false` | - |
-| show-delete | 是否显示删除按钮 | `boolean` | `false` | - |
-| show-set-default | 是否显示默认地址栏 | `boolean` | `false` | - |
-| show-search-result | 是否显示搜索结果 | `boolean` | `false` | - |
-| save-button-text | 保存按钮文字 | `string` | `保存` | - |
-| delete-button-text | 删除按钮文字 | `string` | `删除` | - |
-| detail-rows | 详细地址输入框行数 | `number` | `1` |
-| detail-maxlength | 详细地址最大长度 | `number` | `200` | 2.0.4 |
-| is-saving | 是否显示保存按钮加载动画 | `boolean` | `false` | - |
-| is-deleting | 是否显示删除按钮加载动画 | `boolean` | `false` | - |
-| tel-validator | 手机号格式校验函数 | `string => boolean` | - | - |
-| postal-validator | 邮政编码格式校验函数 | `string => boolean` | - | 2.1.2 |
-| validator | 自定义校验函数 | `(key, value) => string` | - | - |
+| area-list | 地区列表 | *object* | - | - |
+| area-columns-placeholder | 地区选择列占位提示文字 | *string[]* | `[]` | 2.2.5 |
+| address-info | 收货人信息初始值 | *AddressInfo* | `{}` | - |
+| search-result | 详细地址搜索结果 | *SearchResult[]* | `[]` | - |
+| show-postal | 是否显示邮政编码 | *boolean* | `false` | - |
+| show-delete | 是否显示删除按钮 | *boolean* | `false` | - |
+| show-set-default | 是否显示默认地址栏 | *boolean* | `false` | - |
+| show-search-result | 是否显示搜索结果 | *boolean* | `false` | - |
+| save-button-text | 保存按钮文字 | *string* | `保存` | - |
+| delete-button-text | 删除按钮文字 | *string* | `删除` | - |
+| detail-rows | 详细地址输入框行数 | *number* | `1` |
+| detail-maxlength | 详细地址最大长度 | *number* | `200` | 2.0.4 |
+| is-saving | 是否显示保存按钮加载动画 | *boolean* | `false` | - |
+| is-deleting | 是否显示删除按钮加载动画 | *boolean* | `false` | - |
+| tel-validator | 手机号格式校验函数 | *string => boolean* | - | - |
+| postal-validator | 邮政编码格式校验函数 | *string => boolean* | - | 2.1.2 |
+| validator | 自定义校验函数 | *(key, value) => string* | - | - |
 
 ### Events
 
@@ -101,11 +103,11 @@ export default {
 
 ### 方法
 
-通过 ref 可以获取到 address-edit 实例并调用实例方法
+通过 [ref](https://cn.vuejs.org/v2/api/#ref) 可以获取到 AddressEdit 实例并调用实例方法
 
-| 方法名 | 参数 | 返回值 | 介绍 |
+| 方法名 | 说明 | 参数 | 返回值 |
 |------|------|------|------|
-| setAddressDetail | addressDetail: string | - | 设置详细地址 |
+| setAddressDetail | 设置详细地址 | addressDetail: string | - |
 
 ### AddressInfo 数据格式
 
@@ -113,23 +115,23 @@ export default {
 
 | key | 说明 | 类型 |
 |------|------|------|
-| id | 每条地址的唯一标识 | `string | number` |
-| name | 收货人姓名 | `string` |
-| tel | 收货人手机号 | `string` |
-| province | 省份 | `string` |
-| city | 城市 | `string` |
-| county | 区县 | `string` |
-| addressDetail | 详细地址 | `string` |
-| areaCode | 地区编码，通过`省市区选择`获取（必填） | `string` |
-| postalCode | 邮政编码 | `string` |
-| isDefault | 是否为默认地址 | `boolean` |
+| id | 每条地址的唯一标识 | *string \| number* |
+| name | 收货人姓名 | *string* |
+| tel | 收货人手机号 | *string* |
+| province | 省份 | *string* |
+| city | 城市 | *string* |
+| county | 区县 | *string* |
+| addressDetail | 详细地址 | *string* |
+| areaCode | 地区编码，通过`省市区选择`获取（必填） | *string* |
+| postalCode | 邮政编码 | *string* |
+| isDefault | 是否为默认地址 | *boolean* |
 
 ### SearchResult 数据格式
 
 | key | 说明 | 类型 |
 |------|------|------|
-| name | 地名 | `string` |
-| address | 详细地址 | `string` |
+| name | 地名 | *string* |
+| address | 详细地址 | *string* |
 
 ### 省市县列表数据格式
 

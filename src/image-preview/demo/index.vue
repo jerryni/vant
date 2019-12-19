@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import { ImagePreview } from '../..';
+import ImagePreview from '..';
 
 const images = [
   'https://img.yzcdn.cn/vant/apple-1.jpg',
@@ -94,6 +94,7 @@ export default {
     showImagePreview(position, timer) {
       const instance = ImagePreview({
         images,
+        lazyLoad: true,
         swipeDuration: 300,
         asyncClose: !!timer,
         closeOnPopstate: true,

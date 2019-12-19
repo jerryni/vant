@@ -1,5 +1,5 @@
 import Popup from '..';
-import { mount, triggerDrag, later } from '../../../test/utils';
+import { mount, triggerDrag, later } from '../../../test';
 
 let wrapper;
 afterEach(() => {
@@ -222,6 +222,30 @@ test('round prop', () => {
     propsData: {
       value: true,
       round: true
+    }
+  });
+
+  expect(wrapper).toMatchSnapshot();
+});
+
+test('closeable prop', () => {
+  const wrapper = mount(Popup, {
+    propsData: {
+      value: true,
+      closeable: true
+    }
+  });
+
+  wrapper.find('.van-popup__close-icon').trigger('click');
+  expect(wrapper.emitted('input')[0][0]).toEqual(false);
+});
+
+test('close-icon prop', () => {
+  const wrapper = mount(Popup, {
+    propsData: {
+      value: true,
+      closeable: true,
+      closeIcon: 'success'
     }
   });
 

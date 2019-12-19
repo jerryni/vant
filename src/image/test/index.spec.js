@@ -1,5 +1,5 @@
 
-import { mount } from '../../../test/utils';
+import { mount } from '../../../test';
 import Image from '..';
 
 test('click event', () => {
@@ -121,6 +121,17 @@ test('show-error prop', () => {
   });
 
   wrapper.find('img').trigger('error');
+
+  expect(wrapper).toMatchSnapshot();
+});
+
+test('radius prop', () => {
+  const wrapper = mount(Image, {
+    propsData: {
+      radius: 3,
+      src: 'https://img.yzcdn.cn/vant/cat.jpeg'
+    }
+  });
 
   expect(wrapper).toMatchSnapshot();
 });

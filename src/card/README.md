@@ -45,7 +45,7 @@ Use slot to custom content.
 <van-card
   num="2"
   title="Title"
-  desc="Description"  
+  desc="Description"
   price="2.00"
   thumb="https://img.yzcdn.cn/vant/t-thirt.jpg"
 >
@@ -64,19 +64,19 @@ Use slot to custom content.
 
 ### Props
 
-| Attribute | Description | Type | Default |
-|------|------|------|------|
-| thumb | Left thumb image URL | `string` | - |
-| title | Title | `string` | - |
-| desc | Description | `string` | - |
-| tag | Tag | `string` | - |
-| num | number | `string | number` | - |
-| price | Price | `string | number` | - |
-| origin-price | Origin price | `string | number` | - |
-| centered | Whether content vertical centered | `boolean` | `false` |
-| currency | Currency symbol |  `string` | `¥` |
-| thumb-link | Thumb link URL | `string` | - |
-| lazy-load | Whether to enable thumb lazy load，should register [Lazyload](#/en-US/lazyload) component | `boolean` | `false` |
+| Attribute | Description | Type | Default | Version |
+|------|------|------|------|------|
+| thumb | Left thumb image URL | *string* | - | - |
+| title | Title | *string* | - | - |
+| desc | Description | *string* | - | - |
+| tag | Tag | *string* | - | - |
+| num | number | *string \| number* | - | - |
+| price | Price | *string \| number* | - | - |
+| origin-price | Origin price | *string \| number* | - | - |
+| centered | Whether content vertical centered | *boolean* | `false` | - |
+| currency | Currency symbol |  *string* | `¥` | - |
+| thumb-link | Thumb link URL | *string* | - | - |
+| lazy-load | Whether to enable thumb lazy load，should register [Lazyload](#/en-US/lazyload) component | *boolean* | `false` | - |
 
 ### Events
 
@@ -94,6 +94,7 @@ Use slot to custom content.
 | num | Custom num |
 | price | Custom price |
 | origin-price | Custom origin price |
+| price-top | Custom price top |
 | bottom | Custom price bottom |
 | thumb | Custom thumb |
 | tag | Custom thumb tag |

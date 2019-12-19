@@ -14,6 +14,10 @@ export const pickerProps = {
   showToolbar: Boolean,
   cancelButtonText: String,
   confirmButtonText: String,
+  allowHtml: {
+    type: Boolean,
+    default: true
+  },
   visibleItemCount: {
     type: Number,
     default: 5
@@ -21,5 +25,9 @@ export const pickerProps = {
   itemHeight: {
     type: Number,
     default: 44
+  },
+  swipeDuration: {
+    type: Number,
+    default: 1000
   }
 };

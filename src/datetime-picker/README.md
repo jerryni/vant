@@ -2,7 +2,7 @@
 
 ### Intro
 
-The DatetimePicker component is usually used with [Popup](#/en-US/popup) Component.
+Used to select time, support date and time dimensions, usually used with the [Popup](#/en-US/popup) component.
 
 ### Install
 
@@ -147,23 +147,25 @@ export default {
 
 ### Props
 
-| Attribute | Description | Type | Default |
+| Attribute | Description | Type | Default | Version |
 |------|------|------|------|------|
-| type | Can be set to `date` `time`<br> `year-month` | `string` | `datetime` |
-| min-date | Min date | `Date` | Ten years ago on January 1 |
-| max-date | Max date | `Date` | Ten years later on December 31 |
-| min-hour | Min hour for `time` type | `number` | `0` |
-| max-hour | Max hour for `time` type | `number` | `23` |
-| min-minute | Max minute for `time` type | `number` | `0` |
-| max-minute | Max minute for `time` type | `number` | `59` |
-| filter | Option filter | `(type, values) => values` | - |
-| formatter | Option text formatter | `(type, value) => value` | - |
-| title | Toolbar title | `string` | `''` |
-| loading | Whether to show loading prompt | `boolean` | `false` |
-| item-height | Option height | `number` | `44` |
-| confirm-button-text | Text of confirm button | `string` | `Confirm` |
-| cancel-button-text | Text of cancel button | `string` | `Cancel` |
-| visible-item-count | Count of visible columns | `number` | `5` |
+| type | Can be set to `date` `time`<br> `year-month` | *string* | `datetime` | - |
+| min-date | Min date | *Date* | Ten years ago on January 1 | - |
+| max-date | Max date | *Date* | Ten years later on December 31 | - |
+| min-hour | Min hour for `time` type | *number* | `0` | - |
+| max-hour | Max hour for `time` type | *number* | `23` | - |
+| min-minute | Max minute for `time` type | *number* | `0` | - |
+| max-minute | Max minute for `time` type | *number* | `59` | - |
+| filter | Option filter | *(type, values) => values* | - | - |
+| formatter | Option text formatter | *(type, value) => value* | - | - |
+| title | Toolbar title | *string* | `''` | - |
+| show-toolbar | Whether to show toolbar | *boolean* | `true` | - |
+| loading | Whether to show loading prompt | *boolean* | `false` | - |
+| item-height | Option height | *number* | `44` | - |
+| confirm-button-text | Text of confirm button | *string* | `Confirm` | - |
+| cancel-button-text | Text of cancel button | *string* | `Cancel` | - |
+| visible-item-count | Count of visible columns | *number* | `5` | - |
+| swipe-duration | Duration of the momentum animation，unit `ms` | *number*  | `1000` | `2.2.13` |
 
 ### Events
 

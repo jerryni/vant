@@ -11,12 +11,14 @@
           :hide-stock="skuData.sku.hide_stock"
           :quota="skuData.quota"
           :quota-used="skuData.quota_used"
-          reset-stepper-on-hide
-          reset-selected-sku-on-hide
-          disable-stepper-input
+          :start-sale-num="skuData.start_sale_num"
           :close-on-click-overlay="closeOnClickOverlay"
           :message-config="messageConfig"
           :custom-sku-validator="customSkuValidator"
+          disable-stepper-input
+          reset-stepper-on-hide
+          safe-area-inset-bottom
+          reset-selected-sku-on-hide
           @buy-clicked="onBuyClicked"
           @add-cart="onAddCartClicked"
         />
@@ -34,7 +36,6 @@
     <demo-block :title="$t('title2')">
       <div class="sku-container">
         <van-sku
-          hide-quota-text
           v-model="showStepper"
           :sku="skuData.sku"
           :goods="skuData.goods_info"
@@ -42,8 +43,11 @@
           :hide-stock="skuData.sku.hide_stock"
           :quota="skuData.quota"
           :quota-used="skuData.quota_used"
+          :start-sale-num="skuData.start_sale_num"
           :custom-stepper-config="customStepperConfig"
           :message-config="messageConfig"
+          hide-quota-text
+          safe-area-inset-bottom
           @buy-clicked="onBuyClicked"
           @add-cart="onAddCartClicked"
         />
@@ -61,7 +65,6 @@
     <demo-block :title="$t('hideSoldoutSku')">
       <div class="sku-container">
         <van-sku
-          hide-quota-text
           v-model="showSoldout"
           :sku="skuData.sku"
           :goods="skuData.goods_info"
@@ -69,9 +72,12 @@
           :hide-stock="skuData.sku.hide_stock"
           :quota="skuData.quota"
           :quota-used="skuData.quota_used"
+          :start-sale-num="skuData.start_sale_num"
           :custom-stepper-config="customStepperConfig"
           :message-config="messageConfig"
           :show-soldout-sku="false"
+          hide-quota-text
+          safe-area-inset-bottom
           @buy-clicked="onBuyClicked"
           @add-cart="onAddCartClicked"
         />
@@ -96,8 +102,10 @@
           :hide-stock="skuData.sku.hide_stock"
           :quota="skuData.quota"
           :quota-used="skuData.quota_used"
+          :start-sale-num="skuData.start_sale_num"
           show-add-cart-btn
           reset-stepper-on-hide
+          safe-area-inset-bottom
           :initial-sku="initialSku"
           :message-config="messageConfig"
           @buy-clicked="onBuyClicked"
@@ -122,7 +130,7 @@
                 square
                 size="large"
                 type="danger"
-                @click="props.skuEventBus.$emit('sku:buy')"
+                @click="skuEventBus.$emit('sku:buy')"
               >
                 {{ $t('button2') }}
               </van-button>
@@ -142,7 +150,7 @@
 </template>
 
 <script>
-import skuData from './data';
+import { skuData, initialSku } from './data';
 import { LIMIT_TYPE } from '../constants';
 
 export default {
@@ -165,26 +173,23 @@ export default {
 
   data() {
     this.skuData = skuData;
+    this.initialSku = initialSku;
+
     return {
       showBase: false,
       showCustom: false,
       showStepper: false,
       showSoldout: false,
       closeOnClickOverlay: true,
-      initialSku: {
-        s1: '30349',
-        s2: '1193',
-        selectedNum: 3
-      },
       customSkuValidator: () => '请选择xxx',
       customStepperConfig: {
         quotaText: '单次限购100件',
         stockFormatter: (stock) => `剩余${stock}件`,
         handleOverLimit: (data) => {
-          const { action, limitType, quota } = data;
+          const { action, limitType, quota, startSaleNum = 1 } = data;
 
           if (action === 'minus') {
-            this.$toast('至少选择一件商品');
+            this.$toast(startSaleNum > 1 ? `${startSaleNum}件起售` : '至少选择一件商品');
           } else if (action === 'plus') {
             if (limitType === LIMIT_TYPE.QUOTA_LIMIT) {
               this.$toast(`限购${quota}件`);

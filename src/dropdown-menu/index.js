@@ -1,7 +1,8 @@
 import { createNamespace } from '../utils';
-import { BLUE, BORDER_TOP_BOTTOM } from '../utils/constant';
+import { BORDER_TOP_BOTTOM } from '../utils/constant';
 import { ParentMixin } from '../mixins/relation';
 import { ClickOutsideMixin } from '../mixins/click-outside';
+import { getScrollEventTarget } from '../utils/dom/scroll';
 
 const [createComponent, bem] = createNamespace('dropdown-menu');
 
@@ -15,6 +16,7 @@ export default createComponent({
   ],
 
   props: {
+    activeColor: String,
     overlay: {
       type: Boolean,
       default: true
@@ -31,10 +33,6 @@ export default createComponent({
       type: String,
       default: 'down'
     },
-    activeColor: {
-      type: String,
-      default: BLUE
-    },
     closeOnClickOverlay: {
       type: Boolean,
       default: true
@@ -45,6 +43,12 @@ export default createComponent({
     return {
       offset: 0
     };
+  },
+
+  computed: {
+    scroller() {
+      return getScrollEventTarget(this.$el);
+    }
   },
 
   methods: {
@@ -91,13 +95,14 @@ export default createComponent({
         <span
           class={[
             bem('title', {
+              active: item.showPopup,
               down: item.showPopup === (this.direction === 'down')
             }),
             item.titleClass
           ]}
           style={{ color: item.showPopup ? this.activeColor : '' }}
         >
-          <div class="van-ellipsis">{item.displayTitle}</div>
+          <div class="van-ellipsis">{item.slots('title') || item.displayTitle}</div>
         </span>
       </div>
     ));

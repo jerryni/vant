@@ -69,14 +69,15 @@ export default {
 
 ### Props
 
-| Attribute | Description | Type | Default |
-|------|------|------|------|
-| v-model | Id of chosen address | `string` | - |
-| list | Address list | `Address[]` | `[]` |
-| disabled-list | Disabled address list | `Address[]` | `[]` |
-| disabled-text | Disabled text | `string` | - |
-| switchable | Whether to allow switch address | `boolean` | `true` |
-| add-button-text | Add button text | `string` | `Add new address` |
+| Attribute | Description | Type | Default | Version |
+|------|------|------|------|------|
+| v-model | Id of chosen address | *string* | - | - |
+| list | Address list | *Address[]* | `[]` | - |
+| disabled-list | Disabled address list | *Address[]* | `[]` | - |
+| disabled-text | Disabled text | *string* | - | - |
+| switchable | Whether to allow switch address | *boolean* | `true` | - |
+| add-button-text | Add button text | *string* | `Add new address` | - |
+| default-tag-text | Default tag text | *string* | - | 2.3.0 |
 
 ### Events
 
@@ -93,10 +94,11 @@ export default {
 
 | Key | Description | Type |
 |------|------|------|
-| id | Id | `string | number` |
-| name | Name | `string` |
-| tel | Phone | `string | number` |
-| address | Address | `string` |
+| id | Id | *string \| number* |
+| name | Name | *string* |
+| tel | Phone | *string \| number* |
+| address | Address | *string* |
+| isDefault | Is default address | *boolean* |
 
 ### Slots
 

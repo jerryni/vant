@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Tab from '..';
 import Tabs from '../../tabs';
-import { mount, later, triggerDrag } from '../../../test/utils';
+import { mount, later, triggerDrag, mockScrollTop } from '../../../test';
 
 Vue.use(Tab);
 Vue.use(Tabs);
@@ -25,7 +25,7 @@ function createWrapper(options = {}) {
     `,
     data() {
       return {
-        color: '#f44',
+        color: '#ee0a24',
         type: 'line',
         sticky: true,
         lineWidth: 2,
@@ -173,7 +173,6 @@ test('click event', async () => {
   expect(onDisabled).toHaveBeenCalledWith(1, 'title2');
 });
 
-
 test('name prop', async () => {
   const onClick = jest.fn();
   const onChange = jest.fn();
@@ -207,4 +206,136 @@ test('name prop', async () => {
   tabs.at(2).trigger('click');
   expect(onDisabled).toHaveBeenCalledWith('c', 'title3');
   expect(onChange).toHaveBeenCalledTimes(1);
+});
+
+test('set name to zero', async () => {
+  const onClick = jest.fn();
+
+  const wrapper = mount({
+    template: `
+      <van-tabs @click="onClick">
+        <van-tab title="title1" :name="1">Text</van-tab>
+        <van-tab title="title2" :name="0">Text</van-tab>
+      </van-tabs>
+    `,
+    methods: {
+      onClick
+    }
+  });
+
+  const tabs = wrapper.findAll('.van-tab');
+  tabs.at(1).trigger('click');
+  expect(onClick).toHaveBeenCalledWith(0, 'title2');
+});
+
+test('title-style prop', () => {
+  const wrapper = mount({
+    template: `
+      <van-tabs>
+        <van-tab title="title1" title-style="color: red;">Text</van-tab>
+      </van-tabs>
+    `
+  });
+
+  expect(wrapper.find('.van-tab').element.style.color).toEqual('red');
+});
+
+test('dot prop', () => {
+  const wrapper = mount({
+    template: `
+      <van-tabs>
+        <van-tab dot>Text</van-tab>
+      </van-tabs>
+    `
+  });
+
+  expect(wrapper).toMatchSnapshot();
+});
+
+test('info prop', () => {
+  const wrapper = mount({
+    template: `
+      <van-tabs>
+        <van-tab info="10">Text</van-tab>
+      </van-tabs>
+    `
+  });
+
+  expect(wrapper).toMatchSnapshot();
+});
+
+test('scrollspy', async () => {
+  const onChange = jest.fn();
+  window.scrollTo = jest.fn();
+
+  const wrapper = mount({
+    template: `
+      <van-tabs scrollspy sticky @change="onChange">
+        <van-tab name="a" title="title1">Text</van-tab>
+        <van-tab name="b" title="title2">Text</van-tab>
+        <van-tab name="c" title="title3">Text</van-tab>
+      </van-tabs>
+    `,
+    methods: {
+      onChange
+    }
+  });
+
+  await later();
+  expect(wrapper).toMatchSnapshot();
+
+  const tabs = wrapper.findAll('.van-tab');
+  tabs.at(2).trigger('click');
+  expect(onChange).toHaveBeenCalledWith('c', 'title3');
+
+  await later();
+  mockScrollTop(100);
+  expect(wrapper).toMatchSnapshot();
+  expect(onChange).toHaveBeenCalledWith('c', 'title3');
+});
+
+test('rendered event', () => {
+  const onRendered = jest.fn();
+
+  const wrapper = mount({
+    template: `
+      <van-tabs v-model="active" @rendered="onRendered">
+        <van-tab name="a" title="title1">Text</van-tab>
+        <van-tab name="b" title="title2">Title2</van-tab>
+      </van-tabs>
+    `,
+    data() {
+      return {
+        active: 'a'
+      };
+    },
+    methods: {
+      onRendered
+    }
+  });
+
+  expect(onRendered).toHaveBeenCalledWith('a', 'title1');
+
+  const tabs = wrapper.findAll('.van-tab');
+  tabs.at(1).trigger('click');
+  tabs.at(0).trigger('click');
+  expect(onRendered).toHaveBeenCalledTimes(2);
+});
+
+test('should not trigger rendered event when disable lazy-render', () => {
+  const onRendered = jest.fn();
+
+  mount({
+    template: `
+      <van-tabs :lazy-render="false" @rendered="onRendered">
+        <van-tab>Text</van-tab>
+        <van-tab>Title2</van-tab>
+      </van-tabs>
+    `,
+    methods: {
+      onRendered
+    }
+  });
+
+  expect(onRendered).toHaveBeenCalledTimes(0);
 });

@@ -1,5 +1,5 @@
 import { createNamespace } from '../utils';
-import { RED, WHITE } from '../utils/constant';
+import { WHITE } from '../utils/constant';
 import { inherit } from '../utils/functional';
 import { PopupMixin } from '../mixins/popup';
 import Popup from '../popup';
@@ -10,6 +10,7 @@ import { DefaultSlots } from '../utils/types';
 import { PopupMixinProps } from '../mixins/popup/type';
 
 export type NotifyProps = PopupMixinProps & {
+  type: 'primary' | 'success' | 'danger' | 'warning';
   color: string;
   message: string | number;
   duration: number;
@@ -36,8 +37,9 @@ function Notify(
       style={style}
       position="top"
       overlay={false}
+      duration={0.2}
       lockScroll={false}
-      class={[bem(), props.className]}
+      class={[bem([props.type]), props.className]}
       {...inherit(ctx, true)}
     >
       {props.message}
@@ -47,16 +49,17 @@ function Notify(
 
 Notify.props = {
   ...PopupMixin.props,
+  background: String,
   className: null as any,
   message: [Number, String],
   getContainer: [String, Function],
+  type: {
+    type: String,
+    default: 'danger'
+  },
   color: {
     type: String,
     default: WHITE
-  },
-  background: {
-    type: String,
-    default: RED
   },
   duration: {
     type: Number,

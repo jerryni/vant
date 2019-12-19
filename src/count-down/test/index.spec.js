@@ -1,5 +1,8 @@
+import Vue from 'vue';
 import CountDown from '..';
-import { mount, later } from '../../../test/utils';
+import { mount, later } from '../../../test';
+
+Vue.use(CountDown);
 
 test('macro task finish event', async () => {
   const wrapper = mount(CountDown, {
@@ -9,7 +12,7 @@ test('macro task finish event', async () => {
   });
 
   expect(wrapper.emitted('finish')).toBeFalsy();
-  await later(20);
+  await later(50);
   expect(wrapper.emitted('finish')).toBeTruthy();
 });
 
@@ -22,7 +25,7 @@ test('micro task finish event', async () => {
   });
 
   expect(wrapper.emitted('finish')).toBeFalsy();
-  await later(20);
+  await later(50);
   expect(wrapper.emitted('finish')).toBeTruthy();
 });
 
@@ -35,7 +38,7 @@ test('macro task re-render', async () => {
   });
 
   const prevSnapShot = wrapper.html();
-  await later(20);
+  await later(50);
   const laterSnapShot = wrapper.html();
 
   expect(prevSnapShot !== laterSnapShot).toBeTruthy();
@@ -51,7 +54,7 @@ test('micro task re-render', async () => {
   });
 
   const prevSnapShot = wrapper.html();
-  await later(20);
+  await later(50);
   const laterSnapShot = wrapper.html();
 
   expect(prevSnapShot !== laterSnapShot).toBeTruthy();
@@ -66,7 +69,7 @@ test('disable auto-start prop', async () => {
     }
   });
 
-  await later(20);
+  await later(50);
   expect(wrapper).toMatchSnapshot();
 });
 
@@ -103,7 +106,7 @@ test('pause method', async () => {
 
   const prevSnapShot = wrapper.html();
   wrapper.vm.pause();
-  await later(20);
+  await later(50);
   const laterShapShot = wrapper.html();
 
   expect(prevSnapShot === laterShapShot).toBeTruthy();
@@ -119,7 +122,7 @@ test('reset method', async () => {
   });
 
   const prevSnapShot = wrapper.html();
-  await later(20);
+  await later(50);
   wrapper.vm.reset();
   const laterShapShot = wrapper.html();
 
@@ -138,6 +141,30 @@ test('complete format prop', () => {
   expect(wrapper).toMatchSnapshot();
 });
 
+test('milliseconds format SS', () => {
+  const wrapper = mount(CountDown, {
+    propsData: {
+      time: 1500,
+      autoStart: false,
+      format: 'ss-SS'
+    }
+  });
+
+  expect(wrapper).toMatchSnapshot();
+});
+
+test('milliseconds format S', () => {
+  const wrapper = mount(CountDown, {
+    propsData: {
+      time: 1500,
+      autoStart: false,
+      format: 'ss-S'
+    }
+  });
+
+  expect(wrapper).toMatchSnapshot();
+});
+
 test('incomplate format prop', () => {
   const wrapper = mount(CountDown, {
     propsData: {
@@ -148,4 +175,44 @@ test('incomplate format prop', () => {
   });
 
   expect(wrapper).toMatchSnapshot();
+});
+
+test('pause when destroyed', () => {
+  const wrapper = mount(CountDown);
+  expect(wrapper.vm.counting).toBeTruthy();
+  wrapper.destroy();
+  expect(wrapper.vm.counting).toBeFalsy();
+});
+
+test('pause when deactivated', async () => {
+  const wrapper = mount({
+    template: `
+      <keep-alive>
+        <van-count-down v-if="render" ref="countDown" time="100" />
+      </keep-alive>
+    `,
+    data() {
+      return {
+        render: true
+      };
+    },
+    methods: {
+      getCountDown() {
+        return this.$refs.countDown;
+      }
+    }
+  });
+
+  const countDown = wrapper.vm.getCountDown();
+  expect(countDown.counting).toBeTruthy();
+
+  wrapper.setData({ render: false });
+  expect(countDown.counting).toBeFalsy();
+  wrapper.setData({ render: true });
+  expect(countDown.counting).toBeTruthy();
+
+  countDown.pause();
+  wrapper.setData({ render: false });
+  wrapper.setData({ render: true });
+  expect(countDown.counting).toBeFalsy();
 });

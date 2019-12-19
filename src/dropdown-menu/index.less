@@ -14,7 +14,7 @@
     min-width: 0; // hack for flex ellipsis
 
     &:active {
-      opacity: .7;
+      opacity: @active-opacity;
     }
 
     &--disabled {
@@ -47,6 +47,10 @@
       transform: rotate(-45deg);
       opacity: .8;
       content: '';
+    }
+
+    &--active {
+      color: @dropdown-menu-title-active-text-color;
     }
 
     &--down {

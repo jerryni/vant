@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import ImagePreview from '..';
 import ImagePreviewVue from '../ImagePreview';
-import { mount, trigger, triggerDrag, later } from '../../../test/utils';
+import { mount, trigger, triggerDrag, later } from '../../../test';
 
 function triggerZoom(el, x, y) {
   trigger(el, 'touchstart', 0, 0, { x, y });
@@ -136,11 +136,34 @@ test('zoom', async () => {
   Element.prototype.getBoundingClientRect = getBoundingClientRect;
 });
 
+test('set show-index prop to false', () => {
+  const wrapper = mount(ImagePreviewVue, {
+    propsData: {
+      value: true,
+      showIndex: false
+    }
+  });
+
+  expect(wrapper).toMatchSnapshot();
+});
+
 test('index slot', () => {
   const wrapper = mount({
     template: `
       <van-image-preview :value="true">
-        <template v-slot:index>Custom Index</template>
+        <template #index>Custom Index</template>
+      </van-image-preview>
+    `
+  });
+
+  expect(wrapper).toMatchSnapshot();
+});
+
+test('cover slot', () => {
+  const wrapper = mount({
+    template: `
+      <van-image-preview :value="true">
+        <template #cover>Custom Cover Content</template>
       </van-image-preview>
     `
   });

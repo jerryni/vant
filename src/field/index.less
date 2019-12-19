@@ -38,6 +38,7 @@
 
     &:disabled {
       color: @field-input-disabled-text-color;
+      -webkit-text-fill-color: @field-input-disabled-text-color; // fix disabled color in iOS
       background-color: transparent;
       opacity: 1;
     }
@@ -50,11 +51,16 @@
       text-align: right;
     }
 
-    /* for ios wechat */
+    // for ios wechat
     &[type="date"],
     &[type="time"],
     &[type="datetime-local"] {
       min-height: @cell-line-height;
+    }
+
+    // for safari
+    &[type="search"] {
+      -webkit-appearance: none;
     }
   }
 
@@ -111,10 +117,12 @@
     }
   }
 
-  &--disabled {
-    .van-field__control {
-      color: @field-input-disabled-text-color;
-    }
+  &__word-limit {
+    margin-top: @padding-base;
+    color: @field-word-limit-color;
+    font-size: @field-word-limit-font-size;
+    line-height: @field-word-limit-line-height;
+    text-align: right;
   }
 
   &--error {
@@ -122,6 +130,7 @@
       &,
       &::placeholder {
         color: @field-input-error-text-color;
+        -webkit-text-fill-color: @field-input-error-text-color;
       }
     }
   }

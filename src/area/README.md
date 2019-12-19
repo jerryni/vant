@@ -40,21 +40,36 @@ Set `columns-num` with 2, you'll have a 2 level picker.
 <van-area :area-list="areaList" :columns-num="2" title="Title" />
 ```
 
+### Columns Placeholder
+
+`columns-placeholder` property is used to config placeholder of columns.
+
+```html
+<van-area
+  :area-list="areaList"
+  :columns-placeholder="['Choose', 'Choose', 'Choose']"
+  title="Title"
+/>
+```
+
 ## API
 
 ### Props
 
-| Attribute | Description | Type | Default |
-|------|------|------|------|
-| value | the `code` of selected area | `string` | - |
-| title | Toolbar title | `string` | - |
-| area-list | Area data | `object` | - |
-| columns-num | level of picker | `string | number` | `3` |
-| item-height | Option height | `number` | `44` |
-| loading | Whether to show loading prompt | `boolean` | `false` |
-| visible-item-count | Count of visible columns | `number` | `5` |
-| confirm-button-text | Text of confirm button | `string` | `Confirm` |
-| cancel-button-text | Text of cancel button | `string` | `Cancel` |
+| Attribute | Description | Type | Default | Version |
+|------|------|------|------|------|
+| value | the `code` of selected area | *string* | - | - |
+| title | Toolbar title | *string* | - | - |
+| area-list | Area data | *object* | - | - |
+| columns-num | level of picker | *string \| number* | `3` | - |
+| columns-placeholder | placeholder of columns | *string[]* | `[]` | 2.2.5 |
+| item-height | Option height | *number* | `44` | - |
+| loading | Whether to show loading prompt | *boolean* | `false` | - |
+| visible-item-count | Count of visible columns | *number* | `5` | - |
+| confirm-button-text | Text of confirm button | *string* | `Confirm` | - |
+| cancel-button-text | Text of cancel button | *string* | `Cancel` | - |
+| is-oversea-code | The method to validate oversea code | *() => boolean* | - | 2.1.4 |
+| swipe-duration | Duration of the momentum animation，unit `ms` | *number*  | `1000` | `2.2.13` |
 
 ### Events
 
@@ -66,11 +81,11 @@ Set `columns-num` with 2, you'll have a 2 level picker.
 
 ### Methods
 
-Use ref to get area instance and call instance methods
+Use [ref](https://vuejs.org/v2/api/#ref) to get Area instance and call instance methods
 
-| Name | Attribute | Return value | Description |
+| Name | Description | Attribute | Return value |
 |------|------|------|------|
-| reset | code: string | - | Reset all options by code |
+| reset | Reset all options by code | code: string | - |
 
 ### areaList Data Structure
 

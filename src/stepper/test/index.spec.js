@@ -1,5 +1,5 @@
 import Stepper from '..';
-import { mount, later } from '../../../test/utils';
+import { mount, later } from '../../../test';
 
 test('disabled stepper', () => {
   const wrapper = mount(Stepper, {
@@ -17,6 +17,35 @@ test('disable stepper input', () => {
     }
   });
   expect(wrapper).toMatchSnapshot();
+});
+
+test('disable button', async () => {
+  const wrapper = mount(Stepper, {
+    propsData: {
+      value: 5
+    }
+  });
+
+  const plus = wrapper.find('.van-stepper__plus');
+  const minus = wrapper.find('.van-stepper__minus');
+
+  minus.trigger('click');
+
+  expect(wrapper.emitted('overlimit')).toBeFalsy();
+  expect(wrapper.emitted('minus')).toBeTruthy();
+  expect(wrapper.emitted('change')[0]).toEqual([4, { name: '' }]);
+
+  wrapper.setProps({
+    disablePlus: true,
+    disableMinus: true
+  });
+
+  await later();
+
+  minus.trigger('click');
+  expect(wrapper.emitted('overlimit')[0][0]).toBe('minus');
+  plus.trigger('click');
+  expect(wrapper.emitted('overlimit')[1][0]).toBe('plus');
 });
 
 test('click button', () => {
@@ -60,35 +89,45 @@ test('long press', async () => {
   expect(wrapper.emitted('input')).toEqual([[2], [3], [4]]);
 });
 
-test('correct value when value is not correct', () => {
+test('filter value during user input', () => {
   const wrapper = mount(Stepper, {
     propsData: {
-      value: 50,
-      max: 30,
-      min: 10
+      value: 1
     }
   });
 
-  const input = wrapper.find('input');
-  input.element.value = 1;
+  const input = wrapper.find('.van-stepper__input');
+  input.element.value = '';
   input.trigger('input');
-  input.element.value = 'abc';
-  input.trigger('input');
-  wrapper.setData({ value: 'abc' });
-  input.trigger('input');
-  wrapper.setData({ value: '' });
-  input.trigger('input');
-  wrapper.setData({ value: 40 });
-  input.trigger('input');
-  wrapper.setData({ value: 30 });
-  input.trigger('input');
+  expect(wrapper.emitted('input')).toBeFalsy();
 
-  expect(wrapper.emitted('input')).toEqual([[30], [1], [0], [40], [30]]);
+  input.element.value = 'a';
+  input.trigger('input');
+  expect(input.element.value).toEqual('');
+  expect(wrapper.emitted('input')).toBeFalsy();
+
+  input.element.value = '2';
+  input.trigger('input');
+  expect(input.element.value).toEqual('2');
+  expect(wrapper.emitted('input')[0][0]).toEqual('2');
+});
+
+test('shoud watch value and format it', () => {
+  const wrapper = mount(Stepper, {
+    propsData: {
+      value: 1,
+      max: 5
+    }
+  });
+
+  wrapper.setData({ value: 10 });
+  expect(wrapper.emitted('input')[0][0]).toEqual(5);
 });
 
 test('only allow interger', () => {
   const wrapper = mount(Stepper, {
     propsData: {
+      value: 1,
       integer: true
     }
   });
@@ -98,7 +137,8 @@ test('only allow interger', () => {
   input.trigger('input');
   input.trigger('blur');
 
-  expect(wrapper.emitted('input')).toEqual([[1]]);
+  expect(wrapper.emitted('input')[0][0]).toEqual('1');
+  expect(wrapper.emitted('input')[1][0]).toEqual(1);
 });
 
 test('stepper focus', () => {
@@ -121,16 +161,15 @@ test('stepper blur', () => {
   });
 
   const input = wrapper.find('input');
-  input.trigger('blur');
   input.element.value = '';
   input.trigger('input');
   input.trigger('blur');
 
-  expect(wrapper.emitted('input')).toEqual([[0], [3]]);
+  expect(wrapper.emitted('input')[0][0]).toEqual(3);
   expect(wrapper.emitted('blur')).toBeTruthy();
 });
 
-test('input width', () => {
+test('input-width prop', () => {
   const wrapper = mount(Stepper, {
     propsData: {
       inputWidth: '10rem'
@@ -139,7 +178,7 @@ test('input width', () => {
   expect(wrapper).toMatchSnapshot();
 });
 
-test('async change', () => {
+test('async-change prop', () => {
   const wrapper = mount(Stepper, {
     propsData: {
       value: 1,
@@ -157,8 +196,8 @@ test('async change', () => {
   input.element.value = '3';
   input.trigger('input');
 
-  expect(wrapper.emitted('input')[1][0]).toEqual(3);
-  expect(wrapper.emitted('change')[1][0]).toEqual(3);
+  expect(wrapper.emitted('input')[1][0]).toEqual('3');
+  expect(wrapper.emitted('change')[1][0]).toEqual('3');
 });
 
 test('min value is 0', () => {
@@ -174,7 +213,7 @@ test('min value is 0', () => {
   input.trigger('input');
   input.trigger('blur');
 
-  expect(wrapper.emitted('input')[0][0]).toEqual(0);
+  expect(input.element.value).toEqual('0');
 });
 
 test('show-plus & show-minus props', () => {
@@ -186,4 +225,107 @@ test('show-plus & show-minus props', () => {
   });
 
   expect(wrapper).toMatchSnapshot();
+});
+
+test('decimal-length prop', () => {
+  const wrapper = mount(Stepper, {
+    propsData: {
+      value: 1,
+      step: 0.2,
+      decimalLength: 2
+    }
+  });
+
+  expect(wrapper.emitted('input')[0][0]).toEqual('1.00');
+
+  const plus = wrapper.find('.van-stepper__plus');
+  plus.trigger('click');
+  expect(wrapper.emitted('input')[1][0]).toEqual('1.20');
+});
+
+test('should limit decimal-length when input', () => {
+  const wrapper = mount(Stepper, {
+    propsData: {
+      value: 1,
+      step: 0.2,
+      decimalLength: 1
+    }
+  });
+
+  const input = wrapper.find('input');
+  input.element.value = '1.25';
+  input.trigger('input');
+
+  expect(input.element.value).toEqual('1.2');
+});
+
+test('name prop', () => {
+  const wrapper = mount(Stepper);
+
+  const plus = wrapper.find('.van-stepper__plus');
+
+  plus.trigger('click');
+  expect(wrapper.emitted('change')[0][1]).toEqual({ name: '' });
+
+  wrapper.setProps({ name: 'name' });
+  plus.trigger('click');
+  expect(wrapper.emitted('change')[1][1]).toEqual({ name: 'name' });
+});
+
+test('change min and max', async () => {
+  const wrapper = mount(Stepper, {
+    propsData: {
+      value: 1
+    }
+  });
+
+  wrapper.setProps({
+    min: 10,
+  });
+
+  await later();
+
+  expect(wrapper.emitted('input')[0][0]).toEqual(10);
+
+  wrapper.setProps({
+    min: 3,
+    max: 8,
+  });
+
+  await later();
+
+  expect(wrapper.emitted('input')[1][0]).toEqual(8);
+});
+
+
+test('change decimal-length', async () => {
+  const wrapper = mount(Stepper, {
+    propsData: {
+      value: 1.33
+    }
+  });
+
+  wrapper.setProps({
+    decimalLength: 1
+  });
+
+  await later();
+
+  expect(wrapper.emitted('input')[0][0]).toEqual('1.3');
+});
+
+test('change integer', async () => {
+  const wrapper = mount(Stepper, {
+    propsData: {
+      value: 1.33
+    }
+  });
+
+  wrapper.setProps({
+    integer: true
+  });
+
+  await later();
+
+  expect(wrapper.emitted('input')[0][0]).toEqual(1);
 });

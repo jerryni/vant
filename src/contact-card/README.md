@@ -135,12 +135,12 @@ export default {
 
 ### ContactCard Props
 
-| Attribute | Description | Type | Default |
-|------|------|------|------|
-| type | Can be set to `add` `edit` | `string` | `add` |
-| name | Name | `string` | - |
-| tel | Phone | `string` | - |
-| add-text | Add card text | `string` | `Add contact info` |
+| Attribute | Description | Type | Default | Version |
+|------|------|------|------|------|
+| type | Can be set to `add` `edit` | *string* | `add` | - |
+| name | Name | *string* | - | - |
+| tel | Phone | *string* | - | - |
+| add-text | Add card text | *string* | `Add contact info` | - |
 
 ### ContactCard Events
 
@@ -150,11 +150,12 @@ export default {
 
 ### ContactList Props
 
-| Attribute | Description | Type | Default |
+| Attribute | Description | Type | Default | Version |
 |------|------|------|------|------|
-| v-model | Id of chosen contact | `string | number` | - |
-| list | Contact list | `Contact[]` | `[]` |
-| add-text | Add button text | `string` | `Add new contact` |
+| v-model | Id of chosen contact | *string \| number* | - | - |
+| list | Contact list | *Contact[]* | `[]` | - |
+| add-text | Add button text | *string* | `Add new contact` | - |
+| default-tag-text | Default tag text | *string* | - | 2.3.0 |
 
 ### ContactList Events
 
@@ -164,15 +165,18 @@ export default {
 | edit | Triggered when click edit button | item: contact object，index |
 | select | Triggered when select contact | item: contact object |
 
+
 ### ContactEdit Props
 
-| Attribute | Description | Type | Default |
+| Attribute | Description | Type | Default | Version |
 |------|------|------|------|------|
-| contact-info | Contact Info | `object` | `[]` |
-| is-edit | Whether is editing | `boolean` | `false` |
-| is-saving | Whether to show save button loading status | `boolean` | `false` |
-| is-deleting | Whether to show delete button loading status | `boolean` | `false` |
-| tel-validator | The method to validate tel | `(tel: string) => boolean` | - |
+| contact-info | Contact Info | *object* | `[]` | - |
+| is-edit | Whether is editing | *boolean* | `false` | - |
+| is-saving | Whether to show save button loading status | *boolean* | `false` | - |
+| is-deleting | Whether to show delete button loading status | *boolean* | `false` | - |
+| tel-validator | The method to validate tel | *(tel: string) => boolean* | - | - |
+| show-set-default | Whether to show default contact switch | *boolean* | `false` | 2.3.0 |
+| set-default-label | default contact switch label | *string* | - | 2.3.0 |
 
 ### ContactEdit Events
 
@@ -185,6 +189,7 @@ export default {
 
 | key | Description | Type |
 |------|------|------|
-| id | ID | `string | number` |
-| name | Name | `string` |
-| tel | Phone | `string` |
+| id | ID | *string \| number* |
+| name | Name | *string* |
+| tel | Phone | *string* |
+| isDefault | Is default contact | *boolean* |

@@ -4,6 +4,20 @@
 
 export default {
   'zh-CN': {
+    vanSku: {
+      select: '选择',
+      selected: '已选',
+      selectSku: '请先选择商品规格',
+      soldout: '库存不足',
+      originPrice: '原价',
+      minusTip: '至少选择一件',
+      minusStartTip: (start: number) => `${start}件起售`,
+      unavailable: '商品已经无法购买啦',
+      stock: '剩余',
+      stockUnit: '件',
+      quotaTip: (quota: number) => `每人限购${quota}件`,
+      quotaUsedTip: (quota: number, count: number) => `每人限购${quota}件，你已购买${count}件`
+    },
     vanSkuActions: {
       buy: '立即购买',
       addCart: '加入购物车'
@@ -13,6 +27,9 @@ export default {
       fail: '上传失败<br />重新上传'
     },
     vanSkuStepper: {
+      quotaLimit: (quota: number) => `限购${quota}件`,
+      quotaStart: (start: number) => `${start}件起售`,
+      comma: '，',
       num: '购买数量'
     },
     vanSkuMessages: {

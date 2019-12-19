@@ -57,7 +57,7 @@ export default {
 <van-slider
   v-model="value"
   bar-height="4px"
-  active-color="#f44"
+  active-color="#ee0a24"
 />
 ```
 
@@ -66,7 +66,7 @@ export default {
 ```html
 <van-slider
   v-model="value"
-  active-color="#f44"
+  active-color="#ee0a24"
 >
   <div
     slot="button"
@@ -93,15 +93,15 @@ Slider 垂直展示时，高度为 100% 父元素高度
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 |------|------|------|------|------|
-| value | 当前进度百分比 | `number` | `0` | - |
-| disabled | 是否禁用滑块 | `boolean` | `false` | - |
-| max | 最大值 | `number` | `100` | - |
-| min | 最小值 | `number` | `0` | - |
-| step | 步长 | `number` | `1` | - |
-| bar-height | 进度条高度，默认单位为`px` | `number | string` | `2px` | - |
-| active-color | 进度条激活态颜色 | `string` | `#1989fa` | 1.5.1 |
-| inactive-color | 进度条默认颜色 | `string` | `#e5e5e5` | 1.5.1 |
-| vertical | 是否垂直展示 | `boolean` | `false` | 1.6.13 |
+| value | 当前进度百分比 | *number* | `0` | - |
+| max | 最大值 | *number* | `100` | - |
+| min | 最小值 | *number* | `0` | - |
+| step | 步长 | *number* | `1` | - |
+| bar-height | 进度条高度，默认单位为`px` | *string \| number* | `2px` | - |
+| active-color | 进度条激活态颜色 | *string* | `#1989fa` | - |
+| inactive-color | 进度条默认颜色 | *string* | `#e5e5e5` | - |
+| disabled | 是否禁用滑块 | *boolean* | `false` | - |
+| vertical | 是否垂直展示 | *boolean* | `false` | - |
 
 ### Events
 

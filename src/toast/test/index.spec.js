@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Toast from '..';
 import ToastVue from '../Toast';
-import { later } from '../../../test/utils';
+import { later } from '../../../test';
 
 test('create a forbidClick toast', async () => {
   const toast = Toast({
@@ -121,6 +121,15 @@ test('set default options', () => {
   expect(Toast().className).toEqual('');
 });
 
+test('set default options by type', () => {
+  const className = 'my-toast';
+  Toast.setDefaultOptions('loading', { className });
+  expect(Toast.loading().className).toEqual(className);
+  expect(Toast.success().className).toEqual('');
+  Toast.resetDefaultOptions();
+  expect(Toast.loading().className).toEqual('');
+});
+
 test('toast duration 0', () => {
   Toast.allowMultiple();
   const toast = Toast({
@@ -140,8 +149,23 @@ test('onClose callback', () => {
   });
 
   toast.clear();
-  Toast.allowMultiple(false);
   expect(onClose).toHaveBeenCalledTimes(1);
+  Toast.allowMultiple(false);
+});
+
+test('closeOnClick option', async () => {
+  Toast.allowMultiple();
+  const toast = Toast({
+    message: 'toast',
+    closeOnClick: true
+  });
+
+  await later();
+  toast.$el.click();
+
+  await later();
+  expect(toast.value).toBeFalsy();
+  Toast.allowMultiple(false);
 });
 
 test('register component', () => {

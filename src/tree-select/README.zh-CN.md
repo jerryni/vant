@@ -19,7 +19,7 @@ Vue.use(TreeSelect);
 <van-tree-select
   :items="items"
   :active-id.sync="activeId"
-  :main-active-index.sync="mainActiveIndex"
+  :main-active-index.sync="activeIndex"
 />
 ```
 
@@ -29,7 +29,7 @@ export default {
     return {
       items,
       activeId: 1,
-      mainActiveIndex: 0
+      activeIndex: 0
     };
   }
 }
@@ -43,7 +43,7 @@ export default {
 <van-tree-select
   :items="items"
   :active-id.sync="activeIds"
-  :main-active-index.sync="mainActiveIndex"
+  :main-active-index.sync="activeIndex"
 />
 ```
 
@@ -53,8 +53,62 @@ export default {
     return {
       items,
       activeIds: [1, 2],
-      mainActiveIndex: 0
+      activeIndex: 0
     };
+  }
+}
+```
+
+### 自定义内容
+
+通过`content`插槽可以自定义右侧区域的内容
+
+```html
+<van-tree-select
+  height="55vw"
+  :items="items"
+  :main-active-index.sync="activeIndex"
+>
+  <template slot="content">
+    <van-image v-if="activeIndex === 0" src="https://img.yzcdn.cn/vant/apple-1.jpg" />
+    <van-image v-if="activeIndex === 1" src="https://img.yzcdn.cn/vant/apple-2.jpg" />
+  </template>
+</van-tree-select>
+```
+
+```js
+export default {
+  data() {
+    return {
+      activeIndex: 0,
+      items: [{ text: '分组 1' }, { text: '分组 2' }]
+    }
+  }
+}
+```
+
+### 提示信息
+
+设置`dot`属性后，会在图标右上角展示一个小红点。设置`info`属性后，会在图标右上角展示相应的徽标
+
+```html
+<van-tree-select
+  height="55vw"
+  :items="items"
+  :main-active-index.sync="activeIndex"
+/>
+```
+
+```js
+export default {
+  data() {
+    return {
+      activeIndex: 0,
+      items: [
+        { text: '浙江', children: [], dot: true },
+        { text: '江苏', children: [], info: 5 }
+      ]
+    }
   }
 }
 ```
@@ -65,10 +119,11 @@ export default {
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 |------|------|------|------|------|
-| items | 分类显示所需的数据 | `Item[]` | `[]` | - |
-| height | 高度，默认单位为 px | `string | number` | `300` | - |
-| main-active-index | 左侧高亮选项的索引 | `number` | `0` | - |
-| active-id | 右侧高亮选项的 id，支持传入数组 | `string | number | (string | number)[]` | `0` | - |
+| items | 分类显示所需的数据 | *Item[]* | `[]` | - |
+| height | 高度，默认单位为`px` | *string \| number* | `300` | - |
+| main-active-index | 左侧选中项的索引 | *number* | `0` | - |
+| active-id | 右侧选中项的 id，支持传入数组 | *string \| number \| (string \| number)[]* | `0` | - |
+| max | 右侧项最大选中个数 | *number* | `Infinity` | 2.2.0 |
 
 ### Events
 
@@ -85,21 +140,25 @@ export default {
 
 ### Item 数据结构
 
-`items` 整体为一个数组，数组内包含一系列描述分类的对象。
-
-每个分类里，text 表示当前分类的名称。children 表示分类里的可选项，为数组结构，id 被用来唯一标识每个选项
+`items` 整体为一个数组，数组内包含一系列描述分类的对象，每个分类里，`text`表示当前分类的名称，`children`表示分类里的可选项。
 
 ```javascript
 [
   {
     // 导航名称
     text: '所有城市',
+    // 导航名称右上角徽标
+    info: 3,
+    // 是否在导航名称右上角显示小红点
+    dot: true,
+    // 导航节点额外类名
+    className: 'my-class',
     // 该导航下所有的可选项
     children: [
       {
         // 名称
         text: '温州',
-        // id，作为匹配选中状态的标识
+        // id，作为匹配选中状态的标识符
         id: 1,
         // 禁用选项
         disabled: true

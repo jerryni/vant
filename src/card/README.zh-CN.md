@@ -17,7 +17,7 @@ Vue.use(Card);
 <van-card
   num="2"
   price="2.00"
-  desc="描述信息"  
+  desc="描述信息"
   title="商品标题"
   thumb="https://img.yzcdn.cn/vant/t-thirt.jpg"
 />
@@ -32,7 +32,7 @@ Vue.use(Card);
   num="2"
   tag="标签"
   price="2.00"
-  desc="描述信息"  
+  desc="描述信息"
   title="商品标题"
   thumb="https://img.yzcdn.cn/vant/t-thirt.jpg"
   origin-price="10.00"
@@ -47,7 +47,7 @@ Vue.use(Card);
 <van-card
   num="2"
   price="2.00"
-  desc="描述信息"  
+  desc="描述信息"
   title="商品标题"
   thumb="https://img.yzcdn.cn/vant/t-thirt.jpg"
 >
@@ -68,17 +68,17 @@ Vue.use(Card);
 
 | 参数 | 说明 | 类型 | 默认值 | 版本 |
 |------|------|------|------|------|
-| thumb | 左侧图片 URL | `string` | - | - |
-| title | 标题 | `string` | - | - |
-| desc | 描述 | `string` | - | - |
-| tag | 图片角标 | `string` | - | - |
-| num | 商品数量 | `string | number` | - | - |
-| price | 商品价格 | `string | number` | - | - |
-| origin-price | 商品划线原价 | `string | number` | - | - |
-| centered | 内容是否垂直居中 | `boolean` | `false` | - |
-| currency | 货币符号 |  `string` | `¥` | - |
-| thumb-link | 点击左侧图片后的跳转链接 | `string` | - | - |
-| lazy-load | 是否开启图片懒加载，须配合 [Lazyload](#/zh-CN/lazyload) 组件使用 | `boolean` | `false` | 1.5.0 |
+| thumb | 左侧图片 URL | *string* | - | - |
+| title | 标题 | *string* | - | - |
+| desc | 描述 | *string* | - | - |
+| tag | 图片角标 | *string* | - | - |
+| num | 商品数量 | *string \| number* | - | - |
+| price | 商品价格 | *string \| number* | - | - |
+| origin-price | 商品划线原价 | *string \| number* | - | - |
+| centered | 内容是否垂直居中 | *boolean* | `false` | - |
+| currency | 货币符号 |  *string* | `¥` | - |
+| thumb-link | 点击左侧图片后跳转的链接地址 | *string* | - | - |
+| lazy-load | 是否开启图片懒加载，须配合 [Lazyload](#/zh-CN/lazyload) 组件使用 | *boolean* | `false` | - |
 
 ### Events
 
@@ -96,6 +96,7 @@ Vue.use(Card);
 | num | 自定义数量 |
 | price | 自定义价格 |
 | origin-price | 自定义商品原价 |
+| price-top | 自定义价格上方区域 |
 | bottom | 自定义价格下方区域 |
 | thumb | 自定义图片 |
 | tag | 自定义图片角标 |

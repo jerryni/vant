@@ -1,4 +1,4 @@
-import { mount, later } from '../../../test/utils';
+import { mount, later } from '../../../test';
 import Vue from 'vue';
 import DropdownMenu from '..';
 import DropdownItem from '../../dropdown-item';
@@ -88,12 +88,21 @@ test('disable close-on-click-outside', async () => {
 });
 
 test('direction up', async () => {
+  const { innerHeight } = window;
+  window.innerHeight = 1000;
+
   const wrapper = renderWrapper({
     direction: 'up'
   });
 
   await later();
   expect(wrapper).toMatchSnapshot();
+
+  const titles = wrapper.findAll('.van-dropdown-menu__title');
+  titles.at(0).trigger('click');
+  expect(wrapper).toMatchSnapshot();
+
+  window.innerHeight = innerHeight;
 });
 
 test('click option', async () => {
@@ -231,4 +240,20 @@ test('toggle method', async done => {
       done();
     }
   });
+});
+
+test('title slot', () => {
+  const wrapper = mount({
+    template: `
+      <van-dropdown-menu>
+        <van-dropdown-item>
+          <template #title>
+            Custom Title
+          </template>
+        </van-dropdown-item>
+      </van-dropdown-menu>
+    `
+  });
+
+  expect(wrapper).toMatchSnapshot();
 });

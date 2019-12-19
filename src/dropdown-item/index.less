@@ -8,6 +8,14 @@
 
   &__option {
     text-align: left;
+
+    &--active {
+      color: @dropdown-menu-option-active-color;
+
+      .van-dropdown-item__icon {
+        color: @dropdown-menu-option-active-color;
+      }
+    }
   }
 
   &--up {
@@ -20,6 +28,7 @@
 
   &__content {
     position: absolute;
+    max-height: @dropdown-menu-content-max-height;
   }
 
   &__icon {

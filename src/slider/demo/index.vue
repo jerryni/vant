@@ -35,7 +35,7 @@
       <van-slider
         v-model="value5"
         bar-height="4px"
-        active-color="#f44"
+        active-color="#ee0a24"
         @change="onChange"
       />
     </demo-block>
@@ -43,7 +43,7 @@
     <demo-block :title="$t('customButton')">
       <van-slider
         v-model="value6"
-        active-color="#f44"
+        active-color="#ee0a24"
       >
         <template #button>
           <div class="custom-button">{{ value6 }}</div>
@@ -51,10 +51,7 @@
       </van-slider>
     </demo-block>
 
-    <demo-block
-      v-if="!$attrs.weapp"
-      :title="$t('vertical')"
-    >
+    <demo-block v-if="!$attrs.weapp" :title="$t('vertical')">
       <div :style="{ height: '120px', paddingLeft: '30px' }">
         <van-slider
           v-model="value7"

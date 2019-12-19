@@ -11,6 +11,7 @@ export default createComponent({
     round: Boolean,
     width: [Number, String],
     height: [Number, String],
+    radius: [Number, String],
     lazyLoad: Boolean,
     showError: {
       type: Boolean,
@@ -46,6 +47,11 @@ export default createComponent({
 
       if (isDef(this.height)) {
         style.height = addUnit(this.height);
+      }
+
+      if (isDef(this.radius)) {
+        style.overflow = 'hidden';
+        style.borderRadius = addUnit(this.radius);
       }
 
       return style;
@@ -98,7 +104,7 @@ export default createComponent({
       this.$emit('click', event);
     },
 
-    renderPlaceholder() {
+    genPlaceholder() {
       if (this.loading && this.showLoading) {
         return (
           <div class={bem('loading')}>
@@ -116,7 +122,7 @@ export default createComponent({
       }
     },
 
-    renderImage() {
+    genImage() {
       const imgData = {
         class: bem('img'),
         attrs: {
@@ -144,8 +150,8 @@ export default createComponent({
   render() {
     return (
       <div class={bem({ round: this.round })} style={this.style} onClick={this.onClick}>
-        {this.renderImage()}
-        {this.renderPlaceholder()}
+        {this.genImage()}
+        {this.genPlaceholder()}
       </div>
     );
   }

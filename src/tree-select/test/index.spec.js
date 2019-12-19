@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import TreeSelect from '..';
-import { mount } from '../../../test/utils';
+import { mount } from '../../../test';
 
 Vue.use(TreeSelect);
 
@@ -150,6 +150,21 @@ test('height prop', () => {
   expect(wrapper).toMatchSnapshot();
 });
 
+test('nav info', () => {
+  const wrapper = mount(TreeSelect, {
+    propsData: {
+      items: [
+        {
+          text: 'group1',
+          info: 3
+        }
+      ]
+    }
+  });
+
+  expect(wrapper).toMatchSnapshot();
+});
+
 test('use sync modifier in main-active-index', () => {
   const wrapper = mount({
     template: `
@@ -232,4 +247,85 @@ test('multiple select', () => {
   items.at(0).trigger('click');
   items.at(1).trigger('click');
   expect(wrapper.vm.activeId).toEqual([]);
+});
+
+test('max prop', () => {
+  const wrapper = mount({
+    template: `
+      <van-tree-select
+        :max="1"
+        :items="items"
+        :main-active-index="0"
+        :active-id.sync="activeId"
+      />
+    `,
+    data() {
+      return {
+        activeId: [],
+        items: [
+          {
+            text: 'group1',
+            children: [mockItem, mockItem2]
+          }
+        ]
+      };
+    }
+  });
+
+  const items = wrapper.findAll('.van-tree-select__item');
+  items.at(0).trigger('click');
+  items.at(1).trigger('click');
+  expect(wrapper.vm.activeId).toEqual([mockItem.id]);
+});
+
+test('className of nav', () => {
+  const wrapper = mount(TreeSelect, {
+    propsData: {
+      mainActiveIndex: 0,
+      items: [
+        {
+          text: 'group1',
+          className: 'my-class',
+          children: []
+        }
+      ]
+    }
+  });
+
+  const items = wrapper.findAll('.van-tree-select__nav-item');
+  expect(items.at(0).element.classList.contains('my-class')).toBeTruthy();
+});
+
+test('should sync value before trigger click-item event', done => {
+  const wrapper = mount({
+    template: `
+      <van-tree-select
+        :items="items"
+        :main-active-index="0"
+        :active-id.sync="activeId"
+        @click-item="onClickItem"
+      />
+    `,
+    data() {
+      return {
+        activeId: mockItem.id,
+        mainActiveIndex: 0,
+        items: [
+          {
+            text: 'group1',
+            children: [mockItem, mockItem2]
+          }
+        ]
+      };
+    },
+    methods: {
+      onClickItem() {
+        expect(wrapper.vm.activeId).toEqual(mockItem2.id);
+        done();
+      }
+    }
+  });
+
+  const items = wrapper.findAll('.van-tree-select__item');
+  items.at(1).trigger('click');
 });

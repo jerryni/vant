@@ -3,6 +3,8 @@ import { TouchMixin } from '../mixins/touch';
 import { ParentMixin } from '../mixins/relation';
 import { BindEventMixin } from '../mixins/bind-event';
 import { GREEN } from '../utils/constant';
+import { preventDefault } from '../utils/dom/event';
+import { isHidden } from '../utils/dom/style';
 import {
   getScrollTop,
   getElementTop,
@@ -17,7 +19,7 @@ export default createComponent({
   mixins: [
     TouchMixin,
     ParentMixin('vanIndexBar'),
-    BindEventMixin(function(bind) {
+    BindEventMixin(function (bind) {
       if (!this.scroller) {
         this.scroller = getScrollEventTarget(this.$el);
       }
@@ -84,16 +86,15 @@ export default createComponent({
 
   methods: {
     onScroll() {
-      let scrollTop;
-      if (this.scroller === window || this.scroller === document.body) {
-        scrollTop = getScrollTop(this.scroller);
-      } else {
-        // see: https://github.com/youzan/vant/issues/3774
-        scrollTop = 0;
+      if (isHidden(this.$el)) {
+        return;
       }
+
+      const scrollTop = getScrollTop(this.scroller);
+      const scrollerRect = this.getScrollerRect();
       const rects = this.children.map(item => ({
         height: item.height,
-        top: getElementTop(item.$el)
+        top: this.getElementTop(item.$el, scrollerRect)
       }));
 
       const active = this.getActiveAnchorIndex(scrollTop, rects);
@@ -101,26 +102,65 @@ export default createComponent({
       this.activeAnchorIndex = this.indexList[active];
 
       if (this.sticky) {
+        let activeItemTop = 0;
+        let isReachEdge = false;
+
+        if (active !== -1) {
+          activeItemTop = rects[active].top - scrollTop - this.stickyOffsetTop;
+          isReachEdge = activeItemTop <= 0;
+        }
+
         this.children.forEach((item, index) => {
           if (index === active) {
             item.active = true;
-            item.top = Math.max(this.stickyOffsetTop, rects[index].top - scrollTop);
+            item.position = isReachEdge ? 'fixed' : 'relative';
+            item.top = isReachEdge
+              ? this.stickyOffsetTop + scrollerRect.top
+              : 0;
           } else if (index === active - 1) {
-            const activeItemTop = rects[active].top - scrollTop;
-            item.active = activeItemTop > 0;
-            item.top = activeItemTop - item.height;
+            item.active = !isReachEdge;
+            item.position = 'relative';
+            item.top = item.$el.parentElement.offsetHeight - item.height;
           } else {
             item.active = false;
+            item.position = 'static';
           }
         });
       }
     },
 
+    getScrollerRect() {
+      const { scroller } = this;
+      let scrollerRect = {
+        top: 0,
+        left: 0,
+      };
+
+      if (scroller.getBoundingClientRect) {
+        scrollerRect = scroller.getBoundingClientRect();
+      }
+
+      return scrollerRect;
+    },
+
+    getElementTop(ele, scrollerRect) {
+      const { scroller } = this;
+
+      if (scroller === window || scroller === document.body) {
+        return getElementTop(ele);
+      }
+
+      const eleRect = ele.getBoundingClientRect();
+
+      return eleRect.top - scrollerRect.top + getScrollTop(scroller);
+    },
+
     getActiveAnchorIndex(scrollTop, rects) {
       for (let i = this.children.length - 1; i >= 0; i--) {
         const prevHeight = i > 0 ? rects[i - 1].height : 0;
+        const reachTop = this.sticky ? prevHeight + this.stickyOffsetTop : 0;
 
-        if (scrollTop + prevHeight + this.stickyOffsetTop >= rects[i].top) {
+        if (scrollTop + reachTop >= rects[i].top) {
           return i;
         }
       }
@@ -135,10 +175,7 @@ export default createComponent({
       this.touchMove(event);
 
       if (this.direction === 'vertical') {
-        /* istanbul ignore else */
-        if (event.cancelable) {
-          event.preventDefault();
-        }
+        preventDefault(event);
 
         const { clientX, clientY } = event.touches[0];
         const target = document.elementFromPoint(clientX, clientY);
@@ -164,7 +201,7 @@ export default createComponent({
       if (match[0]) {
         match[0].scrollIntoView();
 
-        if (this.stickyOffsetTop) {
+        if (this.sticky && this.stickyOffsetTop) {
           setRootScrollTop(getRootScrollTop() - this.stickyOffsetTop);
         }
 
@@ -196,7 +233,7 @@ export default createComponent({
       <div class={bem()}>
         <div
           class={bem('sidebar')}
-          style={{ zIndex: this.zIndex }}
+          style={{ zIndex: this.zIndex + 1 }}
           onClick={this.onClick}
           onTouchstart={this.touchStart}
           onTouchmove={this.onTouchMove}

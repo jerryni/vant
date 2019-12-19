@@ -21,6 +21,7 @@ Vue.use(AddressEdit);
   show-set-default
   show-search-result
   :search-result="searchResult"
+  :area-columns-placeholder="['Choose', 'Choose', 'Choose']"
   @save="onSave"
   @delete="onDelete"
   @change-detail="onChangeDetail"
@@ -61,24 +62,25 @@ export default {
 
 ### Props
 
-| Attribute | Description | Type | Default |
-|------|------|------|------|
-| area-list | Area List | `object` | - |
-| address-info | Address Info | `AddressInfo` | `{}` |
-| search-result | Address search result | `SearchResult[]` | `[]` |
-| show-postal | Whether to show postal field | `boolean` | `false` |
-| show-delete | Whether to show delete button | `boolean` | `false` |
-| show-set-default | Whether to show default address switch | `boolean` | `false` |
-| show-search-result | Whether to show address search result | `boolean` | `false` |
-| save-button-text | Save button text | `string` | `Save` |
-| delete-button-text | Delete button text | `string` | `Delete` |
-| detail-rows | Detail input rows | `number` | `1` |
-| detail-maxlength | Detail maxlength | `number` | `200` |
-| is-saving | Whether to show save button loading status | `boolean` | `false` |
-| is-deleting | Whether to show delete button loading status | `boolean` | `false` |
-| tel-validator | The method to validate tel | `(tel: string) => boolean` | - |
-| postal-validator | The method to validate postal | `(tel: string) => boolean` | - |
-| validator | Custom validator | `(key, value) => string` | - |
+| Attribute | Description | Type | Default | Version |
+|------|------|------|------|------|
+| area-list | Area List | *object* | - | - |
+| area-columns-placeholder | placeholder of area columns | *string[]* | `[]` | 2.2.5 |
+| address-info | Address Info | *AddressInfo* | `{}` | - |
+| search-result | Address search result | *SearchResult[]* | `[]` | - |
+| show-postal | Whether to show postal field | *boolean* | `false` | - |
+| show-delete | Whether to show delete button | *boolean* | `false` | - |
+| show-set-default | Whether to show default address switch | *boolean* | `false` | - |
+| show-search-result | Whether to show address search result | *boolean* | `false` | - |
+| save-button-text | Save button text | *string* | `Save` | - |
+| delete-button-text | Delete button text | *string* | `Delete` | - |
+| detail-rows | Detail input rows | *number* | `1` | - |
+| detail-maxlength | Detail maxlength | *number* | `200` | 2.0.4 |
+| is-saving | Whether to show save button loading status | *boolean* | `false` | - |
+| is-deleting | Whether to show delete button loading status | *boolean* | `false` | - |
+| tel-validator | The method to validate tel | *(tel: string) => boolean* | - | - |
+| postal-validator | The method to validate postal | *(tel: string) => boolean* | - | 2.1.2 |
+| validator | Custom validator | *(key, value) => string* | - | - |
 
 ### Events
 
@@ -101,33 +103,33 @@ export default {
 
 ### Methods
 
-Use ref to get address-edit instance and call instance methods
+Use [ref](https://vuejs.org/v2/api/#ref) to get AddressEdit instance and call instance methods
 
-| Name | Attribute | Return value | Description |
+| Name | Description | Attribute | Return value |
 |------|------|------|------|
-| setAddressDetail | addressDetail: string | - | Set address detail |
+| setAddressDetail | Set address detail | addressDetail: string | - |
 
 ### AddressInfo Data Structure
 
 | key | Description | Type |
 |------|------|------|
-| id | Address Id | `string | number` |
-| name | Name | `string` |
-| tel | Phone | `string` |
-| province | Province | `string` |
-| city | City | `string` |
-| county | County | `string` |
-| addressDetail | Detailed Address | `string` |
-| areaCode | Area code | `string` |
-| postalCode | Postal code | `string` |
-| isDefault | Is default address | `boolean` |
+| id | Address Id | *string \| number* |
+| name | Name | *string* |
+| tel | Phone | *string* |
+| province | Province | *string* |
+| city | City | *string* |
+| county | County | *string* |
+| addressDetail | Detailed Address | *string* |
+| areaCode | Area code | *string* |
+| postalCode | Postal code | *string* |
+| isDefault | Is default address | *boolean* |
 
 ### SearchResult Data Structure
 
 | key | Description | Type |
 |------|------|------|
-| name | Name | `string` |
-| address | Address | `string` |
+| name | Name | *string* |
+| address | Address | *string* |
 
 ### Area Data Structure
 

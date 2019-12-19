@@ -1,7 +1,7 @@
 import Uploader from '..';
-import { mount, later } from '../../../test/utils';
+import { mount, later, triggerDrag } from '../../../test';
 
-window.File = function () {
+window.File = function() {
   this.size = 10000;
 };
 
@@ -12,8 +12,8 @@ const multiFile = { target: { files: [mockFile, mockFile] } };
 const IMAGE = 'https://img.yzcdn.cn/vant/cat.jpeg';
 const PDF = 'https://img.yzcdn.cn/vant/test.pdf';
 
-window.FileReader = function () {
-  this.readAsText = function () {
+window.FileReader = function() {
+  this.readAsText = function() {
     this.onload &&
       this.onload({
         target: {
@@ -37,12 +37,27 @@ test('disabled', () => {
   expect(afterRead).toHaveBeenCalledTimes(0);
 });
 
-it('read text', done => {
+it('result-type as text', done => {
   const wrapper = mount(Uploader, {
     propsData: {
       resultType: 'text',
       afterRead: readFile => {
         expect(readFile.content).toEqual(mockFileDataUrl);
+        done();
+      }
+    }
+  });
+
+  wrapper.vm.onChange(file);
+});
+
+it('result-type as file', done => {
+  const wrapper = mount(Uploader, {
+    propsData: {
+      resultType: 'file',
+      afterRead: readFile => {
+        expect(readFile.file).toBeTruthy();
+        expect(readFile.content).toBeFalsy();
         done();
       }
     }
@@ -101,9 +116,10 @@ it('before read return promise and resolve', async () => {
   const afterRead = jest.fn();
   const wrapper = mount(Uploader, {
     propsData: {
-      beforeRead: () => new Promise(resolve => {
-        resolve();
-      }),
+      beforeRead: () =>
+        new Promise(resolve => {
+          resolve();
+        }),
       afterRead
     }
   });
@@ -118,9 +134,10 @@ it('before read return promise and reject', async () => {
   const afterRead = jest.fn();
   const wrapper = mount(Uploader, {
     propsData: {
-      beforeRead: () => new Promise((resolve, reject) => {
-        reject();
-      }),
+      beforeRead: () =>
+        new Promise((resolve, reject) => {
+          reject();
+        }),
       afterRead
     }
   });
@@ -185,6 +202,17 @@ it('render preview image', async () => {
   expect(wrapper).toMatchSnapshot();
 });
 
+it('image-fit prop', () => {
+  const wrapper = mount(Uploader, {
+    propsData: {
+      imageFit: 'contain',
+      fileList: [{ url: 'https://img.yzcdn.cn/vant/cat.jpeg' }]
+    }
+  });
+
+  expect(wrapper).toMatchSnapshot();
+});
+
 it('disable preview image', async () => {
   const wrapper = mount(Uploader, {
     propsData: {
@@ -240,6 +268,19 @@ it('preview-size prop', async () => {
   await later();
 
   expect(wrapper).toMatchSnapshot();
+});
+
+it('deletable prop', () => {
+  const wrapper = mount(Uploader, {
+    propsData: {
+      fileList: [{ url: IMAGE }]
+    }
+  });
+
+  expect(wrapper.find('.van-uploader__preview-delete').element).toBeTruthy();
+
+  wrapper.setProps({ deletable: false });
+  expect(wrapper.find('.van-uploader__preview-delete').element).toBeFalsy();
 });
 
 it('delete preview image', () => {
@@ -312,28 +353,69 @@ it('before-delete prop rejected', async () => {
   expect(wrapper.emitted('delete')).toBeFalsy();
 });
 
-it('click to preview image', async () => {
+it('click to preview image', () => {
   const wrapper = mount(Uploader, {
     propsData: {
-      fileList: [
-        { url: IMAGE },
-        { url: PDF }
-      ],
-      previewSize: 30
-    },
-    listeners: {
-      input(fileList) {
-        wrapper.setProps({ fileList });
+      previewFullImage: false,
+      fileList: [{ url: IMAGE }, { url: PDF }]
+    }
+  });
+
+  wrapper.find('.van-image').trigger('click');
+  const imagePreviewNode = document.querySelector('.van-image-preview');
+  expect(imagePreviewNode).toBeFalsy();
+
+  wrapper.setProps({ previewFullImage: true });
+  wrapper.find('.van-image').trigger('click');
+
+  const imagePreviewNode2 = document.querySelector('.van-image-preview');
+  expect(imagePreviewNode2.querySelectorAll('.van-image-preview__image').length).toEqual(1);
+});
+
+it('closeImagePreview method', () => {
+  const close = jest.fn();
+  const wrapper = mount(Uploader, {
+    mocks: {
+      imagePreview: {
+        close
       }
     }
   });
 
-  wrapper.vm.onChange(file);
-  await later();
+  wrapper.vm.closeImagePreview();
+  expect(close).toHaveBeenCalledTimes(1);
+
+  // should not throw error
+  const wrapper2 = mount(Uploader);
+  wrapper2.vm.closeImagePreview();
+});
+
+it('click-preview event', () => {
+  const wrapper = mount(Uploader, {
+    propsData: {
+      previewFullImage: false,
+      fileList: [{ url: IMAGE }, { url: PDF }]
+    }
+  });
+
+  wrapper.find('.van-image').trigger('click');
+  expect(wrapper.emitted('click-preview')[0][0]).toEqual({ url: IMAGE });
+  expect(wrapper.emitted('click-preview')[0][1]).toEqual({ name: '', index: 0 });
+});
+
+it('close-preview event', async () => {
+  const wrapper = mount(Uploader, {
+    propsData: {
+      fileList: [{ url: IMAGE }]
+    }
+  });
 
   wrapper.find('.van-image').trigger('click');
 
-  const imagePreviewNode = document.querySelector('.van-image-preview');
-  expect(imagePreviewNode).toMatchSnapshot();
-  imagePreviewNode.remove();
+  const preview = document.querySelector('.van-image-preview');
+  const swipe = preview.querySelector('.van-swipe__track');
+  triggerDrag(swipe, 0, 0);
+
+  await later(300);
+  expect(wrapper.emitted('close-preview')).toBeTruthy();
 });

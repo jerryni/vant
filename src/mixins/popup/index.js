@@ -1,6 +1,7 @@
 import { context } from './context';
 import { TouchMixin } from '../touch';
 import { PortalMixin } from '../portal';
+import { CloseOnPopstateMixin } from '../close-on-popstate';
 import { on, off, preventDefault } from '../../utils/dom/event';
 import { openOverlay, closeOverlay, updateOverlay } from './overlay';
 import { getScrollEventTarget } from '../../utils/dom/scroll';
@@ -8,6 +9,7 @@ import { getScrollEventTarget } from '../../utils/dom/scroll';
 export const PopupMixin = {
   mixins: [
     TouchMixin,
+    CloseOnPopstateMixin,
     PortalMixin({
       afterPortal() {
         if (this.overlay) {
@@ -73,8 +75,9 @@ export const PopupMixin = {
 
   /* istanbul ignore next */
   activated() {
-    if (this.value) {
-      this.open();
+    if (this.shouldReopen) {
+      this.$emit('input', true);
+      this.shouldReopen = false;
     }
   },
 
@@ -88,7 +91,10 @@ export const PopupMixin = {
 
   /* istanbul ignore next */
   deactivated() {
-    this.close();
+    if (this.value) {
+      this.close();
+      this.shouldReopen = true;
+    }
   },
 
   methods: {
