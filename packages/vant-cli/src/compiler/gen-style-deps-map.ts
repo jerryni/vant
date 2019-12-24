@@ -18,7 +18,7 @@ function getStylePath(component: string) {
   return join(SRC_DIR, `${component}/index.${CSS_LANG}`);
 }
 
-function checkStyleExists(component: string) {
+export function checkStyleExists(component: string) {
   return existsSync(getStylePath(component));
 }
 
@@ -99,7 +99,7 @@ export async function genStyleDepsMap() {
 
     const map = {} as DepsMap;
 
-    components.filter(checkStyleExists).forEach(component => {
+    components.forEach(component => {
       map[component] = analyzeComponentDeps(component);
     });
 

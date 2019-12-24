@@ -1,10 +1,11 @@
 // @ts-ignore
 import execa from 'execa';
+import chokidar from 'chokidar';
 import { join, relative } from 'path';
 import { remove, copy, readdirSync } from 'fs-extra';
 import { clean } from './clean';
 import { CSS_LANG } from '../common/css';
-import { getStepper, logger } from '../common/logger';
+import { getStepper, getInteractiveLogger, logger } from '../common/logger';
 import { compileJs } from '../compiler/compile-js';
 import { compileSfc } from '../compiler/compile-sfc';
 import { compileStyle } from '../compiler/compile-style';
@@ -29,6 +30,22 @@ import {
 
 const stepper = getStepper(12);
 
+async function compileFile(filePath: string) {
+  if (isSfc(filePath)) {
+    return compileSfc(filePath);
+  }
+
+  if (isScript(filePath)) {
+    return compileJs(filePath, { reloadConfig: true });
+  }
+
+  if (isStyle(filePath)) {
+    return compileStyle(filePath);
+  }
+
+  return remove(filePath);
+}
+
 async function compileDir(dir: string) {
   const files = readdirSync(dir);
 
@@ -44,19 +61,7 @@ async function compileDir(dir: string) {
         return compileDir(filePath);
       }
 
-      if (isSfc(filePath)) {
-        return compileSfc(filePath);
-      }
-
-      if (isScript(filePath)) {
-        return compileJs(filePath, { reloadConfig: true });
-      }
-
-      if (isStyle(filePath)) {
-        return compileStyle(filePath);
-      }
-
-      return remove(filePath);
+      return compileFile(filePath);
     })
   );
 }
@@ -147,13 +152,15 @@ async function buildPackageEntry() {
       pathResolver: (path: string) => `./${relative(SRC_DIR, path)}`
     });
 
+    setModuleEnv('esmodule');
+    await compileJs(esEntryFile, { reloadConfig: true });
+
     genPacakgeStyle({
       outputPath: styleEntryFile,
       pathResolver: (path: string) => path.replace(SRC_DIR, '.')
     });
 
     setModuleEnv('commonjs');
-
     await copy(esEntryFile, libEntryFile);
     await compileJs(libEntryFile, { reloadConfig: true });
     await compileStyle(styleEntryFile);
@@ -165,7 +172,36 @@ async function buildPackageEntry() {
   }
 }
 
-export async function build() {
+function watchFileChange() {
+  logger.watch('Compiled successfully, watching file changes...');
+
+  chokidar.watch(SRC_DIR).on('change', async path => {
+    if (isDemoDir(path) || isTestDir(path)) {
+      return;
+    }
+
+    const logger = getInteractiveLogger();
+    const esPath = path.replace(SRC_DIR, ES_DIR);
+    const libPath = path.replace(SRC_DIR, LIB_DIR);
+
+    logger.pending('File change detected, start compilation...');
+
+    try {
+      await copy(path, esPath);
+      await copy(path, libPath);
+      await compileFile(esPath);
+      await compileFile(libPath);
+      await genStyleDepsMap();
+      genComponentStyle({ cache: false });
+      logger.success('Compiled: ' + path);
+    } catch (err) {
+      logger.error('Compile failed: ' + path);
+      console.log(err);
+    }
+  });
+}
+
+export async function build(cmd: { watch?: boolean } = {}) {
   setNodeEnv('production');
 
   try {
@@ -176,6 +212,10 @@ export async function build() {
     await buildStyleEntry();
     await buildPackageEntry();
     await buildPackedOutputs();
+
+    if (cmd.watch) {
+      watchFileChange();
+    }
   } catch (err) {
     logger.error('Build failed');
     process.exit(1);

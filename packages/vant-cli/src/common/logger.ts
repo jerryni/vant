@@ -22,4 +22,15 @@ export function getStepper(totalStep: number) {
   return stepper;
 }
 
+export function getInteractiveLogger() {
+  const interactive = new logger.Signale({
+    interactive: true,
+    config: {
+      displayTimestamp: true
+    }
+  });
+
+  return interactive;
+}
+
 export { logger };

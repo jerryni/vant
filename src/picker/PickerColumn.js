@@ -60,6 +60,10 @@ export default createComponent({
     this.setIndex(this.currentIndex);
   },
 
+  mounted() {
+    this.bindTouchEvent(this.$el);
+  },
+
   destroyed() {
     const { children } = this.$parent;
 
@@ -127,7 +131,8 @@ export default createComponent({
       const distance = this.offset - this.momentumOffset;
       const duration = Date.now() - this.touchStartTime;
       const allowMomentum =
-        duration < MOMENTUM_LIMIT_TIME && Math.abs(distance) > MOMENTUM_LIMIT_DISTANCE;
+        duration < MOMENTUM_LIMIT_TIME &&
+        Math.abs(distance) > MOMENTUM_LIMIT_DISTANCE;
 
       if (allowMomentum) {
         this.momentum(distance, duration);
@@ -166,7 +171,9 @@ export default createComponent({
     },
 
     getOptionText(option) {
-      return isObj(option) && this.valueKey in option ? option[this.valueKey] : option;
+      return isObj(option) && this.valueKey in option
+        ? option[this.valueKey]
+        : option;
     },
 
     setIndex(index, userAction) {
@@ -279,13 +286,7 @@ export default createComponent({
     };
 
     return (
-      <div
-        class={[bem(), this.className]}
-        onTouchstart={this.onTouchStart}
-        onTouchmove={this.onTouchMove}
-        onTouchend={this.onTouchEnd}
-        onTouchcancel={this.onTouchEnd}
-      >
+      <div class={[bem(), this.className]}>
         <ul
           ref="wrapper"
           style={wrapperStyle}
