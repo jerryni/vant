@@ -1,7 +1,6 @@
 import { createNamespace, addUnit } from '../utils';
 import { inherit } from '../utils/functional';
 import Info from '../info';
-import Image from '../image';
 
 // Types
 import { CreateElement, RenderContext } from 'vue/types';
@@ -28,8 +27,13 @@ function isImage(name?: string): boolean {
 }
 
 // compatible with legacy usage, should be removed in next major version
+const LEGACY_MAP: Record<string, string> = {
+  medel: 'medal',
+  'medel-o': 'medal-o'
+};
+
 function correctName(name?: string) {
-  return name === 'medel' ? 'medal' : name;
+  return (name && LEGACY_MAP[name]) || name;
 }
 
 function Icon(
@@ -43,7 +47,10 @@ function Icon(
 
   return (
     <props.tag
-      class={[props.classPrefix, imageIcon ? '' : `${props.classPrefix}-${name}`]}
+      class={[
+        props.classPrefix,
+        imageIcon ? '' : `${props.classPrefix}-${name}`
+      ]}
       style={{
         color: props.color,
         fontSize: addUnit(props.size)
@@ -51,9 +58,7 @@ function Icon(
       {...inherit(ctx, true)}
     >
       {slots.default && slots.default()}
-      {imageIcon && (
-        <Image class={bem('image')} fit="contain" src={name} showLoading={false} />
-      )}
+      {imageIcon && <img class={bem('image')} src={name} />}
       <Info dot={props.dot} info={props.info} />
     </props.tag>
   );

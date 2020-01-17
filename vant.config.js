@@ -14,6 +14,9 @@ module.exports = {
     versions: [
       { label: '1.x', link: 'https://youzan.github.io/vant/1.x/' }
     ],
+    baiduAnalytics: {
+      seed: 'ad6b5732c36321f2dafed737ac2da92f'
+    },
     locales: {
       'zh-CN': {
         title: 'Vant',
@@ -111,6 +114,10 @@ module.exports = {
             title: '表单组件',
             icon: 'orders-o',
             items: [
+              {
+                path: 'calendar',
+                title: 'Calendar 日历'
+              },
               {
                 path: 'checkbox',
                 title: 'Checkbox 复选框'
@@ -443,6 +450,10 @@ module.exports = {
             title: 'Form Components',
             icon: 'orders-o',
             items: [
+              {
+                path: 'calendar',
+                title: 'Calendar'
+              },
               {
                 path: 'checkbox',
                 title: 'Checkbox'

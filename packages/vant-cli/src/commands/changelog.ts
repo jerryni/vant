@@ -1,28 +1,73 @@
 import { join } from 'path';
-import { exec } from 'shelljs';
 import { ROOT } from '../common/constant';
+import { ora, slimPath } from '../common/logger';
+import { createWriteStream, readFileSync } from 'fs-extra';
+// @ts-ignore
+import conventionalChangelog from 'conventional-changelog';
 
-export function changelog(dist: string, cmd: { tag?: string }) {
-  const tag = cmd.tag || 'v1.0.0';
+const DIST_FILE = join(ROOT, './changelog.generated.md');
+const MAIN_TEMPLATE = join(__dirname, '../../template/changelog-main.hbs');
+const HEADER_TEMPALTE = join(__dirname, '../../template/changelog-header.hbs');
+const COMMIT_TEMPALTE = join(__dirname, '../../template/changelog-commit.hbs');
 
-  exec(
-    `
-    basepath=${ROOT}
+const mainTemplate = readFileSync(MAIN_TEMPLATE, 'utf-8');
+const headerPartial = readFileSync(HEADER_TEMPALTE, 'utf-8');
+const commitPartial = readFileSync(COMMIT_TEMPALTE, 'utf-8');
 
-    github_changelog_generator \
-      --header-label "# 更新日志" \
-      --bugs-label "**Bug Fixes**" \
-      --enhancement-label "**Breaking changes**" \
-      --issues-label "**Issue**" \
-      --pr-label "**Features**" \
-      --max-issues 0 \
-      --no-author \
-      --no-unreleased \
-      --since-tag ${tag} \
-      -o ${join(ROOT, dist)}
-    `,
-    {
-      silent: false
-    }
-  );
+function formatType(type: string) {
+  const MAP: Record<string, string> = {
+    fix: 'Bug Fixes',
+    feat: 'Feature',
+    docs: 'Document',
+    types: 'Types'
+  };
+
+  return MAP[type] || type;
+}
+
+function transform(item: any) {
+  if (item.type === 'chore' || item.type === 'test') {
+    return null;
+  }
+
+  item.type = formatType(item.type);
+
+  if (item.hash) {
+    item.shortHash = item.hash.slice(0, 6);
+  }
+
+  if (item.references.length) {
+    item.references.forEach((ref: any) => {
+      if (ref.issue) {
+        item.subject = item.subject.replace(` (#${ref.issue})`, '');
+      }
+    });
+  }
+  return item;
+}
+
+export async function changelog() {
+  const spinner = ora('Generating changelog...').start();
+
+  return new Promise(resolve => {
+    conventionalChangelog(
+      {
+        preset: 'angular'
+      },
+      null,
+      null,
+      null,
+      {
+        mainTemplate,
+        headerPartial,
+        commitPartial,
+        transform
+      }
+    )
+      .pipe(createWriteStream(DIST_FILE))
+      .on('close', () => {
+        spinner.succeed(`Changelog generated at ${slimPath(DIST_FILE)}`);
+        resolve();
+      });
+  });
 }

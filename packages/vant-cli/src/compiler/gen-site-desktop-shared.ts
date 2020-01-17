@@ -5,7 +5,8 @@ import {
   pascalize,
   removeExt,
   getVantConfig,
-  smartOutputFile
+  smartOutputFile,
+  normalizePath
 } from '../common';
 import {
   SRC_DIR,
@@ -77,7 +78,7 @@ function resolveDocuments(components: string[]): DocumentItem[] {
 
 function genImportDocuments(items: DocumentItem[]) {
   return items
-    .map(item => `import ${item.name} from '${item.path}';`)
+    .map(item => `import ${item.name} from '${normalizePath(item.path)}';`)
     .join('\n');
 }
 
@@ -88,7 +89,7 @@ function genExportDocuments(items: DocumentItem[]) {
 }
 
 function genImportConfig() {
-  return `import config from '${removeExt(VANT_CONFIG_FILE)}';`;
+  return `import config from '${removeExt(normalizePath(VANT_CONFIG_FILE))}';`;
 }
 
 function genExportConfig() {

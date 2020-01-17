@@ -11,6 +11,135 @@ Vant 遵循 [Semver](https://semver.org/lang/zh-CN/) 语义化版本规范。
 - 主版本号：发布时间不定，包含不兼容更新，预计下一个主版本会与 Vue 3.0 同期发布。
 
 
+### [v2.4.3-beta.0](https://github.com/youzan/vant/compare/v2.4.2...v2.4.3-beta.0)
+`2020-01-15`
+
+**Feature**
+
+* Calendar: 新增 max-range、range-prompt 属性 [#5583](https://github.com/youzan/vant/issues/5583)
+
+**Types**
+
+* Toast: 修复 setDefaultOptions 方法参数定义错误 [#5582](https://github.com/youzan/vant/issues/5582)
+
+
+### [v2.4.2](https://github.com/youzan/vant/compare/v2.4.2-beta.1...v2.4.2)
+`2020-01-14`
+
+**Feature**
+
+* Sku: 新增 properties 属性 [#5525](https://github.com/youzan/vant/issues/5525)
+* Field: 新增 digit 类型 [#5524](https://github.com/youzan/vant/issues/5524)
+* Field: 新增 formatter 属性 [#5534](https://github.com/youzan/vant/issues/5534)
+* Image: 新增 error-icon 属性 [#5470](https://github.com/youzan/vant/issues/5470)
+* Image: 新增 loading-icon 属性 [#5469](https://github.com/youzan/vant/issues/5469)
+* Swipe: 新增 prev、next 方法 [#5548](https://github.com/youzan/vant/issues/5548)
+* GoodsAcitonIcon: 新增 color 属性 [#5576](https://github.com/youzan/vant/issues/5576)
+
+**Improvement**
+
+* AddressList: 优化样式细节 [#5507](https://github.com/youzan/vant/issues/5507)
+* AddressEdit: 优化错误提示展示方式 [#5479](https://github.com/youzan/vant/issues/5479)
+* ActionSheet: 优化关闭按钮样式 [#5574](https://github.com/youzan/vant/issues/5574)
+* CouponList: 优化样式细节 [#5501](https://github.com/youzan/vant/issues/5501)
+* Calendar: 弹出时自动滚动到当前选中的日期 [#5526](https://github.com/youzan/vant/issues/5526)
+* ImagePreview: 优化图片加载失败提示样式 [#5570](https://github.com/youzan/vant/issues/5570)
+* 优化所有组件的光标类型 [c1a535](https://github.com/youzan/vant/commit/c1a535b0dd9470f8eb526e86aa59cf6dec022f3a)
+
+**Bug Fixes**
+
+* Button: 修复加载状态下仍会有点击反馈的问题 [0a70d3](https://github.com/youzan/vant/commit/0a70d344124ef756a73ea9edfee07303f394d880)
+* Card: 修复图片圆角样式未生效的问题 [#5480](https://github.com/youzan/vant/issues/5480)
+* Calendar: 修复选中的日期无法展示提示信息的问题 [#5536](https://github.com/youzan/vant/issues/5536)
+* Checkbox: 修复设置 label-disabled 后空白区域仍然可以点击的问题 [3d10d4](https://github.com/youzan/vant/commit/3d10d42fccadd1b9df46860d758a91f7825073e9)
+* CouponList: 修复点击反馈区域错误的问题 [#5521](https://github.com/youzan/vant/issues/5521)
+* Field: 修复 type 为 number 时在 iOS 上仍然能输入非数字字符的问题 [#5520](https://github.com/youzan/vant/issues/5520)
+* ImagePreview: 修复在桌面端使用时无法拖拽的问题 [#4487](https://github.com/youzan/vant/issues/4487)
+* Picker: 修复点击事件偶尔会丢失的问题 [5cbb9e](https://github.com/youzan/vant/commit/5cbb9e29989ac58d44a4ec503cbb984269c8f18e)
+* PullRefresh:修复 head-height 属性未正确设置高度的问题 [028747](https://github.com/youzan/vant/commit/028747c35471f33e8c2b0baa6fb8915510daac22)
+* Tabs: 修复容器设置 fixed 布局时无法渲染底部条的问题 [#5496](https://github.com/youzan/vant/issues/5496)
+
+
+### [v2.4.1](https://github.com/youzan/vant/compare/v2.4.0...v2.4.1)
+`2020-01-02`
+
+**Feature**
+
+* ContactEdit: 优化错误提示展示方式 [#5437](https://github.com/youzan/vant/issues/5437)
+* CouponCell: 优先展示 value 字段的数值 [#5438](https://github.com/youzan/vant/issues/5438)
+
+**Bug Fixes**
+
+* Calendar: 修复日期对应的星期数展示错误的问题 [#5452](https://github.com/youzan/vant/issues/5452)
+* List: 修复 direction 为 up 时加载事件触发时机错误的问题 [#5439](https://github.com/youzan/vant/issues/5439)
+
+
+### [v2.4.0](https://github.com/youzan/vant/compare/v2.3.3...v2.4.0)
+`2020-01-01`
+
+**New Component**
+
+* 新增 Calendar 日历组件
+
+![](https://img.yzcdn.cn/vant/calendar-12282.png)
+
+**Feature**
+
+* List: 新增 error 插槽 [e9a938](https://github.com/youzan/vant/commit/e9a938820232194ad5f62b2b6588fa5d604016ae)
+* List: 新增 finished 插槽 [8a0705](https://github.com/youzan/vant/commit/8a0705d7610890c0da47e9e7eb0ef5665a3dca0d)
+* Picker: 新增 confirm 方法 [5eb2a4](https://github.com/youzan/vant/commit/5eb2a4012ae3e9d90a29a924ae454e54408b1235)
+* PullRefresh: 新增 success 插槽 [56e450](https://github.com/youzan/vant/commit/56e450f29e67a5e66b26cf9937c458270f462bdc)
+* CouponList: 更新底部按钮样式 [#5368](https://github.com/youzan/vant/issues/5368)
+* DatetimePicker: 新增 getPicker 方法 [1dc1fe](https://github.com/youzan/vant/commit/1dc1feae40b8ca11df980aa1d5ecf108151938e4)
+* TreeSelect: 新增 @tree-select-item-selected-size 变量 [373159](https://github.com/youzan/vant/commit/37315975203f28d36634d9ad8388a7f4dc8a44ea)
+* Image: 新增 @image-loading-icon-size、@image-error-icon-size 变量 [d7ae8c](https://github.com/youzan/vant/commit/d7ae8c5a26dcb6b7b79b4ca7a2ed3842673c2ea0)
+
+**Compatibility**
+
+在之前的版本中，有较多同学反馈在 iOS 10 ~ 11 上会偶现组件无法操作的情况，该问题的原因是 Vue 2.6.x 版本在绑定事件时存在事件无法冒泡的兼容性问题。[相关 issue](https://github.com/youzan/vant/issues/3015)
+
+从 2.4 版本开始，我们通过手动绑定事件的方式来规避这个问题，涉及以下组件：
+
+* Area
+* DatetimePicker
+* ImagePreview
+* Rate
+* Slider
+* Swipe
+* SwipeCell
+* NumberKeyboard
+* Picker
+* PullRefresh
+
+**Bug Fixes**
+
+* Icon: 修复 medel-o 图标不展示的问题 [7b905a](https://github.com/youzan/vant/commit/7b905a6de85b895e2226c35875ee3633c2ae7e79)
+* ImagePreview: 修复 close 事件重复触发的问题 [#5410](https://github.com/youzan/vant/issues/5410)
+* PullRefresh: 修复下拉到顶部时可能不触发下拉刷新的问题 [e00058](https://github.com/youzan/vant/commit/e00058b681d8796feaaaa4a9f2c4083a18b61fe9)
+* Tag: 修复动态设置 closeable 时动画错误的问题 [fe6e2f](https://github.com/youzan/vant/commit/fe6e2f29ba289206138fe17df046a55000b218ad)
+* Tag: 修复 close 时会触发 click 事件的问题 [#5351](https://github.com/youzan/vant/issues/5351)
+* Toast: 修复同时存在多个 Toast 时 forbidClick 可能失效的问题 [#5398](https://github.com/youzan/vant/issues/5398)
+* Picker: 修复在桌面端使用时拖动后回弹的问题 [#5430](https://github.com/youzan/vant/issues/5430)
+* Stepper: 修复在 safari 上禁用时文字颜色不正确的问题 [#5428](https://github.com/youzan/vant/issues/5428)
+* IndexBar: 修复 IndexAnchor 没有父容器时定位错误的问题 [#5429](https://github.com/youzan/vant/issues/5429)
+
+**Types**
+
+* AddressEdit: 新增 setAddressDetail 方法的类型定义 [#5352](https://github.com/youzan/vant/issues/5352)
+* Area: 新增 reset 方法的类型定义 [#5353](https://github.com/youzan/vant/issues/5353)
+* Checkbox: 新增 toggle 方法的类型定义 [#5354](https://github.com/youzan/vant/issues/5354)
+* CountDown: 新增 start、end、reset 方法的类型定义 [0438bd](https://github.com/youzan/vant/commit/0438bdbc97a81ad8b7de18ef8784d9907ce641c6)
+* DropdownItem: 新增 toggle 方法的类型定义 [5c1883](https://github.com/youzan/vant/commit/5c1883f77c36d5026c60c873197dab98d4ca42f5)
+* Field: 新增 focus、blur 方法的类型定义 [0b5c8e](https://github.com/youzan/vant/commit/0b5c8e5f3df570292e8599e7c2ff997fbee120ce)
+* List: 新增 check 方法的类型定义 [285bce](https://github.com/youzan/vant/commit/285bce677c8997d55515a760f4d12b05349ebd3f)
+* Picker: 新增 getValues 等方法的类型定义 [46d2b0](https://github.com/youzan/vant/commit/46d2b094477b52a96e85d18ec6fc42051a832e10)
+* Sku: 新增 methods types [d2bb9f](https://github.com/youzan/vant/commit/d2bb9fa81b401e429296003e4c2ec8c0e544d2af)
+* Swipe: 新增 swipeTo、resize 方法的类型定义 [a1831b](https://github.com/youzan/vant/commit/a1831b86387f1127325b9952d2d18349d41dc5c7)
+* SwipeCell: 新增 open、close 方法的类型定义 [9a9676](https://github.com/youzan/vant/commit/9a9676d6af7d29ac2221761ad680cecd4e929a39)
+* Tabs: 新增 resize 方法的类型定义 [3c526e](https://github.com/youzan/vant/commit/3c526ec1a26b5a38bc6a6ba2ded7a3db94bbcced)
+* Uploader: 新增 closeImagePreview 方法的类型定义 [cf191e](https://github.com/youzan/vant/commit/cf191e09cbc8093bb72f5d1e9381b263cdf9f0d2)
+
+
 ### [v2.3.3](https://github.com/youzan/vant/tree/v2.3.3)
 `2019-12-21`
 

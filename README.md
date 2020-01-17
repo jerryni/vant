@@ -63,14 +63,22 @@ Please make sure to read the [Contributing Guide](./.github/CONTRIBUTING.md) bef
 
 ## Browser Support
 
-Modern browsers and Android 4.0+, iOS 7+.
+Modern browsers and Android 4.0+, iOS 8.0+.
+
+## Ecosystem
+
+| Project | Description |
+|-----|------|
+| [vant-demo](https://github.com/youzan/vant-demo) | Official vant demo collection |
+| [vant-weapp](https://github.com/youzan/vant-weapp) | WeChat MiniProgram UI  |
+| [vant-cli](https://github.com/youzan/vant/tree/dev/packages/vant-cli) | Scaffold for UI library |
+| [vant-icons](https://github.com/youzan/vant/tree/dev/packages/vant-icons) | Vant icons |
+| [vant-touch-emulator](https://github.com/youzan/vant/tree/dev/packages/vant-touch-emulator) | Using vant in desktop browsers |
 
 ## Links
 
 * [Documentation](https://youzan.github.io/vant)
 * [Changelog](https://youzan.github.io/vant#/en-US/changelog)
-* [Vant Demo](https://github.com/youzan/vant-demo)
-* [Vant Weapp](https://github.com/youzan/vant-weapp)
 
 ## Preview
 

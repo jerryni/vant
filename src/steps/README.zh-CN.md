@@ -6,7 +6,8 @@
 import Vue from 'vue';
 import { Step, Steps } from 'vant';
 
-Vue.use(Step).use(Steps);
+Vue.use(Step);
+Vue.use(Steps);
 ```
 
 ## 代码演示
@@ -74,13 +75,13 @@ export default {
 
 ### Steps Props
 
-| 参数 | 说明 | 类型 | 默认值 | 版本 |
-|------|------|------|------|------|
-| active | 当前步骤 | *number* | 0 | - |
-| direction | 显示方向，可选值为 `vertical` | *string* | `horizontal` | - |
-| active-color | 激活状态颜色 | *string* | `#07c160` | - |
-| active-icon | 激活状态底部图标，可选值见 [Icon 组件](#/zh-CN/icon) | *string* | `checked` | - |
-| inactive-icon | 未激活状态底部图标，可选值见 [Icon 组件](#/zh-CN/icon) | *string* | - | - |
+| 参数 | 说明 | 类型 | 默认值 |
+|------|------|------|------|
+| active | 当前步骤 | *number* | 0 |
+| direction | 显示方向，可选值为 `vertical` | *string* | `horizontal` |
+| active-color | 激活状态颜色 | *string* | `#07c160` |
+| active-icon | 激活状态底部图标，可选值见 [Icon 组件](#/zh-CN/icon) | *string* | `checked` |
+| inactive-icon | 未激活状态底部图标，可选值见 [Icon 组件](#/zh-CN/icon) | *string* | - |
 
 ### Step Slots
 

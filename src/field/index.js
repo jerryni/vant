@@ -3,6 +3,8 @@ import Cell from '../cell';
 import { cellProps } from '../cell/shared';
 import { preventDefault } from '../utils/dom/event';
 import { resetScroll } from '../utils/dom/reset-scroll';
+import { isIOS } from '../utils/validate/system';
+import { formatNumber } from './utils';
 import { createNamespace, isObj, isDef, addUnit } from '../utils';
 
 const [createComponent, bem] = createNamespace('field');
@@ -13,11 +15,13 @@ export default createComponent({
   props: {
     ...cellProps,
     error: Boolean,
+    disabled: Boolean,
     readonly: Boolean,
     autosize: [Boolean, Object],
     leftIcon: String,
     rightIcon: String,
     clearable: Boolean,
+    formatter: Function,
     maxlength: [Number, String],
     labelWidth: [Number, String],
     labelClass: null,
@@ -97,7 +101,6 @@ export default createComponent({
       }
     },
 
-    // native maxlength not work when type = number
     format(target = this.$refs.input) {
       if (!target) {
         return;
@@ -106,9 +109,31 @@ export default createComponent({
       let { value } = target;
       const { maxlength } = this;
 
+      // native maxlength not work when type is number
       if (isDef(maxlength) && value.length > maxlength) {
         value = value.slice(0, maxlength);
         target.value = value;
+      }
+
+      if (this.type === 'number' || this.type === 'digit') {
+        const originValue = value;
+        const allowDot = this.type === 'number';
+
+        value = formatNumber(value, allowDot);
+
+        if (value !== originValue) {
+          target.value = value;
+        }
+      }
+
+      if (this.formatter) {
+        const originValue = value;
+
+        value = this.formatter(value);
+
+        if (value !== originValue) {
+          target.value = value;
+        }
       }
 
       return value;
@@ -159,19 +184,6 @@ export default createComponent({
     },
 
     onKeypress(event) {
-      if (this.type === 'number') {
-        const { keyCode } = event;
-        const allowPoint = String(this.value).indexOf('.') === -1;
-        const isValidKey =
-          (keyCode >= 48 && keyCode <= 57) ||
-          (keyCode === 46 && allowPoint) ||
-          keyCode === 45;
-
-        if (!isValidKey) {
-          preventDefault(event);
-        }
-      }
-
       // trigger blur after click keyboard search button
       /* istanbul ignore next */
       if (this.type === 'search' && event.keyCode === 13) {
@@ -206,14 +218,11 @@ export default createComponent({
     },
 
     genInput() {
+      const { type } = this;
       const inputSlot = this.slots('input');
 
       if (inputSlot) {
-        return (
-          <div class={bem('control', this.inputAlign)}>
-            {inputSlot}
-          </div>
-        );
+        return <div class={bem('control', this.inputAlign)}>{inputSlot}</div>;
       }
 
       const inputProps = {
@@ -224,6 +233,7 @@ export default createComponent({
         },
         attrs: {
           ...this.$attrs,
+          disabled: this.disabled,
           readonly: this.readonly
         },
         on: this.listeners,
@@ -236,15 +246,34 @@ export default createComponent({
         ]
       };
 
-      if (this.type === 'textarea') {
+      if (type === 'textarea') {
         return <textarea {...inputProps} />;
       }
 
-      return <input type={this.type} {...inputProps} />;
+      let inputType = type;
+
+      // type="number" is weired in iOS
+      if (type === 'number') {
+        inputType = 'text';
+      }
+
+      if (type === 'digit') {
+        // set pattern to show number keyboard in iOS
+        if (isIOS()) {
+          inputType = 'number';
+          inputProps.attrs.pattern = '\\d*';
+          // cannot prevent dot when type is number in Android, so use tel
+        } else {
+          inputType = 'tel';
+        }
+      }
+
+      return <input type={inputType} {...inputProps} />;
     },
 
     genLeftIcon() {
       const showLeftIcon = this.slots('left-icon') || this.leftIcon;
+
       if (showLeftIcon) {
         return (
           <div class={bem('left-icon')} onClick={this.onClickLeftIcon}>
@@ -257,6 +286,7 @@ export default createComponent({
     genRightIcon() {
       const { slots } = this;
       const showRightIcon = slots('right-icon') || this.rightIcon;
+
       if (showRightIcon) {
         return (
           <div class={bem('right-icon')} onClick={this.onClickRightIcon}>
@@ -283,6 +313,7 @@ export default createComponent({
     const scopedSlots = {
       icon: this.genLeftIcon
     };
+
     if (slots('label')) {
       scopedSlots.title = () => slots('label');
     }
@@ -311,10 +342,16 @@ export default createComponent({
         <div class={bem('body')}>
           {this.genInput()}
           {this.showClear && (
-            <Icon name="clear" class={bem('clear')} onTouchstart={this.onClear} />
+            <Icon
+              name="clear"
+              class={bem('clear')}
+              onTouchstart={this.onClear}
+            />
           )}
           {this.genRightIcon()}
-          {slots('button') && <div class={bem('button')}>{slots('button')}</div>}
+          {slots('button') && (
+            <div class={bem('button')}>{slots('button')}</div>
+          )}
         </div>
         {this.genWordLimit()}
         {this.errorMessage && (

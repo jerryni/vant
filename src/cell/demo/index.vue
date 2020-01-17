@@ -16,7 +16,7 @@
       <van-cell :title="$t('cell')" :value="$t('content')" icon="location-o" />
     </demo-block>
 
-    <demo-block v-if="!$attrs.weapp" :title="$t('valueOnly')">
+    <demo-block v-if="!isWeapp" :title="$t('valueOnly')">
       <van-cell :value="$t('content')" />
     </demo-block>
 
@@ -54,6 +54,10 @@
         </template>
       </van-cell>
     </demo-block>
+
+    <demo-block :title="$t('verticalCenter')">
+      <van-cell center :title="$t('cell')" :value="$t('content')" :label="$t('desc')" />
+    </demo-block>
   </demo-section>
 </template>
 
@@ -71,7 +75,8 @@ export default {
       router: '页面导航',
       urlRoute: 'URL 跳转',
       vueRoute: '路由跳转',
-      useSlots: '使用插槽'
+      useSlots: '使用插槽',
+      verticalCenter: '垂直居中'
     },
     'en-US': {
       cell: 'Cell title',
@@ -84,7 +89,8 @@ export default {
       router: 'Router',
       urlRoute: 'URL',
       vueRoute: 'Vue Router',
-      useSlots: 'Use Slots'
+      useSlots: 'Use Slots',
+      verticalCenter: 'Vertical center'
     }
   }
 };

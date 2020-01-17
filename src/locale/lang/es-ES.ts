@@ -9,8 +9,17 @@ export default {
   loading: 'Cargando...',
   telEmpty: 'Por favor rellena el teléfono',
   nameEmpty: 'Por favor rellena el nombre',
+  nameInvalid: 'nombre inválido',
   confirmDelete: 'Estás seguro de eliminarlo?',
   telInvalid: 'Teléfono inválido',
+  vanCalendar: {
+    end: 'Fin',
+    start: 'Comienzo',
+    title: 'Calendario',
+    weekdays: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+    monthTitle: (year: number, month: number) => `${year}/${month}`,
+    rangePrompt: (maxRange: Number) => `Elija no más de ${maxRange} días`
+  },
   vanContactCard: {
     addText: 'Añadir información de contacto'
   },
@@ -35,7 +44,7 @@ export default {
   },
   vanCouponCell: {
     title: 'Cupón',
-    tips: 'Selecciona cupón',
+    tips: 'Sin cupones',
     count: (count: number) => `You have ${count} coupons`
   },
   vanCouponList: {

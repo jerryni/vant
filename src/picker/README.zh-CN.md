@@ -192,21 +192,21 @@ export default {
 
 ### Props
 
-| 参数 | 说明 | 类型 | 默认值 | 版本 |
-|------|------|------|------|------|
-| columns | 对象数组，配置每一列显示的数据 | *Column[]* | `[]` | - |
-| show-toolbar | 是否显示顶部栏 | *boolean* | `false` | - |
-| toolbar-position | 顶部栏位置，可选值为`bottom` | *string* | `top` | - |
-| title | 顶部栏标题 | *string* | `''` | - |
-| loading | 是否显示加载状态 | *boolean* | `false` | - |
-| value-key | 选项对象中，文字对应的 key | *string* | `text` | - |
-| item-height | 选项高度 | *number* | `44` | - |
-| confirm-button-text | 确认按钮文字 | *string* | `确认` | - |
-| cancel-button-text | 取消按钮文字 | *string* | `取消` | - |
-| visible-item-count | 可见的选项个数 | *number* | `5` | - |
-| allow-html | 是否允许选项内容中渲染 HTML | *boolean* | `true` | 2.1.8 |
-| default-index | 单列选择器的默认选中项索引，<br>多列选择器请参考下方的 Columns 配置 | *number* | `0` | - |
-| swipe-duration | 快速滑动时惯性滚动的时长，单位`ms` | *number*  | `1000` | `2.2.10` |
+| 参数 | 说明 | 类型 | 默认值 |
+|------|------|------|------|
+| columns | 对象数组，配置每一列显示的数据 | *Column[]* | `[]` |
+| show-toolbar | 是否显示顶部栏 | *boolean* | `false` |
+| toolbar-position | 顶部栏位置，可选值为`bottom` | *string* | `top` |
+| title | 顶部栏标题 | *string* | `''` |
+| loading | 是否显示加载状态 | *boolean* | `false` |
+| value-key | 选项对象中，文字对应的 key | *string* | `text` |
+| item-height | 选项高度 | *number* | `44` |
+| confirm-button-text | 确认按钮文字 | *string* | `确认` |
+| cancel-button-text | 取消按钮文字 | *string* | `取消` |
+| visible-item-count | 可见的选项个数 | *number* | `5` |
+| allow-html `v2.1.8` | 是否允许选项内容中渲染 HTML | *boolean* | `true` |
+| default-index | 单列选择器的默认选中项索引，<br>多列选择器请参考下方的 Columns 配置 | *number* | `0` |
+| swipe-duration `v2.2.10` | 快速滑动时惯性滚动的时长，单位`ms` | *number*  | `1000` |
 
 ### Events
 
@@ -253,6 +253,7 @@ Picker 组件的事件会根据 columns 是单列或多列返回不同的参数
 | setColumnIndex | 设置对应列选中项的索引 | columnIndex, optionIndex | - |
 | getColumnValues | 获取对应列中所有选项 | columnIndex | values |
 | setColumnValues | 设置对应列中所有选项 | columnIndex, values | - |
+| confirm `v2.4.0` | 停止惯性滚动并触发 confirm 事件 | - | - |
 
 ## 常见问题
 

@@ -6,7 +6,8 @@ import {
   removeExt,
   decamelize,
   getVantConfig,
-  smartOutputFile
+  smartOutputFile,
+  normalizePath
 } from '../common';
 
 type DemoItem = {
@@ -24,7 +25,7 @@ import './package-style';
 
 function genImports(demos: DemoItem[]) {
   return demos
-    .map(item => `import ${item.name} from '${removeExt(item.path)}';`)
+    .map(item => `import ${item.name} from '${removeExt(normalizePath(item.path))}';`)
     .join('\n');
 }
 
@@ -42,7 +43,7 @@ function getSetName(demos: DemoItem[]) {
 
 function genConfig(demos: DemoItem[]) {
   const vantConfig = getVantConfig();
-  const demoNames = demos.map(item => decamelize(item.name, '-'));
+  const demoNames = demos.map(item => decamelize(item.name));
 
   function demoFilter(nav: any[]) {
     return nav.filter(group => {

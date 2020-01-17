@@ -72,7 +72,7 @@
 @action-sheet-subname-font-size: @font-size-sm;
 @action-sheet-close-icon-size: 18px;
 @action-sheet-close-icon-color: @gray-6;
-@action-sheet-close-icon-padding: 0 @padding-sm;
+@action-sheet-close-icon-padding: 0 @padding-md;
 @action-sheet-cancel-padding-top: @padding-xs;
 @action-sheet-cancel-padding-color: @background-color;
 
@@ -96,7 +96,7 @@
 @address-list-item-font-size: 13px;
 @address-list-item-line-height: 18px;
 @address-list-item-radio-icon-color: @red;
-@address-list-edit-icon-size: 18px;
+@address-list-edit-icon-size: 20px;
 
 // Button
 @button-mini-height: 22px;
@@ -133,6 +133,33 @@
 @button-round-border-radius: @border-radius-max;
 @button-plain-background-color: @white;
 @button-disabled-opacity: @disabled-opacity;
+
+// Calendar
+@calendar-background-color: @white;
+@calendar-popup-height: 80%;
+@calendar-header-box-shadow: 0 2px 10px rgba(125, 126, 128, 0.16);
+@calendar-header-title-height: 44px;
+@calendar-header-title-font-size: @font-size-lg;
+@calendar-weekdays-height: 30px;
+@calendar-weekdays-font-size: @font-size-sm;
+@calendar-month-title-font-size: @font-size-md;
+@calendar-month-mark-color: fade(@gray-2, 80%);
+@calendar-month-mark-font-size: 160px;
+@calendar-day-height: 64px;
+@calendar-day-font-size: @font-size-lg;
+@calendar-range-edge-color: @white;
+@calendar-range-edge-background-color: @red;
+@calendar-range-middle-color: @red;
+@calendar-range-middle-background-opacity: .1;
+@calendar-selected-day-size: 54px;
+@calendar-selected-day-color: @white;
+@calendar-info-font-size: @font-size-xs;
+@calendar-info-line-height: 14px;
+@calendar-selected-day-background-color: @red;
+@calendar-day-disabled-color: @gray-5;
+@calendar-confirm-button-height: 36px;
+@calendar-confirm-button-margin: 7px 0;
+@calendar-confirm-button-line-height: 34px;
 
 // Card
 @card-padding: @padding-xs @padding-md;
@@ -231,12 +258,12 @@
 @count-down-line-height: 20px;
 
 // Coupon
-@coupon-margin: 0 @padding-md @padding-md;
+@coupon-margin: 0 @padding-sm @padding-sm;
 @coupon-content-height: 84px;
 @coupon-content-padding: 14px 0;
 @coupon-background-color: @white;
 @coupon-active-background-color: @active-color;
-@coupon-border-radius: @border-radius-md;
+@coupon-border-radius: @border-radius-lg;
 @coupon-box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
 @coupon-head-width: 96px;
 @coupon-amount-color: @red;
@@ -245,7 +272,6 @@
 @coupon-name-font-size: @font-size-md;
 @coupon-disabled-text-color: @gray-6;
 @coupon-description-padding: @padding-xs @padding-md;
-@coupon-description-background-color: @white;
 @coupon-description-border-color: @border-color;
 
 // CouponCell
@@ -328,8 +354,9 @@
 
 // GoodsAction
 @goods-action-background-color: @white;
+@goods-action-height: 50px;
 @goods-action-icon-width: 48px;
-@goods-action-icon-height: 50px;
+@goods-action-icon-height: 100%;
 @goods-action-icon-color: @text-color;
 @goods-action-icon-size: 18px;
 @goods-action-icon-font-size: @font-size-xs;
@@ -368,6 +395,8 @@
 @image-placeholder-text-color: @gray-6;
 @image-placeholder-font-size: @font-size-md;
 @image-placeholder-background-color: @background-color;
+@image-loading-icon-size: 22px;
+@image-error-icon-size: 22px;
 
 // ImagePreview
 @image-preview-index-text-color: @white;
@@ -712,6 +741,7 @@
 @tree-select-item-height: 44px;
 @tree-select-item-active-color: @red;
 @tree-select-item-disabled-color: @gray-5;
+@tree-select-item-selected-size: 16px;
 
 // Uploader
 @uploader-size: 80px;

@@ -1,7 +1,7 @@
 import { createNamespace } from '../utils';
 import { isHidden } from '../utils/dom/style';
 import { BindEventMixin } from '../mixins/bind-event';
-import { getScrollEventTarget } from '../utils/dom/scroll';
+import { getScroller } from '../utils/dom/scroll';
 import Loading from '../loading';
 
 const [createComponent, bem, t] = createNamespace('list');
@@ -10,7 +10,7 @@ export default createComponent({
   mixins: [
     BindEventMixin(function(bind) {
       if (!this.scroller) {
-        this.scroller = getScrollEventTarget(this.$el);
+        this.scroller = getScroller(this.$el);
       }
 
       bind(this.scroller, 'scroll', this.check);
@@ -95,7 +95,7 @@ export default createComponent({
         const placeholderRect = this.$refs.placeholder.getBoundingClientRect();
 
         if (direction === 'up') {
-          isReachEdge = placeholderRect.top - scrollerRect.top <= offset;
+          isReachEdge = scrollerRect.top - placeholderRect.top <= offset;
         } else {
           isReachEdge = placeholderRect.bottom - scrollerRect.bottom <= offset;
         }
@@ -126,20 +126,26 @@ export default createComponent({
     },
 
     genFinishedText() {
-      if (this.finished && this.finishedText) {
-        return (
-          <div class={bem('finished-text')}>{this.finishedText}</div>
-        );
+      if (this.finished) {
+        const text = this.slots('finished') || this.finishedText;
+
+        if (text) {
+          return <div class={bem('finished-text')}>{text}</div>;
+        }
       }
     },
 
     genErrorText() {
-      if (this.error && this.errorText) {
-        return (
-          <div onClick={this.clickErrorText} class={bem('error-text')}>
-            {this.errorText}
-          </div>
-        );
+      if (this.error) {
+        const text = this.slots('error') || this.errorText;
+
+        if (text) {
+          return (
+            <div onClick={this.clickErrorText} class={bem('error-text')}>
+              {text}
+            </div>
+          );
+        }
       }
     }
   },

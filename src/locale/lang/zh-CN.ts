@@ -9,8 +9,18 @@ export default {
   loading: '加载中...',
   telEmpty: '请填写电话',
   nameEmpty: '请填写姓名',
-  confirmDelete: '确定要删除么',
-  telInvalid: '请填写正确的电话',
+  nameInvalid: '请输入正确的姓名',
+  confirmDelete: '确定要删除吗',
+  telInvalid: '请输入正确的手机号',
+  vanCalendar: {
+    end: '结束',
+    start: '开始',
+    title: '日期选择',
+    confirm: '确定',
+    weekdays: ['日', '一', '二', '三', '四', '五', '六'],
+    monthTitle: (year: number, month: number) => `${year}年${month}月`,
+    rangePrompt: (maxRange: Number) => `选择天数不能超过 ${maxRange} 天`
+  },
   vanContactCard: {
     addText: '添加联系人'
   },
@@ -35,7 +45,7 @@ export default {
   },
   vanCouponCell: {
     title: '优惠券',
-    tips: '使用优惠',
+    tips: '暂无可用',
     count: (count: number) => `${count}张可用`
   },
   vanCouponList: {

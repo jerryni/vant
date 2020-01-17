@@ -1,6 +1,4 @@
-import decamelize from 'decamelize';
 import { join } from 'path';
-import { execSync } from 'child_process';
 import {
   lstatSync,
   existsSync,
@@ -8,7 +6,12 @@ import {
   readFileSync,
   outputFileSync
 } from 'fs-extra';
-import { SRC_DIR, getVantConfig, WEBPACK_CONFIG_FILE } from './constant';
+import {
+  SRC_DIR,
+  getVantConfig,
+  ROOT_WEBPACK_CONFIG_FILE,
+  ROOT_POSTCSS_CONFIG_FILE
+} from './constant';
 
 export const EXT_REGEXP = /\.\w+$/;
 export const SFC_REGEXP = /\.(vue)$/;
@@ -85,15 +88,34 @@ export function pascalize(str: string): string {
   );
 }
 
+export function decamelize(str: string, sep = '-') {
+  return str
+    .replace(/([a-z\d])([A-Z])/g, '$1' + sep + '$2')
+    .replace(/([A-Z]+)([A-Z][a-z\d]+)/g, '$1' + sep + '$2')
+    .toLowerCase();
+}
+
+export function normalizePath(path: string): string {
+  return path.replace(/\\/g, '/');
+}
+
 export function getWebpackConfig(): object {
-  if (existsSync(WEBPACK_CONFIG_FILE)) {
-    const config = require(WEBPACK_CONFIG_FILE);
+  if (existsSync(ROOT_WEBPACK_CONFIG_FILE)) {
+    const config = require(ROOT_WEBPACK_CONFIG_FILE);
 
     if (typeof config === 'function') {
       return config();
     }
 
     return config;
+  }
+
+  return {};
+}
+
+export function getPostcssConfig(): object {
+  if (existsSync(ROOT_POSTCSS_CONFIG_FILE)) {
+    return require(ROOT_POSTCSS_CONFIG_FILE);
   }
 
   return {};
@@ -119,8 +141,8 @@ export function isDev() {
   return process.env.NODE_ENV === 'development';
 }
 
-// Smarter outputFileSync
-// Skip if content unchanged
+// smarter outputFileSync
+// skip output if file content unchanged
 export function smartOutputFile(filePath: string, content: string) {
   if (existsSync(filePath)) {
     const previousContent = readFileSync(filePath, 'utf-8');
@@ -133,19 +155,4 @@ export function smartOutputFile(filePath: string, content: string) {
   outputFileSync(filePath, content);
 }
 
-let hasYarnCache: boolean;
-
-export function hasYarn() {
-  if (hasYarnCache === undefined) {
-    try {
-      execSync('yarn --version', { stdio: 'ignore' });
-      hasYarnCache = true;
-    } catch (e) {
-      hasYarnCache = false;
-    }
-  }
-
-  return hasYarnCache;
-}
-
-export { decamelize, getVantConfig };
+export { getVantConfig };

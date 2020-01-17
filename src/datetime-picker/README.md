@@ -30,10 +30,8 @@ Vue.use(DatetimePicker);
 export default {
   data() {
     return {
-      minHour: 10,
-      maxHour: 20,
-      minDate: new Date(),
-      maxDate: new Date(2019, 10, 1),
+      minDate: new Date(2020, 0, 1),
+      maxDate: new Date(2025, 10, 1),
       currentDate: new Date()
     };
   }
@@ -47,6 +45,7 @@ export default {
   v-model="currentDate"
   type="date"
   :min-date="minDate"
+  :max-date="maxDate"
 />
 ```
 
@@ -54,6 +53,8 @@ export default {
 export default {
   data() {
     return {
+      minDate: new Date(2020, 0, 1),
+      maxDate: new Date(2025, 10, 1),
       currentDate: new Date()
     };
   }
@@ -67,6 +68,7 @@ export default {
   v-model="currentDate"
   type="year-month"
   :min-date="minDate"
+  :max-date="maxDate"
   :formatter="formatter"
 />
 ```
@@ -75,6 +77,8 @@ export default {
 export default {
   data() {
     return {
+      minDate: new Date(2020, 0, 1),
+      maxDate: new Date(2025, 10, 1),
       currentDate: new Date()
     };
   },
@@ -147,25 +151,25 @@ export default {
 
 ### Props
 
-| Attribute | Description | Type | Default | Version |
-|------|------|------|------|------|
-| type | Can be set to `date` `time`<br> `year-month` | *string* | `datetime` | - |
-| min-date | Min date | *Date* | Ten years ago on January 1 | - |
-| max-date | Max date | *Date* | Ten years later on December 31 | - |
-| min-hour | Min hour for `time` type | *number* | `0` | - |
-| max-hour | Max hour for `time` type | *number* | `23` | - |
-| min-minute | Max minute for `time` type | *number* | `0` | - |
-| max-minute | Max minute for `time` type | *number* | `59` | - |
-| filter | Option filter | *(type, values) => values* | - | - |
-| formatter | Option text formatter | *(type, value) => value* | - | - |
-| title | Toolbar title | *string* | `''` | - |
-| show-toolbar | Whether to show toolbar | *boolean* | `true` | - |
-| loading | Whether to show loading prompt | *boolean* | `false` | - |
-| item-height | Option height | *number* | `44` | - |
-| confirm-button-text | Text of confirm button | *string* | `Confirm` | - |
-| cancel-button-text | Text of cancel button | *string* | `Cancel` | - |
-| visible-item-count | Count of visible columns | *number* | `5` | - |
-| swipe-duration | Duration of the momentum animation，unit `ms` | *number*  | `1000` | `2.2.13` |
+| Attribute | Description | Type | Default |
+|------|------|------|------|
+| type | Can be set to `date` `time`<br> `year-month` | *string* | `datetime` |
+| min-date | Min date | *Date* | Ten years ago on January 1 |
+| max-date | Max date | *Date* | Ten years later on December 31 |
+| min-hour | Min hour for `time` type | *number* | `0` |
+| max-hour | Max hour for `time` type | *number* | `23` |
+| min-minute | Max minute for `time` type | *number* | `0` |
+| max-minute | Max minute for `time` type | *number* | `59` |
+| filter | Option filter | *(type, values) => values* | - |
+| formatter | Option text formatter | *(type, value) => value* | - |
+| title | Toolbar title | *string* | `''` |
+| show-toolbar | Whether to show toolbar | *boolean* | `true` |
+| loading | Whether to show loading prompt | *boolean* | `false` |
+| item-height | Option height | *number* | `44` |
+| confirm-button-text | Text of confirm button | *string* | `Confirm` |
+| cancel-button-text | Text of cancel button | *string* | `Cancel` |
+| visible-item-count | Count of visible columns | *number* | `5` |
+| swipe-duration `v2.2.13` | Duration of the momentum animation，unit `ms` | *number*  | `1000` |
 
 ### Events
 
@@ -174,3 +178,11 @@ export default {
 | change | Triggered when value changed | picker: picker instance |
 | confirm | Triggered when click confirm button | value: current value |
 | cancel | Triggered when click cancel button | - |
+
+### Methods
+
+Use [ref](https://vuejs.org/v2/api/#ref) to get DatetimePicker instance and call instance methods
+
+| Name | Description | Attribute | Return value |
+|------|------|------|------|
+| getPicker `v2.4.0` | get Picker instance | - | - |

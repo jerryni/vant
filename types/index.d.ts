@@ -3,9 +3,11 @@ import Vue from 'vue';
 import { VanComponent } from './component';
 import { AddressEdit } from './address-edit';
 import { Area } from './area';
+import { Calendar } from './calendar';
 import { Checkbox } from './checkbox';
 import { CheckboxGroup } from './checkbox-group';
 import { CountDown } from './count-down';
+import { DatetimePicker } from './datetime-picker';
 import { Dialog } from './dialog';
 import { DropdownItem } from './dropdown-item';
 import { Field } from './field';
@@ -40,7 +42,6 @@ export class ContactEdit extends VanComponent {}
 export class ContactList extends VanComponent {}
 export class CouponCell extends VanComponent {}
 export class CouponList extends VanComponent {}
-export class DatetimePicker extends VanComponent {}
 export class Divider extends VanComponent {}
 export class DropdownMenu extends VanComponent {}
 export class Grid extends VanComponent {}
@@ -90,9 +91,11 @@ export class TreeSelect extends VanComponent {}
 export {
   AddressEdit,
   Area,
+  Calendar,
   Checkbox,
   CheckboxGroup,
   CountDown,
+  DatetimePicker,
   Dialog,
   DropdownItem,
   Field,

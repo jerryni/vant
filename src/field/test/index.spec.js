@@ -33,7 +33,7 @@ test('click icon event', () => {
   expect(wrapper.emitted('click-right-icon')[0][0]).toBeTruthy();
 });
 
-test('keypress event', () => {
+test('number type', () => {
   const wrapper = mount(Field, {
     propsData: {
       value: '',
@@ -41,26 +41,42 @@ test('keypress event', () => {
     }
   });
 
-  const fn = jest.fn();
-  const { calls } = fn.mock;
-  const press = keyCode => wrapper.vm.onKeypress({
-    keyCode,
-    preventDefault: fn
+  const input = wrapper.find('input');
+
+  input.element.value = '1';
+  input.trigger('input');
+  expect(wrapper.emitted('input')[0][0]).toEqual('1');
+
+  input.element.value = '1.2.';
+  input.trigger('input');
+  expect(wrapper.emitted('input')[1][0]).toEqual('1.2');
+
+  input.element.value = '123abc';
+  input.trigger('input');
+  expect(wrapper.emitted('input')[2][0]).toEqual('123');
+});
+
+test('digit type', () => {
+  const wrapper = mount(Field, {
+    propsData: {
+      value: '',
+      type: 'digit'
+    }
   });
 
-  press(0);
-  expect(calls.length).toBe(1);
+  const input = wrapper.find('input');
 
-  press(50);
-  expect(calls.length).toBe(1);
+  input.element.value = '1';
+  input.trigger('input');
+  expect(wrapper.emitted('input')[0][0]).toEqual('1');
 
-  wrapper.setProps({ value: '0.1' });
-  press(46);
-  expect(calls.length).toBe(2);
+  input.element.value = '1.';
+  input.trigger('input');
+  expect(wrapper.emitted('input')[1][0]).toEqual('1');
 
-  wrapper.setProps({ type: 'text' });
-  press(0);
-  expect(calls.length).toBe(2);
+  input.element.value = '123abc';
+  input.trigger('input');
+  expect(wrapper.emitted('input')[2][0]).toEqual('123');
 });
 
 test('render textarea', async () => {
@@ -245,4 +261,22 @@ test('arrow-direction prop', () => {
     }
   });
   expect(wrapper).toMatchSnapshot();
+});
+
+test('formatter prop', () => {
+  const wrapper = mount(Field, {
+    propsData: {
+      value: 'abc123',
+      formatter: (value) => value.replace(/\d/g, '')
+    }
+  });
+
+  const input = wrapper.find('input');
+
+  input.trigger('input');
+  expect(wrapper.emitted('input')[0][0]).toEqual('abc');
+
+  input.element.value = '123efg';
+  input.trigger('input');
+  expect(wrapper.emitted('input')[1][0]).toEqual('efg');
 });

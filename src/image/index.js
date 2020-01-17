@@ -20,6 +20,14 @@ export default createComponent({
     showLoading: {
       type: Boolean,
       default: true
+    },
+    errorIcon: {
+      type: String,
+      default: 'warning-o'
+    },
+    loadingIcon: {
+      type: String,
+      default: 'photo-o'
     }
   },
 
@@ -108,7 +116,9 @@ export default createComponent({
       if (this.loading && this.showLoading) {
         return (
           <div class={bem('loading')}>
-            {this.slots('loading') || <Icon name="photo-o" size="22" />}
+            {this.slots('loading') || (
+              <Icon name={this.loadingIcon} class={bem('loading-icon')} />
+            )}
           </div>
         );
       }
@@ -116,7 +126,9 @@ export default createComponent({
       if (this.error && this.showError) {
         return (
           <div class={bem('error')}>
-            {this.slots('error') || <Icon name="warning-o" size="22" />}
+            {this.slots('error') || (
+              <Icon name={this.errorIcon} class={bem('error-icon')} />
+            )}
           </div>
         );
       }
@@ -142,14 +154,23 @@ export default createComponent({
       }
 
       return (
-        <img src={this.src} onLoad={this.onLoad} onError={this.onError} {...imgData} />
+        <img
+          src={this.src}
+          onLoad={this.onLoad}
+          onError={this.onError}
+          {...imgData}
+        />
       );
     }
   },
 
   render() {
     return (
-      <div class={bem({ round: this.round })} style={this.style} onClick={this.onClick}>
+      <div
+        class={bem({ round: this.round })}
+        style={this.style}
+        onClick={this.onClick}
+      >
         {this.genImage()}
         {this.genPlaceholder()}
       </div>

@@ -1,12 +1,13 @@
 import { createNamespace, isDef } from '../utils';
 import { PopupMixin } from '../mixins/popup';
+import { lockClick } from './lock-click';
 import Icon from '../icon';
 import Loading from '../loading';
 
 const [createComponent, bem] = createNamespace('toast');
 
 export default createComponent({
-  mixins: [PopupMixin],
+  mixins: [PopupMixin()],
 
   props: {
     icon: String,
@@ -65,8 +66,7 @@ export default createComponent({
 
       if (this.clickable !== clickable) {
         this.clickable = clickable;
-        const action = clickable ? 'add' : 'remove';
-        document.body.classList[action]('van-toast--unclickable');
+        lockClick(clickable);
       }
     },
 

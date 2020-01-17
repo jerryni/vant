@@ -51,7 +51,7 @@
       </van-slider>
     </demo-block>
 
-    <demo-block v-if="!$attrs.weapp" :title="$t('vertical')">
+    <demo-block v-if="!isWeapp" :title="$t('vertical')">
       <div :style="{ height: '120px', paddingLeft: '30px' }">
         <van-slider
           v-model="value7"
@@ -112,6 +112,7 @@ export default {
 @import '../../style/var';
 
 .demo-slider {
+  background: @white;
   user-select: none;
 
   .van-slider {

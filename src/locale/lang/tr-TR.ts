@@ -9,8 +9,17 @@ export default {
   loading: 'Yükleniyor...',
   telEmpty: 'Lütfen tel. no giriniz',
   nameEmpty: 'Lütfen isim giriniz',
+  nameInvalid: 'Geçersiz isim',
   confirmDelete: 'Silmek istediğinize emin misiniz?',
   telInvalid: 'Geçersiz tel. numarası',
+  vanCalendar: {
+    end: 'Son',
+    start: 'Başlat',
+    title: 'Takvim',
+    weekdays: ['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'],
+    monthTitle: (year: number, month: number) => `${year}/${month}`,
+    rangePrompt: (maxRange: Number) => `En fazla ${maxRange} gün seçin`
+  },
   vanContactCard: {
     addText: 'Kişi bilgisi ekle'
   },
@@ -35,7 +44,7 @@ export default {
   },
   vanCouponCell: {
     title: 'Kupon',
-    tips: 'Kupon seç',
+    tips: 'Kupon yok',
     count: (count: number) => `${count} adet teklif var`
   },
   vanCouponList: {

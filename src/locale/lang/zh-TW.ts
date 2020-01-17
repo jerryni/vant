@@ -9,8 +9,18 @@ export default {
   loading: '載入中...',
   telEmpty: '請填寫電話',
   nameEmpty: '請填寫姓名',
+  nameInvalid: '請輸入正確的姓名',
   confirmDelete: '確定要刪除嗎',
   telInvalid: '請填寫正確的電話',
+  vanCalendar: {
+    end: '結束',
+    start: '開始',
+    title: '日期選擇',
+    confirm: '確定',
+    weekdays: ['日', '壹', '二', '三', '四', '五', '六'],
+    monthTitle: (year: number, month: number) => `${year}年${month}月`,
+    rangePrompt: (maxRange: Number) => `選擇天數不能超過 ${maxRange} 天`
+  },
   vanContactCard: {
     addText: '新增聯絡人'
   },
@@ -35,7 +45,7 @@ export default {
   },
   vanCouponCell: {
     title: '優惠券',
-    tips: '使用優惠',
+    tips: '暫無可用',
     count: (count: number) => `${count}張可用`
   },
   vanCouponList: {

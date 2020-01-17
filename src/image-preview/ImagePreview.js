@@ -1,6 +1,6 @@
 import { createNamespace } from '../utils';
 import { range } from '../utils/format/number';
-import { preventDefault } from '../utils/dom/event';
+import { on, preventDefault } from '../utils/dom/event';
 import { PopupMixin } from '../mixins/popup';
 import { TouchMixin } from '../mixins/touch';
 import Image from '../image';
@@ -18,7 +18,12 @@ function getDistance(touches) {
 }
 
 export default createComponent({
-  mixins: [PopupMixin, TouchMixin],
+  mixins: [
+    PopupMixin({
+      skipToggleEvent: true
+    }),
+    TouchMixin
+  ],
 
   props: {
     className: null,
@@ -83,8 +88,8 @@ export default createComponent({
       };
 
       if (scale !== 1) {
-        style.transform = `scale3d(${scale}, ${scale}, 1) translate(${this.moveX /
-          scale}px, ${this.moveY / scale}px)`;
+        style.transform = `scale3d(${scale}, ${scale}, 1) translate(${this
+          .moveX / scale}px, ${this.moveY / scale}px)`;
       }
 
       return style;
@@ -92,12 +97,37 @@ export default createComponent({
   },
 
   watch: {
-    value() {
-      this.setActive(this.startPosition);
+    value(val) {
+      if (val) {
+        this.setActive(this.startPosition);
+        this.$nextTick(() => {
+          this.$refs.swipe.swipeTo(this.startPosition, { immediate: true });
+        });
+      } else {
+        this.$emit('close', {
+          index: this.active,
+          url: this.images[this.active]
+        });
+      }
     },
 
-    startPosition(active) {
-      this.setActive(active);
+    startPosition(val) {
+      this.setActive(val);
+    },
+
+    shouldRender: {
+      handler(val) {
+        if (val) {
+          this.$nextTick(() => {
+            const swipe = this.$refs.swipe.$el;
+            on(swipe, 'touchstart', this.onWrapperTouchStart);
+            on(swipe, 'touchmove', preventDefault);
+            on(swipe, 'touchend', this.onWrapperTouchEnd);
+            on(swipe, 'touchcancel', this.onWrapperTouchEnd);
+          });
+        }
+      },
+      immediate: true
     }
   },
 
@@ -116,13 +146,6 @@ export default createComponent({
       if (deltaTime < 300 && offsetX < 10 && offsetY < 10) {
         if (!this.doubleClickTimer) {
           this.doubleClickTimer = setTimeout(() => {
-            const index = this.active;
-
-            this.$emit('close', {
-              index,
-              url: this.images[index]
-            });
-
             if (!this.asyncClose) {
               this.$emit('input', false);
             }
@@ -248,7 +271,8 @@ export default createComponent({
       if (this.showIndex) {
         return (
           <div class={bem('index')}>
-            {this.slots('index') || `${this.active + 1} / ${this.images.length}`}
+            {this.slots('index') ||
+              `${this.active + 1} / ${this.images.length}`}
           </div>
         );
       }
@@ -277,10 +301,6 @@ export default createComponent({
           initialSwipe={this.startPosition}
           showIndicators={this.showIndicators}
           onChange={this.setActive}
-          nativeOnTouchstart={this.onWrapperTouchStart}
-          nativeOnTouchMove={preventDefault}
-          nativeOnTouchend={this.onWrapperTouchEnd}
-          nativeOnTouchcancel={this.onWrapperTouchEnd}
         >
           {this.images.map((image, index) => (
             <SwipeItem>
@@ -304,13 +324,13 @@ export default createComponent({
   },
 
   render() {
-    if (!this.value) {
+    if (!this.shouldRender) {
       return;
     }
 
     return (
       <transition name="van-fade">
-        <div class={[bem(), this.className]}>
+        <div vShow={this.value} class={[bem(), this.className]}>
           {this.genImages()}
           {this.genIndex()}
           {this.genCover()}

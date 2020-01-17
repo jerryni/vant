@@ -25,6 +25,8 @@ test('render image', async () => {
 
   expect(wrapper).toMatchSnapshot();
 
+  await later();
+
   const swipe = wrapper.find('.van-swipe__track');
   triggerDrag(swipe, 500, 0);
   expect(wrapper.emitted('input')).toBeFalsy();
@@ -36,20 +38,31 @@ test('render image', async () => {
   expect(wrapper.emitted('change')[0][0]).toEqual(2);
 });
 
-test('async close', () => {
+test('async close prop', async () => {
   const wrapper = mount(ImagePreviewVue, {
     propsData: {
       images,
       value: true,
       asyncClose: true
+    },
+    listeners: {
+      input(value) {
+        wrapper.setProps({ value });
+      }
     }
   });
 
   const swipe = wrapper.find('.van-swipe__track');
+
+  // should not emit input or close event when tapped
   triggerDrag(swipe, 0, 0);
+  await later(300);
   expect(wrapper.emitted('input')).toBeFalsy();
+  expect(wrapper.emitted('close')).toBeFalsy();
+
   wrapper.vm.close();
-  expect(wrapper.emitted('input')[0][0]).toBeFalsy();
+  expect(wrapper.emitted('input')[0]).toBeTruthy();
+  expect(wrapper.emitted('close')[0]).toBeTruthy();
 });
 
 test('function call', done => {
@@ -81,36 +94,9 @@ test('double click', async done => {
   done();
 });
 
-test('onClose option', async done => {
+test('onClose option', () => {
   const onClose = jest.fn();
   const instance = ImagePreview({
-    images,
-    startPostion: 1,
-    onClose
-  });
-
-  instance.$emit('input', true);
-  expect(onClose).toHaveBeenCalledTimes(0);
-
-  await later(300);
-
-  const wrapper = document.querySelector('.van-image-preview');
-  const swipe = wrapper.querySelector('.van-swipe__track');
-  triggerDrag(swipe, 0, 0);
-  expect(onClose).toHaveBeenCalledTimes(1);
-  expect(onClose).toHaveBeenCalledWith({ index: 0, url: 'https://img.yzcdn.cn/1.png' });
-  done();
-});
-
-test('onClose should only trigger once', async done => {
-  const onClose = jest.fn();
-  const instance = ImagePreview({
-    images,
-    startPostion: 1,
-    onClose
-  });
-
-  ImagePreview({
     images,
     startPostion: 1,
     onClose
@@ -119,7 +105,7 @@ test('onClose should only trigger once', async done => {
   instance.close();
 
   expect(onClose).toHaveBeenCalledTimes(1);
-  done();
+  expect(onClose).toHaveBeenCalledWith({ index: 0, url: 'https://img.yzcdn.cn/1.png' });
 });
 
 test('onChange option', async done => {

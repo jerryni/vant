@@ -36,7 +36,7 @@
     </demo-block>
 
     <demo-block
-      v-if="!$attrs.weapp"
+      v-if="!isWeapp"
       :title="$t('title3')"
     >
       <van-row type="flex">
@@ -103,6 +103,8 @@ export default {
 @import '../../style/var';
 
 .demo-col {
+  background: @white;
+
   .van-doc-demo-block {
     padding: 0 @padding-md;
   }

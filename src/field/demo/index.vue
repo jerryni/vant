@@ -2,20 +2,37 @@
   <demo-section>
     <demo-block :title="$t('basicUsage')">
       <van-cell-group>
-        <van-field v-model="value" :placeholder="$t('usernamePlaceholder')" />
+        <van-field v-model="value" :placeholder="$t('textPlaceholder')" />
       </van-cell-group>
     </demo-block>
 
-    <demo-block :title="$t('title2')">
+    <demo-block :title="$t('customType')">
       <van-cell-group>
         <van-field
-          v-model="username"
-          :label="$t('username')"
-          :placeholder="$t('usernamePlaceholder')"
-          required
-          clearable
-          right-icon="question-o"
-          @click-right-icon="$toast('question')"
+          v-model="text"
+          :label="$t('text')"
+          :placeholder="$t('textPlaceholder')"
+        />
+
+        <van-field
+          v-model="phone"
+          type="tel"
+          :label="$t('phone')"
+          :placeholder="$t('phonePlaceholder')"
+        />
+
+        <van-field
+          v-model="digit"
+          type="digit"
+          :label="$t('digit')"
+          :placeholder="$t('digitPlaceholder')"
+        />
+
+        <van-field
+          v-model="number"
+          type="number"
+          :label="$t('number')"
+          :placeholder="$t('numberPlaceholder')"
         />
 
         <van-field
@@ -23,32 +40,48 @@
           type="password"
           :label="$t('password')"
           :placeholder="$t('passwordPlaceholder')"
+        />
+      </van-cell-group>
+    </demo-block>
+
+    <demo-block :title="$t('disabled')">
+      <van-cell-group>
+        <van-field :value="$t('inputReadonly')" :label="$t('text')" readonly />
+        <van-field :value="$t('inputDisabled')" :label="$t('text')" disabled />
+      </van-cell-group>
+    </demo-block>
+
+    <demo-block :title="$t('showIcon')">
+      <van-cell-group>
+        <van-field
+          v-model="icon1"
+          :label="$t('text')"
+          left-icon="smile-o"
+          right-icon="warning-o"
+          :placeholder="$t('showIcon')"
+        />
+        <van-field
+          v-model="icon2"
+          clearable
+          :label="$t('text')"
+          left-icon="music-o"
+          :placeholder="$t('showClearIcon')"
+        />
+      </van-cell-group>
+    </demo-block>
+
+    <demo-block :title="$t('errorInfo')">
+      <van-cell-group>
+        <van-field
+          v-model="username"
           required
-        />
-      </van-cell-group>
-    </demo-block>
-
-    <demo-block :title="$t('title3')">
-      <van-cell-group>
-        <van-field
-          :value="$t('inputDisabled')"
-          :label="$t('username')"
-          left-icon="contact"
-          disabled
-        />
-      </van-cell-group>
-    </demo-block>
-
-    <demo-block :title="$t('title4')">
-      <van-cell-group>
-        <van-field
-          v-model="username2"
           :label="$t('username')"
           :placeholder="$t('usernamePlaceholder')"
           error
         />
         <van-field
-          v-model="phone"
+          v-model="phone2"
+          required
           :label="$t('phone')"
           :placeholder="$t('phonePlaceholder')"
           :error-message="$t('phoneError')"
@@ -56,7 +89,7 @@
       </van-cell-group>
     </demo-block>
 
-    <demo-block :title="$t('title6')">
+    <demo-block :title="$t('insertButton')">
       <van-cell-group>
         <van-field
           center
@@ -74,6 +107,17 @@
       </van-cell-group>
     </demo-block>
 
+    <demo-block v-if="!isWeapp" :title="$t('formatValue')">
+      <van-cell-group>
+        <van-field
+          v-model="formatValue"
+          :label="$t('text')"
+          :formatter="formatter"
+          :placeholder="$t('formatValue')"
+        />
+      </van-cell-group>
+    </demo-block>
+
     <demo-block :title="$t('textareaAutosize')">
       <van-cell-group>
         <van-field
@@ -87,7 +131,7 @@
       </van-cell-group>
     </demo-block>
 
-    <demo-block v-if="!$attrs.weapp" :title="$t('showWordLimit')">
+    <demo-block v-if="!isWeapp" :title="$t('showWordLimit')">
       <van-cell-group>
         <van-field
           v-model="message2"
@@ -101,6 +145,17 @@
         />
       </van-cell-group>
     </demo-block>
+
+    <demo-block :title="$t('inputAlign')">
+      <van-cell-group>
+        <van-field
+          v-model="value"
+          :label="$t('text')"
+          :placeholder="$t('alignPlaceHolder')"
+          input-align="right"
+        />
+      </van-cell-group>
+    </demo-block>
   </demo-section>
 </template>
 
@@ -108,52 +163,91 @@
 export default {
   i18n: {
     'zh-CN': {
-      title2: '自定义类型',
-      title3: '禁用输入框',
-      title4: '错误提示',
-      title6: '插入按钮',
-      message: '留言',
-      phone: '手机号',
+      tel: '手机号',
       sms: '短信验证码',
+      text: '文本',
+      digit: '整数',
+      phone: '手机号',
+      number: '数字',
+      message: '留言',
       sendSMS: '发送验证码',
+      disabled: '禁用输入框',
+      showIcon: '显示图标',
+      errorInfo: '错误提示',
+      customType: '自定义类型',
+      phoneError: '手机号格式错误',
+      formatValue: '格式化输入内容',
+      insertButton: '插入按钮',
+      showClearIcon: '显示清除图标',
       showWordLimit: '显示字数统计',
-      textareaAutosize: '高度自适应',
-      smsPlaceholder: '请输入短信验证码',
-      phonePlaceholder: '请输入手机号',
-      messagePlaceholder: '请输入留言',
+      inputReadonly: '输入框只读',
       inputDisabled: '输入框已禁用',
-      phoneError: '手机号格式错误'
+      inputAlign: '输入框内容对齐',
+      smsPlaceholder: '请输入短信验证码',
+      textPlaceholder: '请输入文本',
+      digitPlaceholder: '请输入整数',
+      phonePlaceholder: '请输入手机号',
+      textareaAutosize: '高度自适应',
+      numberPlaceholder: '请输入数字（支持小数）',
+      messagePlaceholder: '请输入留言',
+      alignPlaceHolder: '输入框内容右对齐',
     },
     'en-US': {
-      title2: 'Custom Type',
-      title3: 'Disabled',
-      title4: 'Error Info',
-      title6: 'Insert Button',
-      message: 'Message',
-      phone: 'Phone',
+      tel: 'Tel',
       sms: 'SMS',
+      text: 'Text',
+      digit: 'Digit',
+      phone: 'Phone',
+      number: 'Number',
+      message: 'Message',
       sendSMS: 'Send SMS',
+      disabled: 'Disabled',
+      showIcon: 'Show Icon',
+      errorInfo: 'Error Info',
+      customType: 'Custom Type',
+      phoneError: 'Invalid phone',
+      formatValue: 'Format Value',
+      insertButton: 'Insert Button',
+      showClearIcon: 'Show Clear Icon',
       showWordLimit: 'Show Word Limit',
-      textareaAutosize: 'Auto Resize',
+      inputReadonly: 'Input Readonly',
+      inputDisabled: 'Input Disabled',
+      inputAlign: 'Input Align',
       smsPlaceholder: 'SMS',
+      textPlaceholder: 'Text',
+      digitPlaceholder: 'Digit',
       phonePlaceholder: 'Phone',
+      textareaAutosize: 'Auto Resize',
+      numberPlaceholder: 'Number',
       messagePlaceholder: 'Message',
-      inputDisabled: 'Disabled',
-      phoneError: 'Invalid phone'
+      alignPlaceHolder: 'Input Align Right',
     }
   },
 
   data() {
     return {
       sms: '',
+      text: '',
       value: '',
+      digit: '',
+      number: '',
+      icon1: '',
+      icon2: '123',
       password: '',
       username: '',
       username2: '',
       message: '',
       message2: '',
-      phone: '1365577'
+      phone: '',
+      phone2: '12345',
+      formatValue: ''
     };
+  },
+
+  methods: {
+    formatter(value) {
+      return value.replace(/\d/g, '');
+    }
   }
 };
 </script>
@@ -163,9 +257,5 @@ export default {
 
 .demo-field {
   padding-bottom: 30px;
-
-  .van-field__right-icon .van-icon {
-    color: @blue;
-  }
 }
 </style>
